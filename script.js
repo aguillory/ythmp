@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Generate options for Medium, Large, Extra Large Chests (1-4)
     ['mediumChests', 'largeChests', 'extraLargeChests'].forEach(selectId => {
         const selectElement = document.getElementById(selectId);
-        for (let i = 1; i <= 4; i++) {
+        for (let i = 0; i <= 4; i++) {
             let option = new Option(i, i);
             selectElement.add(option);
         }
@@ -38,7 +38,7 @@ document.getElementById('chestForm').addEventListener('submit', function(event) 
 
     // Display maps for each variation
     variations.forEach(variant => {
-        const mapFileName = `maps/${fileNameBase}.${variant}.png`;
+        const mapFileName = `maps/${fileNameBase}.${variant}.jpg`;
         const imgElement = document.createElement('img');
         imgElement.src = mapFileName;
         imgElement.alt = "Treasure Map";
