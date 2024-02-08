@@ -1,0 +1,30 @@
+ body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+h1 {
+    color: #333;
+}
+
+.chest-input {
+    margin-bottom: 20px;
+}
+
+.chest-input img {
+    height: 50px; /* Adjust based on your preference */
+    margin-right: 10px;
+}
+
+select {
+    padding: 10px;
+    margin-left: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
