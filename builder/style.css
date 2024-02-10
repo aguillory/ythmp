@@ -1,0 +1,73 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Creates five columns */
+    grid-gap: 10px; /* Adjusts space between tiles */
+    max-width: 500px; /* Adjust based on your preference */
+    margin: auto; /* Center the grid horizontally */
+}
+
+.tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around; /* Adjusts spacing within each tile */
+    padding: 10px; /* Adds some padding within tiles */
+    border: 1px solid #ccc; /* Optional border for visual separation */
+    background-color: #f9f9f9; /* Light background color */
+}
+
+.tile select, .tile input[type="checkbox"] {
+    margin: 5px 0; /* Adds margin around select and checkbox for spacing */
+}
+
+button[type="submit"] {
+    display: block;
+    width: 100px; /* Adjust width as needed */
+    margin: 20px auto; /* Centers the button below the grid */
+    padding: 10px;
+    background-color: #007bff; /* Example button color */
+    color: white;
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer;
+}
+
+.generatedTile {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+}
+
+.generatedBoard {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+    justify-content: center;
+    margin: 20px auto;
+}
+
+.generatedTile.x {background-image: url('/tiles/x.png');}
+.generatedTile.one {background-image: url('/tiles/1.png');}
+.generatedTile.two {background-image: url('/tiles/2.png');}
+.generatedTile.three {background-image: url('/tiles/3.png');}
+.generatedTile.four {background-image: url('/tiles/4.png');}
+.generatedTile.five {background-image: url('/tiles/5.png');}
+.generatedTile.six {background-image: url('/tiles/6.png');}
+.generatedTile.threex {background-image: url('/tiles/3x.png');}
+.generatedTile.fourx {background-image: url('/tiles/4x.png');}
+.generatedTile.yahtzee {background-image: url('/tiles/yahtzee.png');}
+.generatedTile.chance {background-image: url('/tiles/chance.png');}
+.generatedTile.pr {background-image: url('/tiles/pr.png');}
+.generatedTile.odd {background-image: url('/tiles/odd.png');}
+.generatedTile.even {background-image: url('/tiles/even.png');}
+.generatedTile.full {background-image: url('/tiles/full.png');}
+.generatedTile.sm {background-image: url('/tiles/sm.png');}
+.generatedTile.lg {background-image: url('/tiles/lg.png');}
+
+/* Highlight tiles with treasure in the generated boards */
+.treasureGenerated {
+    border-color: green;
+}

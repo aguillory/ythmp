@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Board Builder</title>
+    <link rel="stylesheet" href="style.css"> <!-- Make sure to link your CSS file -->
+</head>
+<body>
+    <form id="boardForm">
+        <div class="grid">
+            <!-- Generating 5x5 grid with dropdowns and checkboxes -->
+
+            <div class="tile">
+                <select name="tileState1">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure1" /> Treasure?
+            </div>
+
+
+            <div class="tile">
+                <select name="tileState2">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure2" /> Treasure?
+            </div>
+
+
+            <div class="tile">
+                <select name="tileState3">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure3" /> Treasure?
+            </div>
+
+
+            <div class="tile">
+                <select name="tileState4">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure4" /> Treasure?
+            </div>
+
+
+            <div class="tile">
+                <select name="tileState5">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure5" /> Treasure?
+            </div>
+
+
+            <div class="tile">
+                <select name="tileState6">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure6" /> Treasure?
+            </div>
+
+
+            <div class="tile">
+                <select name="tileState7">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure7" /> Treasure?
+            </div>
+
+
+            <div class="tile">
+                <select name="tileState8">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure8" /> Treasure?
+            </div>
+
+
+            <div class="tile">
+                <select name="tileState9">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure9" /> Treasure?
+            </div>
+
+
+            <div class="tile">
+                <select name="tileState10">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure10" /> Treasure?
+            </div>
+
+
+            <div class="tile">
+                <select name="tileState11">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure11" /> Treasure?
+            </div>
+
+
+            <div class="tile">
+                <select name="tileState12">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure12" /> Treasure?
+            </div>
+
+
+            <div class="tile">
+                <select name="tileState13">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure13" /> Treasure?
+            </div>
+
+
+            <div class="tile">
+                <select name="tileState14">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure14" /> Treasure?
+            </div>
+
+
+            <div class="tile">
+                <select name="tileState15">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure15" /> Treasure?
+            </div>
+
+
+            <div class="tile">
+                <select name="tileState16">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure16" /> Treasure?
+            </div>
+
+
+            <div class="tile">
+                <select name="tileState17">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure17" /> Treasure?
+            </div>
+
+
+            <div class="tile">
+                <select name="tileState18">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure18" /> Treasure?
+            </div>
+
+
+            <div class="tile">
+                <select name="tileState19">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure19" /> Treasure?
+            </div>
+                    
+            <div class="tile">
+                <select name="tileState20">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure20" /> Treasure?
+            </div>
+
+
+            <div class="tile">
+                <select name="tileState21">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure21" /> Treasure?
+            </div>
+
+
+            <div class="tile">
+                <select name="tileState22">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure22" /> Treasure?
+            </div>
+
+
+            <div class="tile">
+                <select name="tileState23">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure23" /> Treasure?
+            </div>
+
+
+            <div class="tile">
+                <select name="tileState24">
+                    <option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure24" /> Treasure?
+            </div>
+
+            <div class="tile">
+                <select name="tileState25">
+					<option value="X">Unused</option>
+                    <option value="one">1</option>
+					<option value="two">2</option>
+					<option value="three">3</option>
+					<option value="four">4</option>
+					<option value="five">5</option>
+					<option value="six">6</option>
+					<option value="threex">3x</option>
+					<option value="fourx">4x</option>
+					<option value="yahtzee">Yahtzee</option>
+					<option value="chance">?</option>
+					<option value="pair">2 Pair</option>
+					<option value="odds">Odds</option>
+					<option value="evens">Evens</option>
+					<option value="full">Full House</option>
+					<option value="sm">Sm Straight</option>
+					<option value="lg">Lg Straight</option>
+                </select>
+                <input type="checkbox" name="treasure25" /> Treasure?
+            </div>
+
+
+        </div>
+        <button type="submit">Build That Map!</button>
+    </form>
+
+<div id="boardDisplayGenerated"></div>
+<script src="script.js"></script> <!-- Make sure to link your JavaScript file -->
+</body>
+</html>
