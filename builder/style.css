@@ -44,9 +44,9 @@ button[type="submit"] {
 .generatedBoard {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 5px;
+    gap: 0;
     justify-content: center;
-    margin: 20px auto;
+    margin: auto;
 }
 
 .generatedTile.x {background-image: url('tiles/x.png');}
@@ -60,14 +60,14 @@ button[type="submit"] {
 .generatedTile.fourx {background-image: url('tiles/4x.png');}
 .generatedTile.yahtzee {background-image: url('tiles/yahtzee.png');}
 .generatedTile.chance {background-image: url('tiles/chance.png');}
-.generatedTile.pr {background-image: url('tiles/pr.png');}
-.generatedTile.odd {background-image: url('tiles/odd.png');}
-.generatedTile.even {background-image: url('tiles/even.png');}
+.generatedTile.pair {background-image: url('tiles/pr.png');}
+.generatedTile.odds {background-image: url('tiles/odd.png');}
+.generatedTile.evens {background-image: url('tiles/even.png');}
 .generatedTile.full {background-image: url('tiles/full.png');}
 .generatedTile.sm {background-image: url('tiles/sm.png');}
 .generatedTile.lg {background-image: url('tiles/lg.png');}
 
 /* Highlight tiles with treasure in the generated boards */
 .treasureGenerated {
-    border-color: green;
+	border: 1px solid green;
 }
