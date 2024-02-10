@@ -33,6 +33,7 @@ button[type="submit"] {
 }
 
 .generatedTile {
+	position:relative;
     width: 42px;
     height: 42px;
     display: flex;
@@ -45,6 +46,16 @@ button[type="submit"] {
     display: grid;
     grid-template-columns: repeat(5, 42px);
     justify-content: center;
+}
+
+.generatedTile.treasureGenerated::after {
+    content: ''; /* Necessary for pseudo-elements */
+    position: absolute;
+    width: 16px;
+    height: 16px; 
+    background-image: url('tiles/check.png'); 
+    background-size: cover;
+    transform: translate(-50%, -50%); /* Center the icon */
 }
 
 .generatedTile.x {background-image: url('tiles/x.png');}
