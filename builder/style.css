@@ -43,10 +43,8 @@ button[type="submit"] {
 
 .generatedBoard {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 0;
+    grid-template-columns: repeat(5, 42px);
     justify-content: center;
-    margin: auto;
 }
 
 .generatedTile.x {background-image: url('tiles/x.png');}
@@ -69,5 +67,5 @@ button[type="submit"] {
 
 /* Highlight tiles with treasure in the generated boards */
 .treasureGenerated {
-	border: 1px solid green;
+	
 }
