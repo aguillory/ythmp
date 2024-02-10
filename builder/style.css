@@ -49,23 +49,23 @@ button[type="submit"] {
     margin: 20px auto;
 }
 
-.generatedTile.x {background-image: url('/tiles/x.png');}
-.generatedTile.one {background-image: url('/tiles/1.png');}
-.generatedTile.two {background-image: url('/tiles/2.png');}
-.generatedTile.three {background-image: url('/tiles/3.png');}
-.generatedTile.four {background-image: url('/tiles/4.png');}
-.generatedTile.five {background-image: url('/tiles/5.png');}
-.generatedTile.six {background-image: url('/tiles/6.png');}
-.generatedTile.threex {background-image: url('/tiles/3x.png');}
-.generatedTile.fourx {background-image: url('/tiles/4x.png');}
-.generatedTile.yahtzee {background-image: url('/tiles/yahtzee.png');}
-.generatedTile.chance {background-image: url('/tiles/chance.png');}
-.generatedTile.pr {background-image: url('/tiles/pr.png');}
-.generatedTile.odd {background-image: url('/tiles/odd.png');}
-.generatedTile.even {background-image: url('/tiles/even.png');}
-.generatedTile.full {background-image: url('/tiles/full.png');}
-.generatedTile.sm {background-image: url('/tiles/sm.png');}
-.generatedTile.lg {background-image: url('/tiles/lg.png');}
+.generatedTile.x {background-image: url('tiles/x.png');}
+.generatedTile.one {background-image: url('tiles/1.png');}
+.generatedTile.two {background-image: url('tiles/2.png');}
+.generatedTile.three {background-image: url('tiles/3.png');}
+.generatedTile.four {background-image: url('tiles/4.png');}
+.generatedTile.five {background-image: url('tiles/5.png');}
+.generatedTile.six {background-image: url('tiles/6.png');}
+.generatedTile.threex {background-image: url('tiles/3x.png');}
+.generatedTile.fourx {background-image: url('tiles/4x.png');}
+.generatedTile.yahtzee {background-image: url('tiles/yahtzee.png');}
+.generatedTile.chance {background-image: url('tiles/chance.png');}
+.generatedTile.pr {background-image: url('tiles/pr.png');}
+.generatedTile.odd {background-image: url('tiles/odd.png');}
+.generatedTile.even {background-image: url('tiles/even.png');}
+.generatedTile.full {background-image: url('tiles/full.png');}
+.generatedTile.sm {background-image: url('tiles/sm.png');}
+.generatedTile.lg {background-image: url('tiles/lg.png');}
 
 /* Highlight tiles with treasure in the generated boards */
 .treasureGenerated {
