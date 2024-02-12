@@ -1,51 +1,92 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('boardForm'); // Ensure this matches your form's ID
+    const form = document.getElementById('boardForm');
 
     form.addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent the default form submission
+        event.preventDefault(); 
 
         const tileStates = [];
         const treasures = [];
 
-        // Assuming there are 25 tiles
         for (let i = 1; i <= 25; i++) {
-            // Construct the name attributes for dropdowns and checkboxes
             const stateName = `tileState${i}`;
             const treasureName = `treasure${i}`;
 
-            // Find the dropdown and checkbox for the current tile
             const stateDropdown = document.querySelector(`select[name="${stateName}"]`);
             const treasureCheckbox = document.querySelector(`input[name="${treasureName}"]`);
 
-            // Gather the state and treasure indicator
+            
             tileStates.push(stateDropdown.value);
             treasures.push(treasureCheckbox.checked);
         }
 
-        console.log(tileStates); // Log the collected states
-        console.log(treasures); // Log the treasure indicators
-		generatePrimaryBoard(tileStates, treasures);
 
-        // Here, you can add logic to process these values and generate the visual representation
+		//generatePrimaryBoard(tileStates, treasures);
+		const boardState = convertTo2DArray(tileStates,treasures);
+		const rotate1 = rotateBoardState(boardState);
+		const rotate2 = rotateBoardState(rotate1);
+		const rotate3 = rotateBoardState(rotate2);
+		displayBoards(boardState,"boardTL");
+		displayBoards(rotate3,"boardTR");
+		displayBoards(rotate2,"boardBR");
+		displayBoards(rotate1,"boardBL");
+
+
 		
-		function generatePrimaryBoard(tileStates, treasures) {
-			const boardContainer = document.createElement('div');
-			boardContainer.className = 'generatedBoard';
+		
+		function convertTo2DArray(tileStates, treasures) {
+			const size = 5; 
+			let boardState = [];
 
-			tileStates.forEach((state, index) => {
-				const tile = document.createElement('div');
-				tile.className = `generatedTile ${state.toLowerCase()}`; // Updated class names
-				if (treasures[index]) {
-					tile.classList.add('treasureGenerated'); // Updated class name
+			for (let i = 0; i < size; i++) {
+				boardState[i] = [];
+				for (let j = 0; j < size; j++) {
+					const index = i * size + j; 
+					boardState[i][j] = {
+						state: tileStates[index],
+						treasure: treasures[index]
+					};
 				}
-				boardContainer.appendChild(tile);
-			});
+			}
 
-			// Append the board to a specific element in your document
-			const boardDisplay = document.getElementById('boardDisplayGenerated'); // Ensure this ID is unique
-			boardDisplay.innerHTML = ''; // Clear previous board
-			boardDisplay.appendChild(boardContainer);
+			return boardState;
 		}
+
+
+		function rotateBoardState(boardState) {
+			const size = boardState.length;
+			let newBoard = [];
+			for (let i = 0; i < size; i++) {
+				newBoard.push([]);
+				for (let j = 0; j < size; j++) {
+					newBoard[i][j] = boardState[size - j - 1][i];
+				}
+			}
+			return newBoard;
+		}
+
+
+		function displayBoards(boardState, containerId) {
+			const boardContainer = document.getElementById(containerId);
+			boardContainer.innerHTML = ''; 
+			boardContainer.className = 'generatedBoard';
+			boardState.forEach((row) => {
+				const rowDiv = document.createElement('div');
+				row.forEach((tile) => {
+					const tileDiv = document.createElement('div');
+					tileDiv.className = `generatedTile ${tile.state.toLowerCase()}`;
+					if (tile.treasure) {
+						/*const iconDiv = document.createElement('div');
+						iconDiv.className = 'treasureIcon';
+						tileDiv.appendChild(iconDiv);*/
+						tileDiv.classList.add('treasureGenerated'); 
+					}
+					rowDiv.appendChild(tileDiv);
+				});
+				boardContainer.appendChild(rowDiv);
+			});
+		}
+
+
 
     });
 });

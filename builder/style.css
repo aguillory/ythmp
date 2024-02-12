@@ -1,34 +1,34 @@
 .grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* Creates five columns */
-    grid-gap: 10px; /* Adjusts space between tiles */
-    max-width: 500px; /* Adjust based on your preference */
-    margin: auto; /* Center the grid horizontally */
+    grid-template-columns: repeat(5, 1fr); 
+    max-width: 800px; 
+    margin: auto; 
 }
 
 .tile {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around; /* Adjusts spacing within each tile */
-    padding: 10px; /* Adds some padding within tiles */
-    border: 1px solid #ccc; /* Optional border for visual separation */
-    background-color: #f9f9f9; /* Light background color */
+    justify-content: space-around; 
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    background-color: #f9f9f9; 
 }
 
-.tile select, .tile input[type="checkbox"] {
-    margin: 5px 0; /* Adds margin around select and checkbox for spacing */
+#instructions {
+    margin: auto;
+    max-width: 800px; 
 }
 
 button[type="submit"] {
     display: block;
-    width: 100px; /* Adjust width as needed */
-    margin: 20px auto; /* Centers the button below the grid */
+    width: 100px; 
+    margin: 20px auto; 
     padding: 10px;
-    background-color: #007bff; /* Example button color */
+    background-color: #007bff; 
     color: white;
     border: none;
-    border-radius: 5px; /* Rounded corners */
+    border-radius: 5px; 
     cursor: pointer;
 }
 
@@ -46,16 +46,16 @@ button[type="submit"] {
     display: grid;
     grid-template-columns: repeat(5, 42px);
     justify-content: center;
+    margin-bottom:20px;
 }
 
 .generatedTile.treasureGenerated::after {
-    content: ''; /* Necessary for pseudo-elements */
+    content: ''; 
     position: absolute;
-    width: 16px;
-    height: 16px; 
-    background-image: url('tiles/check.png'); 
+    width: 42px;
+    height: 42px; 
+    background-image: url('tiles/border.png'); 
     background-size: cover;
-    transform: translate(-50%, -50%); /* Center the icon */
 }
 
 .generatedTile.x {background-image: url('tiles/x.png');}
@@ -76,7 +76,17 @@ button[type="submit"] {
 .generatedTile.sm {background-image: url('tiles/sm.png');}
 .generatedTile.lg {background-image: url('tiles/lg.png');}
 
-/* Highlight tiles with treasure in the generated boards */
-.treasureGenerated {
-	
+
+#window {
+    display: flex;
+    justify-content: center;
+    gap: 20px; 
+    margin: auto;
+    max-width: 800px; 
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }

@@ -4,13 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Board Builder</title>
-    <link rel="stylesheet" href="style.css"> <!-- Make sure to link your CSS file -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div id="instructions">
+			<h1>Board Builder - Instructions:</h1>
+	Welcome to the Board Builder! The intention of this is to allow you to generate the four rotations of any given board by simply filling in one version and clicking generate. This will allow us to create consistent and uniform maps. <br>
+	Every map is a 5x5 grid, even if it may not look like it! Fill in each space with the category it requires, or put unused if there's not a tile there. If there's treasure, just check the box! Once you're done, click Generate and see the four rotations of that map!
+</div>
     <form id="boardForm">
-        <div class="grid">
-            <!-- Generating 5x5 grid with dropdowns and checkboxes -->
 
+        <div class="grid">
             <div class="tile">
                 <select name="tileState1">
                     <option value="X">Unused</option>
@@ -610,10 +614,17 @@
 
 
         </div>
-        <button type="submit">Build That Map!</button>
+        <button type="submit">Generate</button>
     </form>
-
-<div id="boardDisplayGenerated"></div>
-<script src="script.js"></script> <!-- Make sure to link your JavaScript file -->
+<div id="window">
+<div class="column">
+<div id="boardTL"></div>
+<div id="boardBL"></div>
+</div><div class="column">
+<div id="boardTR"></div>
+<div id="boardBR"></div>
+</div>
+</div>
+<script src="script.js"></script> 
 </body>
 </html>
