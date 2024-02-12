@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
 
-		//generatePrimaryBoard(tileStates, treasures);
 		const boardState = convertTo2DArray(tileStates,treasures);
 		const rotate1 = rotateBoardState(boardState);
 		const rotate2 = rotateBoardState(rotate1);
@@ -86,7 +85,13 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 		}
 
-
-
     });
+});
+
+document.getElementById('clearAllButton').addEventListener('click', function() {
+    document.querySelectorAll('form').forEach(form => form.reset());
+    document.getElementById('boardTL').innerHTML = '';
+    document.getElementById('boardTR').innerHTML = '';
+    document.getElementById('boardBR').innerHTML = '';
+    document.getElementById('boardBL').innerHTML = '';
 });

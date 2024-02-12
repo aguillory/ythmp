@@ -20,17 +20,18 @@
     max-width: 800px; 
 }
 
-button[type="submit"] {
-    display: block;
-    width: 100px; 
-    margin: 20px auto; 
-    padding: 10px;
-    background-color: #007bff; 
-    color: white;
-    border: none;
-    border-radius: 5px; 
+button {
+    padding: 10px 20px;
+    font-size: 16px;
     cursor: pointer;
+    margin:10px;
 }
+.button-container {
+    display: flex;
+    justify-content: center; /* Centers buttons horizontally */
+    gap: 10px; /* Optional: adds space between buttons */
+}
+
 
 .generatedTile {
 	position:relative;
@@ -89,4 +90,14 @@ button[type="submit"] {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+footer {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    font-size: 12px;
+    color: #6c757d;
+    text-align: center;
+    padding: 10px 0;
 }
