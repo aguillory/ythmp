@@ -28,3 +28,13 @@ button {
     font-size: 16px;
     cursor: pointer;
 }
+
+footer {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    font-size: 12px;
+    color: #6c757d;
+    text-align: center;
+    padding: 10px 0;
+}
