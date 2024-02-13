@@ -30,7 +30,19 @@ document.addEventListener('DOMContentLoaded', () => {
 		displayBoards(rotate1,"boardBL");
 
 
-		
+		// Retrieves the values from the select elements
+		var smValue = document.getElementById('smallChests').value;
+		var mdValue = document.getElementById('mediumChests').value;
+		var lgValue = document.getElementById('largeChests').value;
+		var xlValue = document.getElementById('extraLargeChests').value;
+
+		// Updates the span elements with the retrieved values
+		document.getElementById('sm').textContent = smValue;
+		document.getElementById('md').textContent = mdValue;
+		document.getElementById('lg').textContent = lgValue;
+		document.getElementById('xl').textContent = xlValue;
+
+		document.getElementById('header').style.display = 'flex';
 		
 		function convertTo2DArray(tileStates, treasures) {
 			const size = 5; 
@@ -94,4 +106,19 @@ document.getElementById('clearAllButton').addEventListener('click', function() {
     document.getElementById('boardTR').innerHTML = '';
     document.getElementById('boardBR').innerHTML = '';
     document.getElementById('boardBL').innerHTML = '';
+});
+
+document.getElementById('downloadMaps').addEventListener('click', function() {
+    html2canvas(document.getElementById('window')).then(function(canvas) {
+        // Create an image from the canvas
+        let image = canvas.toDataURL('image/png', 1.0);
+        
+        // Create a link to download the image
+        let link = document.createElement('a');
+        link.href = image;
+        link.download = 'maps.png'; // Specify the download filename
+        
+        // Trigger the download
+        link.click();
+    });
 });

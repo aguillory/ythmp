@@ -28,8 +28,8 @@ button {
 }
 .button-container {
     display: flex;
-    justify-content: center; /* Centers buttons horizontally */
-    gap: 10px; /* Optional: adds space between buttons */
+    justify-content: center; 
+    gap: 10px; 
 }
 
 
@@ -100,4 +100,51 @@ footer {
     color: #6c757d;
     text-align: center;
     padding: 10px 0;
+}
+#chestForm {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: space-around; 
+    align-items: center; 
+}
+.chest-input {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    margin: 10px; 
+
+}
+
+.chests { 
+  font-family: 'Roboto', sans-serif;
+  font-weight: 900;
+  font-size: 30px;
+  -webkit-text-stroke-color: #000;
+  -webkit-text-stroke-width: 0.06em;
+  -webkit-text-fill-color: white;
+   position: absolute;
+    top: 70%;
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    text-shadow: 2px 2px 4px #000000;
+}
+
+
+#header {
+    display: flex;
+    justify-content: center; 
+    gap: 10px; 
+    display:none;
+}
+
+.chest-container {
+    position: relative;
+    display: inline-block; 
+    margin-bottom:10px;
+}
+
+.chestsimg {
+    display: block; 
+    width: auto; 
+    height: auto; 
 }
