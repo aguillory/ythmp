@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.getElementById('lg').textContent = lgValue;
 		document.getElementById('xl').textContent = xlValue;
 
-		document.getElementById('header').style.display = 'flex';
+		document.getElementById('chestheader').style.display = 'flex';
 		
 		function convertTo2DArray(tileStates, treasures) {
 			const size = 5; 
