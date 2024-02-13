@@ -109,7 +109,7 @@ document.getElementById('clearAllButton').addEventListener('click', function() {
 });
 
 document.getElementById('downloadMaps').addEventListener('click', function() {
-    html2canvas(document.getElementById('window')).then(function(canvas) {
+    html2canvas(document.getElementById('printable')).then(function(canvas) {
         // Create an image from the canvas
         let image = canvas.toDataURL('image/png', 1.0);
         
