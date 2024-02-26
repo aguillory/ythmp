@@ -11,8 +11,7 @@
 			
 			gtag('config', 'G-RZFM0HF9CZ');
 		</script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-		
+	
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Board Builder</title>
@@ -658,19 +657,26 @@
 				
 				
 				</div><div class="button-container">
-				<button type="submit">Generate</button>  <button id="clearAllButton">Clear All</button> <button id="downloadMaps">Download Maps</button>
+				<button type="submit">Generate</button>  <button id="clearAllButton">Clear All</button> 
 			</div>
-		</form>
+		</form><br><br><br><br>
 		<div id="printable">
 			<div id="chestheader">
-				<div class="chest-container">
-					<img src="chests1.png" alt="Small Chest" class="chestsimg"><span class="chests" id="sm"></span>
-					</div><div class="chest-container">
-					<img src="chests2.png" alt="Medium Chest" class="chestsimg"><span class="chests" id="md"></span>
-					</div><div class="chest-container">
-					<img src="chests3.png" alt="Large Chest" class="chestsimg"><span class="chests" id="lg"></span>
-					</div><div class="chest-container">
-					<img src="chests4.png" alt="Extra Large Chest" class="chestsimg"><span class="chests" id="xl"></span>
+				<div class="chest-container" id="sm">
+					<img src="chests1.png" alt="Small Chest" class="chestsimg">
+					<span class="chests" id="smtxt"></span>
+					</div>
+				<div class="chest-container" id="md">
+					<img src="chests2.png" alt="Medium Chest" class="chestsimg">
+					<span class="chests" id="mdtxt"></span>
+					</div>
+				<div class="chest-container" id="lg">
+					<img src="chests3.png" alt="Large Chest" class="chestsimg">
+					<span class="chests" id="lgtxt"></span>
+					</div>
+				<div class="chest-container" id="xl">
+					<img src="chests4.png" alt="Extra Large Chest" class="chestsimg">
+					<span class="chests" id="xltxt"></span>
 				</div>
 			</div>
 			<div id="window">
@@ -682,7 +688,7 @@
 					<div id="boardBR"></div>
 				</div>
 			</div>
-		</div>
+		</div><br><br><br><br>
 		<script src="script.js"></script> 
 		<footer>This website is a fan-made creation designed to provide an easy map builder tool for game maps. All artwork is the property of Scopely and is used under fair use for non-commercial, educational purposes. The map guides were sourced from TH Tips on Facebook. This site was independently created by a fan for the purpose of assisting the gaming community. It is not affiliated with, endorsed by, or sponsored by Scopely or any other official entity.</footer>
 	</body>
