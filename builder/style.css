@@ -140,6 +140,12 @@ footer {
     display:none;
 }
 
+#chestfooter {
+    display: flex;
+    justify-content: center; 
+    gap: 10px; 
+    display:none;
+}
 .chest-container {
     position: relative;
     display: inline-block; 
