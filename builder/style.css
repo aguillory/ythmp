@@ -154,3 +154,14 @@ footer {
 #sm, #md, #lg, #xl {
     display:none;
 }
+
+
+#line1 {
+    color: #58a434; /* Green text color for line 1 */
+    text-align: center; /* Center-align the text */
+}
+
+#line2 {
+    color: #9f6706; /* Brown text color for line 2 */
+    text-align: center; /* Center-align the text */
+}
