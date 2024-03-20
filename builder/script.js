@@ -54,7 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		document.getElementById('chestheader').style.display = 'flex';
 		document.getElementById('chestheader').style.justifyContent = 'center';
-		
+		document.getElementById('chestfooter').style.display = 'flex';
+		document.getElementById('chestfooter').style.justifyContent = 'center';
 		function convertTo2DArray(tileStates, treasures) {
 			const size = 5; 
 			let boardState = [];
