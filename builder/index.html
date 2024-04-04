@@ -26,6 +26,16 @@
 			<br><br>
 			How many of each chest will you want displayed above the map?
 			<form id="chestForm">
+				<div class="copies-input">
+					<img src="copy.png" alt="Copies">
+					<select id="copies" name="copies">
+						<option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
+					</select> of
+					<select id="copies2" name="copies2">
+						<option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
+					</select>
+				</div>
+			
 				<div class="chest-input">
 					<img src="chests1.png" alt="Small Chest">
 					<select id="smallChests" name="smallChests">
@@ -662,6 +672,12 @@
 		</form><br><br><br><br>
 		<div id="printable">
 			<div id="chestheader">
+				<div class="copies-container" id="copy">
+					<img src="copy.png" alt="Copies" class="chestsimg">
+					<span class="copies-text" id="copytxt"></span> 
+					<span class="copies-text"> of </span>
+					<span class="copies-text" id="copy2txt"></span>
+					</div>
 				<div class="chest-container" id="sm">
 					<img src="chests1.png" alt="Small Chest" class="chestsimg">
 					<span class="chests" id="smtxt"></span>
@@ -690,7 +706,7 @@
 				
 			</div>
 			<div id="chestfooter">
-				<div id="line1">Green spots have treasure chests.</div><br>
+				<div id="line1">Green spots have treasure chests.</div>
     				<div id="line2">Brown spots don't have treasure chests.</div>
 			</div>
 		</div><br><br><br><br>

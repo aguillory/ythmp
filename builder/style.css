@@ -117,6 +117,34 @@ footer {
     margin: 10px; 
 
 }
+.copies-input {
+    display: inline;
+    align-items: center; 
+    margin: 10px; 
+
+}
+
+.copies-container {
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    margin-bottom: 10px;
+    padding-right:10px;
+    border-right:2px solid #000;
+}
+
+.copies-text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+    font-size: 30px;
+    -webkit-text-stroke-color: #000;
+    -webkit-text-stroke-width: 0.06em;
+    -webkit-text-fill-color: white;
+    text-shadow: 2px 2px 4px #000000;
+    position: relative;
+    margin: 0 2px; 
+}
+
 
 .chests { 
   font-family: 'Roboto', sans-serif;

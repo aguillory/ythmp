@@ -28,11 +28,19 @@ document.addEventListener('DOMContentLoaded', () => {
 		displayBoards(rotate3,"boardTR");
 		displayBoards(rotate2,"boardBR");
 		displayBoards(rotate1,"boardBL");
-
+		
+		var copies = document.getElementById('copies').value;
+		var copies2 = document.getElementById('copies2').value;
 		var smValue = document.getElementById('smallChests').value;
 		var mdValue = document.getElementById('mediumChests').value;
 		var lgValue = document.getElementById('largeChests').value;
 		var xlValue = document.getElementById('extraLargeChests').value;
+		
+		if (copies > 0 && copies2 > 0){
+		document.getElementById('copytxt').textContent = copies;
+		document.getElementById('copy2txt').textContent = copies2;
+		document.getElementById('copy').style.display = 'flex';
+		}
 
 		if (smValue > 0){
 		document.getElementById('smtxt').textContent = smValue;
@@ -54,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		document.getElementById('chestheader').style.display = 'flex';
 		document.getElementById('chestheader').style.justifyContent = 'center';
-		document.getElementById('chestfooter').style.display = 'flex';
+		document.getElementById('chestfooter').style.display = 'block';
 		document.getElementById('chestfooter').style.justifyContent = 'center';
 		function convertTo2DArray(tileStates, treasures) {
 			const size = 5; 
