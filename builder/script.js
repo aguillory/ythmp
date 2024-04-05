@@ -36,11 +36,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		var lgValue = document.getElementById('largeChests').value;
 		var xlValue = document.getElementById('extraLargeChests').value;
 		
-		if (copies > 0 && copies2 > 0){
+		if (copies > 0 && copies2 > 0 && copies <= copies2){
 		document.getElementById('copytxt').textContent = copies;
 		document.getElementById('copy2txt').textContent = copies2;
 		document.getElementById('copy').style.display = 'flex';
-		}
+		} 
 
 		if (smValue > 0){
 		document.getElementById('smtxt').textContent = smValue;
