@@ -185,7 +185,7 @@ footer {
     width: auto; 
     height: auto; 
 }
-#sm, #md, #lg, #xl {
+#sm, #md, #lg, #xl, #copy {
     display:none;
 }
 
