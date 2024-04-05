@@ -118,10 +118,5 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.getElementById('clearAllButton').addEventListener('click', function() {
-    document.querySelectorAll('form').forEach(form => form.reset());
-    document.getElementById('boardTL').innerHTML = '';
-    document.getElementById('boardTR').innerHTML = '';
-    document.getElementById('boardBR').innerHTML = '';
-    document.getElementById('boardBL').innerHTML = '';
+    window.location.reload(true);
 });
-
