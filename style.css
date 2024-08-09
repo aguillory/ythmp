@@ -14,18 +14,16 @@
     }
     
     .chest-input img {
-        height: 50px; /* Adjust based on your preference */
+        height: 50px;
         margin-right: 10px;
     }
     
     select {
         padding: 10px;
-        margin-left: 10px;
     }
     
     button {
         padding: 10px 20px;
-        font-size: 16px;
         cursor: pointer;
     }
     
@@ -39,35 +37,37 @@
         text-align: center;
         padding: 10px 0;
     }
-    /* Wrapper for treasure map images */
-    #map-container {
+#map-container {
       display: flex;
       justify-content: space-around;
     }
-    
-    @media (max-width: 768px) {
-      #map-container img {
-        width: 100%;
-        height: auto;
-      }
-    }
-    
-    @media (min-width: 768px) and (max-width: 1024px) {
-      #map-container {
-        width: 100%;
-      }
-      #map-container img {
-        width: 100%;
-        height: auto;
-      }
-    }
-    
-    @media (min-width: 1024px) {
-      #map-container {
-        width: 51%;
-      }
-      #map-container img {
-        max-width: 100%;
-        height: auto;
-      }
-    }
+
+#mapsDisplay {
+    display: grid;
+    gap: 10px; 
+}
+
+.columns-1 #mapsDisplay {
+    grid-template-columns: 1fr;
+}
+
+.columns-2 #mapsDisplay {
+    grid-template-columns: 1fr 1fr;
+}
+
+.columns-3 #mapsDisplay {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.columns-4 #mapsDisplay {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+
+.columns-1 img {
+    width:50%;
+}
+
+.columns-2 img, .columns-3 img, .columns-4 img {
+    width:100%;
+}
