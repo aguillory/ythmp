@@ -71,9 +71,3 @@
 .columns-2 img, .columns-3 img, .columns-4 img {
     width:100%;
 }
-
-.sortable-ghost {
-    opacity: 0.4;
-    background-color: #ececec;
-    border: 2px dashed #ccc;
-}
