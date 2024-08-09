@@ -93,6 +93,8 @@ let formSubmitted = false;
 const form = document.getElementById('chestForm');
     const enableDragCheckbox = document.getElementById('enableDrag');
     let sortableInstance = null; // Variable to hold the Sortable instance
+    
+    
 
 document.getElementById('chestForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -128,6 +130,12 @@ setTimeout(function() {
             mapsDisplay.appendChild(errorMessage);
         }
     }
+    if (enableDragCheckbox.checked) {
+            sortableInstance = Sortable.create(mapsDisplay, {
+                animation: 150,
+                ghostClass: 'sortable-ghost'
+            });
+        }
     
     variations.forEach(variant => {
         const mapFileName = `maps/${fileNameBase}.${variant}.jpg`;
@@ -154,6 +162,7 @@ setTimeout(function() {
                 sortableInstance = Sortable.create(mapsDisplay, {
                     animation: 150,
                     ghostClass: 'sortable-ghost'
+                    
                 });
             } else {
                 // Re-enable sortable if it was already initialized
