@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+
     const smallChestsSelect = document.getElementById('smallChests');
     for (let i = 0; i <= 11; i++) {
         let option = new Option(i, i);
@@ -135,6 +136,11 @@ document.getElementById('chestForm').addEventListener('submit', function(event) 
         };
         mapsDisplay.appendChild(imgElement);
     });
+    
+    Sortable.create(mapsDisplay, {
+            animation: 150,
+            ghostClass: 'sortable-ghost'
+        });
     
 });
 document.getElementById('clearAllButton').addEventListener('click', function() {
