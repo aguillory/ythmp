@@ -72,3 +72,8 @@
     width:100%;
 }
 
+.sortable-ghost {
+    opacity: 0.4;
+    background-color: #ececec;
+    border: 2px dashed #ccc;
+}

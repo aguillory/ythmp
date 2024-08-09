@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-
+ enableDragCheckbox.checked = false;
     const smallChestsSelect = document.getElementById('smallChests');
     for (let i = 0; i <= 11; i++) {
         let option = new Option(i, i);
@@ -90,6 +90,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 let formSubmitted = false;
 
+const form = document.getElementById('chestForm');
+    const enableDragCheckbox = document.getElementById('enableDrag');
+    let sortableInstance = null; // Variable to hold the Sortable instance
+
 document.getElementById('chestForm').addEventListener('submit', function(event) {
     event.preventDefault();
     formSubmitted = true;
@@ -108,7 +112,10 @@ document.getElementById('chestForm').addEventListener('submit', function(event) 
     mapsDisplay.innerHTML = '';
     
     let validMapsFound = 0; 
-    
+    var delayInMilliseconds = 1000; 
+
+setTimeout(function() {
+}, delayInMilliseconds);
     function checkAndShowError() {
         const existingError = mapsDisplay.querySelector('p');
         if (existingError) {
@@ -117,7 +124,7 @@ document.getElementById('chestForm').addEventListener('submit', function(event) 
         
         if (formSubmitted && validMapsFound === 0 && (sm > 0 || md > 0 || lg > 0 || xl > 0)) { 
             const errorMessage = document.createElement('p');
-            errorMessage.textContent = "No valid maps found for the selected combination.";
+            errorMessage.textContent = "No more valid maps found for the selected combination.";
             mapsDisplay.appendChild(errorMessage);
         }
     }
@@ -137,11 +144,28 @@ document.getElementById('chestForm').addEventListener('submit', function(event) 
         mapsDisplay.appendChild(imgElement);
     });
     
-    Sortable.create(mapsDisplay, {
-            animation: 150,
-            ghostClass: 'sortable-ghost'
-        });
-    
+         enableDragCheckbox.addEventListener('change', function() {
+        const mapsDisplay = document.getElementById('mapsDisplay');
+
+        if (this.checked) {
+            // If the checkbox is checked, initialize or re-enable Sortable
+            if (!sortableInstance) {
+                // Initialize sortable if it hasn't been initialized yet
+                sortableInstance = Sortable.create(mapsDisplay, {
+                    animation: 150,
+                    ghostClass: 'sortable-ghost'
+                });
+            } else {
+                // Re-enable sortable if it was already initialized
+                sortableInstance.option("disabled", false);
+            }
+        } else {
+            // Disable sorting if the checkbox is unchecked
+            if (sortableInstance) {
+                sortableInstance.option("disabled", true);
+            }
+        }
+    });
 });
 document.getElementById('clearAllButton').addEventListener('click', function() {
     formSubmitted = false;
