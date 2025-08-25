@@ -1,11 +1,25 @@
+:root {
+    /* Centralized configuration using CSS variables */
+    --generated-tile-size: 42px;
+    --input-visual-size: 55px;
+    --max-width: 800px;
+    /* Border configuration */
+    /* NEW: Variable to hold the currently active color for visualization, updated by JS */
+    --active-border-color: #956230; /* Default visualization color (Brown) */
+    --highlight-border-width: 4px;
+}
+
 .grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr); 
-    max-width: 800px; 
-    margin: auto; 
+    max-width: var(--max-width); 
+    margin: 20px auto;
+    gap: 10px;
+    /* NEW: Prevent accidental scrolling/actions on touch devices when dragging on the grid */
+    touch-action: none; 
 }
 
-.tile {
+.tile-input-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -13,86 +27,211 @@
     padding: 10px; 
     border: 1px solid #ccc; 
     background-color: #f9f9f9; 
+    gap: 8px;
 }
+
+/* Visual representation in the input grid */
+.tile-visual {
+    width: var(--input-visual-size);
+    height: var(--input-visual-size);
+    background-color: #eee;
+    border: 1px solid #aaa;
+    box-sizing: border-box;
+    background-size: cover;
+    background-position: center;
+    transition: box-shadow 0.2s ease;
+    /* Crucial for positioning overlays (Treasure/Star) */
+    position: relative;
+    /* NEW: Improve interaction feel */
+    cursor: crosshair;
+    user-select: none; /* Prevent text selection while dragging */
+    -webkit-user-drag: none; /* Prevent image dragging */
+}
+
+/* --- Selection/Border Styles --- */
+
+/* NEW: Border Controls Styling (Replaces #border-definition) */
+#border-controls {
+    max-width: var(--max-width);
+    margin: 20px auto 0 auto; /* Placed above the grid */
+    text-align: center;
+    padding: 15px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+/* Removed .coord-inputs styles */
+
+/* NEW: Color Picker Styling */
+.color-picker {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+/* Hide the actual radio buttons */
+.color-picker input[type="radio"] {
+    display: none;
+}
+
+/* Style the labels as swatches */
+.color-swatch {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid rgba(0, 0, 0, 0.1); /* Subtle border when unselected */
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+
+.color-swatch:hover {
+    transform: scale(1.05);
+}
+
+/* Style for the selected swatch */
+.color-picker input[type="radio"]:checked + .color-swatch {
+    border-color: #333; /* Darker border when selected */
+    transform: scale(1.1);
+}
+
+
+/* Highlight visualization for the selected area on the input grid */
+.tile-visual.selected {
+    /* Use an inset shadow matching the dynamic CSS variable */
+    box-shadow: inset 0 0 0 3px var(--active-border-color);
+}
+
+/* FIX: The actual border on the generated map (using Absolute Positioning) */
+.generated-border-overlay {
+    /* Apply the border width. Color is now set dynamically inline via JS during generation. */
+    border-width: var(--highlight-border-width);
+    border-style: solid;
+    
+    /* Ensure it's above the tiles (z-index 1) but below treasure/stars */
+    z-index: 2;
+    /* Prevent it from interfering with mouse events */
+    pointer-events: none;
+
+    /* CRITICAL FIX: Position absolutely relative to the board */
+    position: absolute;
+
+    /* MODIFICATION: Use border-box so the border is drawn inside the element's
+       dimensions, not outside. This prevents the overlay from overflowing the tile grid. */
+    box-sizing: border-box;
+
+    /* MODIFICATION: The negative margin is no longer needed with border-box sizing. */
+}
+
 
 #instructions {
     margin: auto;
-    max-width: 800px; 
+    max-width: var(--max-width); 
 }
 
 button {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
-    margin:10px;
+    margin: 5px;
 }
+
 .button-container {
     display: flex;
     justify-content: center; 
     gap: 10px; 
+    margin-top: 20px;
 }
 
 
 .generatedTile {
 	position:relative;
-    width: 42px;
-    height: 42px;
+    width: var(--generated-tile-size);
+    height: var(--generated-tile-size);
     display: flex;
     justify-content: center;
     align-items: center;
     background-size: cover;
     margin:0;
     border:none;
+    box-sizing: border-box;
 }
 
 .generatedBoard {
     display: grid;
-    grid-template-columns: repeat(5, 42px);
+    grid-template-columns: repeat(5, var(--generated-tile-size));
     justify-content: center;
     margin-bottom:20px;
     border:none;
+    /* CRITICAL FIX: Must be relative so the absolute border overlay positions correctly */
+    position: relative;
 }
 
-.generatedTile.treasureGenerated::after {
+/* --- Overlay Styles (Treasure/Star) - Adapted for Visualization --- */
+
+/* We target both the final output (.generatedTile.treasureGenerated) 
+   and the input visualization (.tile-visual.vis-treasure) */
+.generatedTile.treasureGenerated::after,
+.tile-visual.vis-treasure::after {
     content: ''; 
     position: absolute;
-    width: 42px;
-    height: 42px; 
+    /* Use 100% to adapt to both input and output sizes */
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
     background-image: url('tiles/border.png'); 
     background-size: cover;
+    /* Ensure treasure border is above colored borders */
+    z-index: 5; 
 }
 
-.generatedTile.starGenerated::before {
+/* We target both the final output (.generatedTile.starGenerated) 
+   and the input visualization (.tile-visual.vis-star) */
+.generatedTile.starGenerated::before,
+.tile-visual.vis-star::before {
     content: '';
     position: absolute;
-    width: 20px;
-    height: 20px;
+    /* Slightly larger star for the input visualization for clarity */
+    width: 22px;
+    height: 22px;
     background-image: url('star.png');
     background-size: contain;
     background-repeat: no-repeat;
-    top: -5px;
-    right: -5px;
+    top: -6px;
+    right: -6px;
     z-index: 10;
 }
 
+/* Revert to 20px specifically for the generated output */
+.generatedTile.starGenerated::before {
+    width: 20px;
+    height: 20px;
+    top: -5px;
+    right: -5px;
+}
 
-.generatedTile.x {background-image: url('tiles/x.png');}
-.generatedTile.one {background-image: url('tiles/1.png');}
-.generatedTile.two {background-image: url('tiles/2.png');}
-.generatedTile.three {background-image: url('tiles/3.png');}
-.generatedTile.four {background-image: url('tiles/4.png');}
-.generatedTile.five {background-image: url('tiles/5.png');}
-.generatedTile.six {background-image: url('tiles/6.png');}
-.generatedTile.threex {background-image: url('tiles/3x.png');}
-.generatedTile.fourx {background-image: url('tiles/4x.png');}
-.generatedTile.yahtzee {background-image: url('tiles/yahtzee.png');}
-.generatedTile.chance {background-image: url('tiles/chance.png');}
-.generatedTile.pair {background-image: url('tiles/pr.png');}
-.generatedTile.odds {background-image: url('tiles/odd.png');}
-.generatedTile.evens {background-image: url('tiles/even.png');}
-.generatedTile.full {background-image: url('tiles/full.png');}
-.generatedTile.sm {background-image: url('tiles/sm.png');}
-.generatedTile.lg {background-image: url('tiles/lg.png');}
+/* Tile Backgrounds - Applied to a common class for use in input and output */
+.tile-bg.x {background-image: url('tiles/x.png');}
+.tile-bg.one {background-image: url('tiles/1.png');}
+.tile-bg.two {background-image: url('tiles/2.png');}
+.tile-bg.three {background-image: url('tiles/3.png');}
+.tile-bg.four {background-image: url('tiles/4.png');}
+.tile-bg.five {background-image: url('tiles/5.png');}
+.tile-bg.six {background-image: url('tiles/6.png');}
+.tile-bg.threex {background-image: url('tiles/3x.png');}
+.tile-bg.fourx {background-image: url('tiles/4x.png');}
+.tile-bg.yahtzee {background-image: url('tiles/yahtzee.png');}
+.tile-bg.chance {background-image: url('tiles/chance.png');}
+.tile-bg.pair {background-image: url('tiles/pr.png');}
+.tile-bg.odds {background-image: url('tiles/odd.png');}
+.tile-bg.evens {background-image: url('tiles/even.png');}
+.tile-bg.full {background-image: url('tiles/full.png');}
+.tile-bg.sm {background-image: url('tiles/sm.png');}
+.tile-bg.lg {background-image: url('tiles/lg.png');}
 
 
 #window {
@@ -117,7 +256,10 @@ footer {
     color: #6c757d;
     text-align: center;
     padding: 10px 0;
+    margin-top: 50px;
 }
+
+/* (Chest Form Styles remain unchanged) */
 #chestForm {
     display: flex;
     flex-wrap: wrap; 

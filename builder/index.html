@@ -21,8 +21,9 @@
 		<div id="instructions">
 			<h1>Board Builder - Instructions:</h1>
 			Welcome to the Board Builder! The intention of this is to allow you to generate the four rotations of any given board by simply filling in one version and clicking generate. This will allow us to create consistent and uniform maps. <br>
-			Every map is a 5x5 grid, even if it may not look like it! Fill in each space with the category it requires, or put unused if there's not a tile there. If there's treasure, just check the box! Once you're done, click Generate and see the four rotations of that map!
-			<br><br>
+			Every map is a 5x5 grid. Select the tile type from the dropdown (the visual preview will update, including treasure and stars).
+            <br><br>
+            
 			How many of each chest will you want displayed above the map?
 			<form id="chestForm">
 				<div class="copies-input">
@@ -73,12 +74,38 @@
 				</div>
 			</form>
 		</div>
+
 		<form id="boardForm">
+
+            <!-- NEW: Interactive Border Controls -->
+            <div id="border-controls">
+                <h3>Highlight Border (Optional)</h3>
+                <p>Select a color, then Click/Tap and drag on the grid below to draw a border.</p>
+
+                <div class="color-picker">
+                    <input type="radio" name="borderColor" value="#956230" id="color1" checked>
+                    <label for="color1" class="color-swatch" style="background-color: #956230;" title="Brown"></label>
+
+                    <input type="radio" name="borderColor" value="#404a4e" id="color2">
+                    <label for="color2" class="color-swatch" style="background-color: #404a4e;" title="Gray"></label>
+
+                    <input type="radio" name="borderColor" value="#735ebf" id="color3">
+                    <label for="color3" class="color-swatch" style="background-color: #735ebf;" title="Purple"></label>
+
+                    <input type="radio" name="borderColor" value="#bb0c07" id="color4">
+                    <label for="color4" class="color-swatch" style="background-color: #bb0c07;" title="Red"></label>
+                </div>
+                
+                <button type="button" id="clearBorders">Clear Border</button>
+            </div>
 			
 			<div class="grid"></div>
 
+            <!-- OLD: Mobile-friendly Border Definition (REMOVED) -->
+
 			<div class="button-container">
-				<button type="submit">Generate</button>  <button id="clearAllButton">Clear All</button> 
+				<button type="submit">Generate</button>  
+                <button type="button" id="clearAllButton">Clear All</button> 
 			</div>
 		</form><br><br><br><br>
 		<div id="printable">
