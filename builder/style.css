@@ -184,7 +184,8 @@ button {
     grid-template-columns: repeat(5, var(--generated-tile-size));
     justify-content: center;
     margin-bottom:20px;
-    border:none;
+    background-color:AliceBlue;
+    border:1px solid gray;
     /* Must be relative for overlays to position correctly */
     position: relative;
 }
@@ -286,7 +287,6 @@ button {
 
 /* Tile Backgrounds - Applied to a common class for use in input and output */
 /* .tile-bg.x removed, replaced with .tile-bg.blank */
-.tile-bg.blank {background-color:white;}
 .tile-bg.one {background-image: url('tiles/1.png');}
 .tile-bg.two {background-image: url('tiles/2.png');}
 .tile-bg.three {background-image: url('tiles/3.png');}
