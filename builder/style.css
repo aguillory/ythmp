@@ -10,7 +10,7 @@
     --border-brown: #964B00;
     --border-silver: #C0C0C0;
     --border-purple: #800080;
-    --border-gold: gold;
+    --border-gold: #DAA520;
     --custom-border-width: 3px;
 }
 
@@ -190,21 +190,31 @@ button {
     position: relative;
 }
 
-/* --- Overlay Styles (Treasure/Star/Bulb) - Adapted for Visualization --- */
+/* --- Overlay Styles (Treasure/Star/Bulb) --- */
 
-/* Treasure (Full border overlay) - Uses ::after */
+/* Parent tile preparation remains the same */
+.generatedTile, .tile-visual {
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px; 
+}
+
+/* UPDATED Treasure Overlay Style */
 .generatedTile.treasureGenerated::after,
 .tile-visual.vis-treasure::after {
     content: ''; 
     position: absolute;
-    /* Use 100% to adapt to both input and output sizes */
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background-image: url('tiles/border.png'); 
-    background-size: cover;
-    /* Ensure treasure border is below icons */
+    
+    /* This is the change! We inset the overlay on all 4 sides. */
+    top: var(--custom-border-width);
+    left: var(--custom-border-width);
+    right: var(--custom-border-width);
+    bottom: var(--custom-border-width);
+
+    /* The background color remains the same */
+    background-color: rgba(88, 164, 52, 0.5);
+
+    pointer-events: none; 
     z-index: 5; 
 }
 
@@ -446,5 +456,4 @@ footer {
 #line2 {
     color: #9f6706; /* Brown text color for line 2 */
     text-align: center; /* Center-align the text */
-
 }
