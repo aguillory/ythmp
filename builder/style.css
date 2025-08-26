@@ -226,10 +226,10 @@ button {
     content: '';
     position: absolute;
     /* Define the area covering both top corners */
-    top: -6px;
-    left: -6px;
-    right: -6px;
-    height: 22px; /* Height of the icons */
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 24px; /* Height of the icons */
     z-index: 10;
     background-repeat: no-repeat;
 }
