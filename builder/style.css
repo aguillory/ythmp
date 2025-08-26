@@ -309,9 +309,9 @@ button {
     content: '';
     position: absolute;
     /* Define the area covering both top corners (adjusted for output size) */
-    top: -5px;
-    left: -5px;
-    right: -5px;
+    top: 0px;
+    left: 0px;
+    right: 0px;
     height: 20px; /* Height of the icons */
     z-index: 10;
     background-repeat: no-repeat;
@@ -505,4 +505,5 @@ footer {
 #line2 {
     color: #9f6706; /* Brown text color for line 2 */
     text-align: center; /* Center-align the text */
+
 }
