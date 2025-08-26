@@ -10,7 +10,7 @@
     --border-brown: #964B00;
     --border-silver: #C0C0C0;
     --border-purple: #800080;
-    --border-gold: #DAA520;
+    --border-gold: gold;
     --custom-border-width: 3px;
 }
 
@@ -446,4 +446,5 @@ footer {
 #line2 {
     color: #9f6706; /* Brown text color for line 2 */
     text-align: center; /* Center-align the text */
+
 }
