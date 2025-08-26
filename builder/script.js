@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
             { value: "brown", text: "Brown" },
             { value: "silver", text: "Silver" },
             { value: "purple", text: "Purple" },
-            { value: "red", text: "Red" }
+            { value: "gold", text: "Gold" }
         ]
     };
 

@@ -10,7 +10,7 @@
     --border-brown: #964B00;
     --border-silver: #C0C0C0;
     --border-purple: #800080;
-    --border-red: #FF0000;
+    --border-gold: #DAA520;
     --custom-border-width: 3px;
 }
 
@@ -137,8 +137,8 @@
 .tile-visual.border-purple, .generatedTile.border-purple {
     box-shadow: inset 0 0 0 var(--custom-border-width) var(--border-purple);
 }
-.tile-visual.border-red, .generatedTile.border-red {
-    box-shadow: inset 0 0 0 var(--custom-border-width) var(--border-red);
+.tile-visual.border-gold, .generatedTile.border-gold {
+    box-shadow: inset 0 0 0 var(--custom-border-width) var(--border-gold);
 }
 
 
