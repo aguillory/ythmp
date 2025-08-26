@@ -2,16 +2,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Configuration ---
     
-    // Dynamically retrieve the generated tile size from CSS variables for accurate border positioning
+    // Dynamically retrieve the generated tile size (kept in case needed for future features)
     const tileSizeFromCSS = getComputedStyle(document.documentElement).getPropertyValue('--generated-tile-size');
-    // Parse the value (removing 'px') and provide a fallback (42) if reading fails
     const generatedTilePixels = parseInt(tileSizeFromCSS, 10) || 42; 
 
     const CONFIG = {
         GRID_SIZE: 5,
         GENERATED_TILE_PIXELS: generatedTilePixels,
         TILE_OPTIONS: [
-            { value: "X", text: "Unused" },
+            // Replaced "X" (Unused) with "Blank" (white space)
+            { value: "blank", text: "Blank" },
             { value: "one", text: "1" }, { value: "two", text: "2" },
             { value: "three", text: "3" }, { value: "four", text: "4" },
             { value: "five", text: "5" }, { value: "six", text: "6" },
@@ -20,6 +20,15 @@ document.addEventListener('DOMContentLoaded', () => {
             { value: "pair", text: "2 Pair" }, { value: "odds", text: "Odds" },
             { value: "evens", text: "Evens" }, { value: "full", text: "Full House" },
             { value: "sm", text: "Sm Straight" }, { value: "lg", text: "Lg Straight" }
+        ],
+        // New Feature: Border Options
+        BORDER_OPTIONS: [
+            { value: "none", text: "None" },
+            { value: "black", text: "Black" },
+            { value: "brown", text: "Brown" },
+            { value: "silver", text: "Silver" },
+            { value: "purple", text: "Purple" },
+            { value: "red", text: "Red" }
         ]
     };
 
@@ -28,13 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chestForm = document.getElementById('chestForm');
     const gridContainer = document.querySelector('.grid');
     
-    // State for the border selection
-    // selection stores the final coordinates { r1, c1, r2, c2 } (0-indexed, inclusive)
-    let selection = null; 
-
-    // NEW: State for interactive selection (drag and drop)
-    let isSelecting = false;
-    let startCoords = null; // { r, c }
+    // State for border selection removed.
 
 
     // --- Initialization ---
@@ -43,8 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function initialize() {
         generateGridInputs();
         setupEventListeners();
-        // Initialize the visualization color based on the default selected radio button
-        updateActiveColor(getSelectedColor());
+        // Initialization of border visualization color removed.
     }
 
     // --- Grid Generation (Updated Layout and Features) ---
@@ -56,9 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const fragment = document.createDocumentFragment();
 
         for (let i = 1; i <= totalTiles; i++) {
-            const index = i - 1;
-            const row = Math.floor(index / CONFIG.GRID_SIZE);
-            const col = index % CONFIG.GRID_SIZE;
+            // Row/Col calculation removed as it's no longer used without border selection
 
             const tileContainer = document.createElement('div');
             tileContainer.className = 'tile-input-container';
@@ -77,43 +77,52 @@ document.addEventListener('DOMContentLoaded', () => {
             const visualTile = document.createElement('div');
             const initialValue = CONFIG.TILE_OPTIONS[0].value.toLowerCase();
             visualTile.className = `tile-visual tile-bg ${initialValue}`;
-            // Store coordinates for selection visualization lookup
-            visualTile.dataset.row = row;
-            visualTile.dataset.col = col;
+            // dataset.row/col removed.
 
             // Event listener for dynamic tile background update
             select.addEventListener('change', (event) => {
                 updateVisualTileBackground(visualTile, event.target.value);
             });
 
-            // NEW: Interactive selection listeners (Mouse)
-            visualTile.addEventListener('mousedown', handleSelectionStart);
-            visualTile.addEventListener('mouseenter', handleSelectionMove);
+            // Interactive selection listeners (Mouse/Touch) removed.
+
             
-            // NEW: Interactive selection listeners (Touch - Start only, Move is handled on container)
-            // { passive: false } is needed to allow preventDefault() to stop scrolling
-            visualTile.addEventListener('touchstart', handleSelectionStart, { passive: false });
+            // 3. Checkboxes and Border Selector
             
-            
-            // 3. Checkboxes (Helper function updated for visualization)
-            const treasureCheckbox = createCheckbox(`treasure${i}`, ' Treasure?', visualTile, 'vis-treasure');
-            const starCheckbox = createCheckbox(`star${i}`, ' Star?', visualTile, 'vis-star');
+            // Container for checkboxes
+            const checkboxContainer = document.createElement('div');
+            checkboxContainer.className = 'input-checkbox-container';
+
+            // Create the icon checkboxes
+            const treasureCheckbox = createIconCheckbox(`treasure${i}`, 'treasure.png', 'Treasure', visualTile, 'vis-treasure');
+            const starCheckbox = createIconCheckbox(`star${i}`, 'star.png', 'Star', visualTile, 'vis-star');
+            const bulbCheckbox = createIconCheckbox(`bulb${i}`, 'bulb.png', 'Bulb', visualTile, 'vis-bulb');
+
+            // New Feature: Create the border selector
+            const borderSelector = createBorderSelector(`border${i}`, visualTile);
+
+            // Append them in the desired order
+            checkboxContainer.appendChild(treasureCheckbox);
+            checkboxContainer.appendChild(starCheckbox);
+            checkboxContainer.appendChild(bulbCheckbox);
+            checkboxContainer.appendChild(borderSelector); // Add border selector
 
 
-            // Append inputs
+            // Append inputs to the tile container
             tileContainer.appendChild(select);
             tileContainer.appendChild(visualTile);
-            tileContainer.appendChild(treasureCheckbox);
-            tileContainer.appendChild(starCheckbox);
+            tileContainer.appendChild(checkboxContainer);
             
             fragment.appendChild(tileContainer);
         }
         gridContainer.appendChild(fragment);
     }
 
-    // Helper to create checkboxes and link them to visualization
-    function createCheckbox(name, text, visualTile, visualizationClass) {
+    // Helper to create icon-based checkboxes and link them to visualization
+    function createIconCheckbox(name, iconSrc, altText, visualTile, visualizationClass) {
         const label = document.createElement('label');
+        label.className = 'icon-checkbox';
+
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.name = name;
@@ -123,10 +132,51 @@ document.addEventListener('DOMContentLoaded', () => {
             visualTile.classList.toggle(visualizationClass, event.target.checked);
         });
 
+        const icon = document.createElement('img');
+        icon.src = iconSrc;
+        icon.alt = altText;
+        icon.title = altText; // Tooltip
+
         label.appendChild(checkbox);
-        label.append(text);
+        label.appendChild(icon);
         return label;
     };
+
+    // New Feature: Helper to create the border selector UI (Icon overlaid by invisible select)
+    function createBorderSelector(name, visualTile) {
+        const label = document.createElement('label');
+        // Use a specific class for positioning and active state management
+        label.className = 'icon-select-label';
+
+        const icon = document.createElement('img');
+        icon.src = 'border.png';
+        icon.alt = 'Select Border';
+        icon.title = 'Select Border';
+
+        const select = document.createElement('select');
+        select.name = name;
+        select.className = 'border-select'; // Class used to make it an invisible overlay
+
+        CONFIG.BORDER_OPTIONS.forEach(opt => {
+            const option = document.createElement('option');
+            option.value = opt.value;
+            option.textContent = opt.text;
+            select.appendChild(option);
+        });
+
+        // Event listener for visualization update
+        select.addEventListener('change', (event) => {
+            const selectedValue = event.target.value;
+            updateVisualTileBorder(visualTile, selectedValue);
+
+            // Update icon appearance based on selection (mimics checkbox behavior)
+            label.classList.toggle('is-active', selectedValue !== 'none');
+        });
+
+        label.appendChild(icon);
+        label.appendChild(select);
+        return label;
+    }
 
 
     // Updates the background image of the visual tile by changing its class
@@ -139,26 +189,25 @@ document.addEventListener('DOMContentLoaded', () => {
         visualTile.classList.add(newValue.toLowerCase());
     }
 
+    // New Feature: Updates the border of the visual tile
+    function updateVisualTileBorder(visualTile, newBorderValue) {
+        // Remove previous border classes
+        CONFIG.BORDER_OPTIONS.forEach(opt => {
+            visualTile.classList.remove(`border-${opt.value.toLowerCase()}`);
+        });
+        // Add the new border class if it's not 'none'
+        if (newBorderValue !== 'none') {
+            visualTile.classList.add(`border-${newBorderValue.toLowerCase()}`);
+        }
+    }
+
     // --- Event Listeners ---
 
     function setupEventListeners() {
         boardForm.addEventListener('submit', handleGenerate);
         document.getElementById('clearAllButton').addEventListener('click', handleClearAll);
         
-        // Border controls listeners
-        document.getElementById('clearBorders').addEventListener('click', clearSelection);
-
-        // NEW: Color change listener
-        document.querySelectorAll('input[name="borderColor"]').forEach(radio => {
-            radio.addEventListener('change', () => updateActiveColor(getSelectedColor()));
-        });
-
-        // Global listeners to stop selection (Mouse and Touch)
-        document.addEventListener('mouseup', handleSelectionEnd);
-        document.addEventListener('touchend', handleSelectionEnd);
-
-        // NEW: Touchmove listener on the grid container for mobile dragging
-        gridContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
+        // Border controls listeners and global selection listeners removed.
     }
 
     // --- Event Handlers ---
@@ -166,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleGenerate(event) {
         event.preventDefault(); 
 
-        // 1. Get Data (includes tiles, border selection, and color)
+        // 1. Get Data (tiles)
         const boardState = getBoardData();
 
         // 2. Calculate Rotations
@@ -199,184 +248,69 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('chestheader').style.display = 'none';
         document.getElementById('chestfooter').style.display = 'none';
 
-        // Clear border selection
-        clearSelection();
+        // Clear border selection logic removed.
 
-        // Reset visual tiles to default state ('X') and clear overlays
+        // Reset visual tiles to default state ('blank') and clear overlays
         const visualTiles = gridContainer.querySelectorAll('.tile-visual');
         const defaultValue = CONFIG.TILE_OPTIONS[0].value;
+        const defaultBorder = CONFIG.BORDER_OPTIONS[0].value; // New Feature
+
         visualTiles.forEach(tile => {
             updateVisualTileBackground(tile, defaultValue);
             // Manually clear visualization classes
             tile.classList.remove('vis-treasure');
             tile.classList.remove('vis-star');
+            tile.classList.remove('vis-bulb'); // Added bulb
+            
+            // New Feature: Clear custom borders
+            updateVisualTileBorder(tile, defaultBorder);
+        });
+
+        // New Feature: Reset border icon appearance
+        const borderIcons = gridContainer.querySelectorAll('.icon-select-label');
+        borderIcons.forEach(icon => {
+            icon.classList.remove('is-active');
         });
 
         // Ensure default radio buttons are checked after reset
         document.getElementById('exactCopy').checked = true;
-        // boardForm.reset() handles the color radio reset (to the one marked 'checked' in HTML), 
-        // but we must update the CSS variable manually to reflect the default color visualization.
-        updateActiveColor(getSelectedColor());
+        // Border color visualization update removed.
     }
 
-    // --- Interactive Selection Feature Logic (NEW) ---
+    // --- Interactive Selection Feature Logic Removed ---
+    // (All functions like getCoordsFromElement, handleSelectionStart, etc., removed)
 
-    // Helper to get the currently selected color
-    function getSelectedColor() {
-        // Find the checked radio button, default to the first color if somehow none is found
-        return document.querySelector('input[name="borderColor"]:checked')?.value || '#956230'; 
-    }
-
-    // Updates the CSS variable used for visualization (Efficient approach)
-    function updateActiveColor(color) {
-        document.documentElement.style.setProperty('--active-border-color', color);
-    }
-
-    // Helper to extract coordinates from a DOM element
-    function getCoordsFromElement(element) {
-        if (element && element.classList.contains('tile-visual') && element.dataset.row !== undefined && element.dataset.col !== undefined) {
-            return {
-                r: parseInt(element.dataset.row, 10),
-                c: parseInt(element.dataset.col, 10)
-            };
-        }
-        return null;
-    }
-
-    function handleSelectionStart(event) {
-        // Prevent default behaviors like image dragging (mouse) or scrolling (touch)
-        if (event.cancelable) {
-             event.preventDefault(); 
-        }
-
-        // Determine the target element (handles both mouse and touch start)
-        const targetElement = (event.touches) ? document.elementFromPoint(event.touches[0].clientX, event.touches[0].clientY) : event.currentTarget;
-        
-        const coords = getCoordsFromElement(targetElement);
-        if (coords) {
-            isSelecting = true;
-            startCoords = coords;
-            // Immediately visualize the selection (starting as a 1x1)
-            updateSelection(coords);
-        }
-    }
-
-    // For mouse movement (relies on mouseenter event)
-    function handleSelectionMove(event) {
-        if (!isSelecting) return;
-        
-        const coords = getCoordsFromElement(event.currentTarget);
-        if (coords) {
-            updateSelection(coords);
-        }
-    }
-
-    // For touch movement (mobile dragging)
-    function handleTouchMove(event) {
-        if (!isSelecting) return;
-        // Prevent scrolling while dragging
-        if (event.cancelable) {
-            event.preventDefault();
-        }
-
-        const touch = event.touches[0];
-        // Find the element currently under the touch point
-        const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
-        
-        const coords = getCoordsFromElement(targetElement);
-        if (coords) {
-            updateSelection(coords);
-        }
-    }
-
-    function handleSelectionEnd() {
-        // Stop the selection process.
-        isSelecting = false;
-        startCoords = null;
-    }
-
-    // Calculates the rectangle based on start and current coordinates and updates the state/visualization
-    function updateSelection(currentCoords) {
-        if (!startCoords || !currentCoords) return;
-
-        // Calculate the rectangle, ensuring r1/c1 is top-left and r2/c2 is bottom-right
-        // This enforces only squares or rectangles.
-        const rect = {
-            r1: Math.min(startCoords.r, currentCoords.r),
-            c1: Math.min(startCoords.c, currentCoords.c),
-            r2: Math.max(startCoords.r, currentCoords.r),
-            c2: Math.max(startCoords.c, currentCoords.c)
-        };
-
-        // Optimization: Check if the selection has actually changed before updating
-        if (!selection || selection.r1 !== rect.r1 || selection.c1 !== rect.c1 || selection.r2 !== rect.r2 || selection.c2 !== rect.c2) {
-            selection = rect;
-            visualizeSelection(rect);
-        }
-    }
-
-    
-    // Updates the visualization on the input grid
-    function visualizeSelection(rect) {
-        const visualTiles = gridContainer.querySelectorAll('.tile-visual');
-        visualTiles.forEach(tile => {
-            if (!rect) {
-                tile.classList.remove('selected');
-                return;
-            }
-
-            const r = parseInt(tile.dataset.row, 10);
-            const c = parseInt(tile.dataset.col, 10);
-
-            // Check if the tile is within the rectangle boundaries
-            if (r >= rect.r1 && r <= rect.r2 && c >= rect.c1 && c <= rect.c2) {
-                tile.classList.add('selected');
-            } else {
-                tile.classList.remove('selected');
-            }
-        });
-    }
-
-    function clearSelection() {
-        selection = null;
-        visualizeSelection(null);
-    }
 
     // --- Data Processing Functions ---
 
-    // Extract data from the input grid (Updated to include color)
+    // Extract data from the input grid
     function getBoardData() {
         const tilesData = [];
-        // We use FormData to get the tile states AND the selected border color (radio buttons).
+        // We use FormData to get the tile states.
         const formData = new FormData(boardForm);
 
         for (let i = 1; i <= CONFIG.GRID_SIZE * CONFIG.GRID_SIZE; i++) {
             const state = formData.get(`tileState${i}`);
             const treasure = formData.get(`treasure${i}`) === 'on';
             const star = formData.get(`star${i}`) === 'on';
+            const bulb = formData.get(`bulb${i}`) === 'on'; // Added bulb
+            const border = formData.get(`border${i}`); // New Feature: Capture border data
 
             tilesData.push({
                 state: state,
                 treasure: treasure,
-                star: star
+                star: star,
+                bulb: bulb, // Added bulb
+                border: border // New Feature: Add border to tile data
             });
         }
         
-        // Process border data
-        let borderData = null;
-        if (selection) {
-            // Get the color from the form data (the currently selected radio button)
-            const color = formData.get('borderColor');
-            borderData = {
-                ...selection, // r1, c1, r2, c2
-                color: color
-            };
-        }
+        // Process border data removed.
 
         // Return the complete state
         return {
             tiles: convertTo2DArray(tilesData),
-            border: borderData
+            // border removed
         };
     }
 
@@ -391,7 +325,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return boardTiles;
     }
 
-    // Rotate the board state 90 degrees clockwise (Handles tiles, border coordinates, and color)
+    // Rotate the board state 90 degrees clockwise (Handles tiles)
+    // Logic remains the same as it rotates the entire tile object (including the new border property)
     function rotateBoardState(boardState) {
         const size = CONFIG.GRID_SIZE;
         const N = size; // Alias for clarity in coordinate formulas
@@ -406,38 +341,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // 2. Rotate Border Coordinates
-        let newBorder = null;
-        if (boardState.border) {
-            // Extract coordinates AND color
-            const { r1, c1, r2, c2, color } = boardState.border;
-            
-            // Logic derived from coordinate transformation (R, C) -> (C, N-1-R)
-            
-            // Calculate the transformed coordinates
-            const transformedR1 = c1;
-            const transformedC1 = N - 1 - r1;
-            
-            const transformedR2 = c2;
-            const transformedC2 = N - 1 - r2;
-
-            // Determine the new rectangle boundaries
-            const newR1 = Math.min(transformedR1, transformedR2);
-            const newR2 = Math.max(transformedR1, transformedR2);
-            const newC1 = Math.min(transformedC1, transformedC2);
-            const newC2 = Math.max(transformedC1, transformedC2);
-
-            // Reassemble the border object, preserving the color
-            newBorder = { r1: newR1, c1: newC1, r2: newR2, c2: newC2, color: color };
-        }
+        // 2. Rotate Border Coordinates removed.
 
         return {
             tiles: newTiles,
-            border: newBorder
+            // border removed
         };
     }
 
-    // --- Rendering Functions (Updated for Dynamic Color) ---
+    // --- Rendering Functions ---
 
     function displayBoard(boardState, containerId) {
         const boardContainer = document.getElementById(containerId);
@@ -459,36 +371,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (tile.star) {
                     tileDiv.classList.add('starGenerated');
                 }
+                if (tile.bulb) { // Added bulb
+                    tileDiv.classList.add('bulbGenerated');
+                }
+
+                // New Feature: Apply custom border
+                if (tile.border && tile.border !== 'none') {
+                    tileDiv.classList.add(`border-${tile.border.toLowerCase()}`);
+                }
 
                 fragment.appendChild(tileDiv);
             });
         });
 
-        // 2. Render Border Overlay using Absolute Positioning
-        if (boardState.border) {
-            const borderDiv = document.createElement('div');
-            borderDiv.className = 'generated-border-overlay';
-
-            // Extract coordinates and color
-            const { r1, c1, r2, c2, color } = boardState.border;
-            const TILE_SIZE = CONFIG.GENERATED_TILE_PIXELS;
-
-            // Calculate position and dimensions in pixels
-            const top = r1 * TILE_SIZE;
-            const left = c1 * TILE_SIZE;
-            const width = (c2 - c1 + 1) * TILE_SIZE;
-            const height = (r2 - r1 + 1) * TILE_SIZE;
-
-            // Apply styles
-            borderDiv.style.top = `${top}px`;
-            borderDiv.style.left = `${left}px`;
-            borderDiv.style.width = `${width}px`;
-            borderDiv.style.height = `${height}px`;
-            // NEW: Apply the dynamic color
-            borderDiv.style.borderColor = color;
-
-            fragment.appendChild(borderDiv);
-        }
+        // 2. Render Border Overlay removed.
 
         boardContainer.appendChild(fragment);
     }

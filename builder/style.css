@@ -3,10 +3,15 @@
     --generated-tile-size: 42px;
     --input-visual-size: 55px;
     --max-width: 800px;
-    /* Border configuration */
-    /* NEW: Variable to hold the currently active color for visualization, updated by JS */
-    --active-border-color: #956230; /* Default visualization color (Brown) */
-    --highlight-border-width: 4px;
+    /* Border configuration removed */
+
+    /* New Feature: Border configuration */
+    --border-black: #000000;
+    --border-brown: #964B00;
+    --border-silver: #C0C0C0;
+    --border-purple: #800080;
+    --border-red: #FF0000;
+    --custom-border-width: 3px;
 }
 
 .grid {
@@ -15,8 +20,7 @@
     max-width: var(--max-width); 
     margin: 20px auto;
     gap: 10px;
-    /* NEW: Prevent accidental scrolling/actions on touch devices when dragging on the grid */
-    touch-action: none; 
+    /* touch-action removed */
 }
 
 .tile-input-container {
@@ -40,91 +44,106 @@
     background-size: cover;
     background-position: center;
     transition: box-shadow 0.2s ease;
-    /* Crucial for positioning overlays (Treasure/Star) */
+    /* Crucial for positioning overlays (Treasure/Star/Bulb) */
     position: relative;
-    /* NEW: Improve interaction feel */
-    cursor: crosshair;
-    user-select: none; /* Prevent text selection while dragging */
-    -webkit-user-drag: none; /* Prevent image dragging */
+    /* Interaction styles (cursor, user-select, etc.) removed */
 }
 
-/* --- Selection/Border Styles --- */
+/* --- NEW: Icon Checkbox and Selector Styling (Updated) --- */
 
-/* NEW: Border Controls Styling (Replaces #border-definition) */
-#border-controls {
-    max-width: var(--max-width);
-    margin: 20px auto 0 auto; /* Placed above the grid */
-    text-align: center;
-    padding: 15px;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
-}
-
-/* Removed .coord-inputs styles */
-
-/* NEW: Color Picker Styling */
-.color-picker {
+.input-checkbox-container {
     display: flex;
     justify-content: center;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 15px;
+    /* Adjusted gap and added wrapping for the new icon */
+    gap: 6px;
+    margin-top: 5px;
+    flex-wrap: wrap;
 }
 
-/* Hide the actual radio buttons */
-.color-picker input[type="radio"] {
-    display: none;
-}
-
-/* Style the labels as swatches */
-.color-swatch {
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 3px solid rgba(0, 0, 0, 0.1); /* Subtle border when unselected */
-    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
-}
-
-.color-swatch:hover {
-    transform: scale(1.05);
-}
-
-/* Style for the selected swatch */
-.color-picker input[type="radio"]:checked + .color-swatch {
-    border-color: #333; /* Darker border when selected */
-    transform: scale(1.1);
-}
-
-
-/* Highlight visualization for the selected area on the input grid */
-.tile-visual.selected {
-    /* Use an inset shadow matching the dynamic CSS variable */
-    box-shadow: inset 0 0 0 3px var(--active-border-color);
-}
-
-/* FIX: The actual border on the generated map (using Absolute Positioning) */
-.generated-border-overlay {
-    /* Apply the border width. Color is now set dynamically inline via JS during generation. */
-    border-width: var(--highlight-border-width);
-    border-style: solid;
-    
-    /* Ensure it's above the tiles (z-index 1) but below treasure/stars */
-    z-index: 2;
-    /* Prevent it from interfering with mouse events */
-    pointer-events: none;
-
-    /* CRITICAL FIX: Position absolutely relative to the board */
+.icon-checkbox input[type="checkbox"] {
+    /* Hide the actual checkbox visually but keep it accessible */
     position: absolute;
-
-    /* MODIFICATION: Use border-box so the border is drawn inside the element's
-       dimensions, not outside. This prevents the overlay from overflowing the tile grid. */
-    box-sizing: border-box;
-
-    /* MODIFICATION: The negative margin is no longer needed with border-box sizing. */
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
 }
+
+/* Common styling for all icons (checkboxes and selectors) */
+.icon-checkbox img, .icon-select-label img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    opacity: 0.4; /* Default state (unchecked/inactive) */
+    transition: opacity 0.2s, transform 0.2s;
+    filter: grayscale(100%);
+    display: block; /* Prevent extra space below image */
+}
+
+.icon-checkbox:hover img, .icon-select-label:hover img {
+    transform: scale(1.1);
+    opacity: 0.7;
+}
+
+/* Checked state for checkboxes */
+.icon-checkbox input[type="checkbox"]:checked + img {
+    opacity: 1;
+    filter: grayscale(0%);
+}
+
+/* New Feature: Active state for selectors (managed by JS) */
+.icon-select-label.is-active img {
+    opacity: 1;
+    filter: grayscale(0%);
+}
+
+
+/* --- NEW: Border Selection Specific Styling (New Feature) --- */
+
+.icon-select-label {
+    /* Needed to position the invisible select overlay */
+    position: relative;
+    display: inline-block;
+}
+
+.border-select {
+    /* Hide the default appearance and position it over the icon */
+    /* When the user clicks the icon, they are actually clicking this invisible select element */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0; /* Make it invisible */
+    cursor: pointer;
+}
+
+
+/* --- NEW: Custom Border Styles (Visualization and Generated) (New Feature) --- */
+/* Use box-shadow inset for robust inner borders that don't affect layout */
+
+.tile-visual.border-black, .generatedTile.border-black {
+    box-shadow: inset 0 0 0 var(--custom-border-width) var(--border-black);
+}
+.tile-visual.border-brown, .generatedTile.border-brown {
+    box-shadow: inset 0 0 0 var(--custom-border-width) var(--border-brown);
+}
+.tile-visual.border-silver, .generatedTile.border-silver {
+    box-shadow: inset 0 0 0 var(--custom-border-width) var(--border-silver);
+}
+.tile-visual.border-purple, .generatedTile.border-purple {
+    box-shadow: inset 0 0 0 var(--custom-border-width) var(--border-purple);
+}
+.tile-visual.border-red, .generatedTile.border-red {
+    box-shadow: inset 0 0 0 var(--custom-border-width) var(--border-red);
+}
+
+
+/* --- Selection/Border Styles Removed --- */
+/* Removed: #border-controls, .color-picker, .color-swatch, .tile-visual.selected, .generated-border-overlay */
 
 
 #instructions {
@@ -166,14 +185,13 @@ button {
     justify-content: center;
     margin-bottom:20px;
     border:none;
-    /* CRITICAL FIX: Must be relative so the absolute border overlay positions correctly */
+    /* Must be relative for overlays to position correctly */
     position: relative;
 }
 
-/* --- Overlay Styles (Treasure/Star) - Adapted for Visualization --- */
+/* --- Overlay Styles (Treasure/Star/Bulb) - Adapted for Visualization --- */
 
-/* We target both the final output (.generatedTile.treasureGenerated) 
-   and the input visualization (.tile-visual.vis-treasure) */
+/* Treasure (Full border overlay) - Uses ::after */
 .generatedTile.treasureGenerated::after,
 .tile-visual.vis-treasure::after {
     content: ''; 
@@ -185,37 +203,90 @@ button {
     left: 0;
     background-image: url('tiles/border.png'); 
     background-size: cover;
-    /* Ensure treasure border is above colored borders */
+    /* Ensure treasure border is below icons */
     z-index: 5; 
 }
 
-/* We target both the final output (.generatedTile.starGenerated) 
-   and the input visualization (.tile-visual.vis-star) */
-.generatedTile.starGenerated::before,
-.tile-visual.vis-star::before {
+/* Icons (Star/Bulb) - Uses ::before with multiple background images to allow coexistence */
+
+/* Base style for icons pseudo-element (Input Visualization) */
+.tile-visual.vis-star::before,
+.tile-visual.vis-bulb::before {
     content: '';
     position: absolute;
-    /* Slightly larger star for the input visualization for clarity */
-    width: 22px;
-    height: 22px;
-    background-image: url('star.png');
-    background-size: contain;
-    background-repeat: no-repeat;
+    /* Define the area covering both top corners */
     top: -6px;
+    left: -6px;
     right: -6px;
+    height: 22px; /* Height of the icons */
     z-index: 10;
+    background-repeat: no-repeat;
 }
 
-/* Revert to 20px specifically for the generated output */
-.generatedTile.starGenerated::before {
-    width: 20px;
-    height: 20px;
-    top: -5px;
-    right: -5px;
+/* Star (Top Right) (Input Visualization) */
+.tile-visual.vis-star::before {
+    background-image: url('star.png');
+    background-position: top right;
+    background-size: 22px 22px;
 }
+
+/* Bulb (Top Left) (Input Visualization) */
+.tile-visual.vis-bulb::before {
+    background-image: url('bulb.png');
+    background-position: top left;
+    background-size: 22px 22px;
+}
+
+/* Both Star and Bulb (Input Visualization) */
+/* This selector overrides the background-image property of the individual ones above */
+.tile-visual.vis-star.vis-bulb::before {
+    /* Stack the images */
+    background-image: url('star.png'), url('bulb.png');
+    background-position: top right, top left;
+    background-size: 22px 22px, 22px 22px;
+}
+
+
+/* Base style for icons pseudo-element (Generated Output) */
+.generatedTile.starGenerated::before,
+.generatedTile.bulbGenerated::before {
+    content: '';
+    position: absolute;
+    /* Define the area covering both top corners (adjusted for output size) */
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    height: 20px; /* Height of the icons */
+    z-index: 10;
+    background-repeat: no-repeat;
+}
+
+/* Star (Top Right) (Generated Output) */
+.generatedTile.starGenerated::before {
+    background-image: url('star.png');
+    background-position: top right;
+    background-size: 20px 20px;
+}
+
+/* Bulb (Top Left) (Generated Output) */
+.generatedTile.bulbGenerated::before {
+    background-image: url('bulb.png');
+    background-position: top left;
+    background-size: 20px 20px;
+}
+
+/* Both Star and Bulb (Generated Output) */
+.generatedTile.starGenerated.bulbGenerated::before {
+    /* Stack the images */
+    background-image: url('star.png'), url('bulb.png');
+    background-position: top right, top left;
+    background-size: 20px 20px, 20px 20px;
+}
+
 
 /* Tile Backgrounds - Applied to a common class for use in input and output */
-.tile-bg.x {background-image: url('tiles/x.png');}
+/* .tile-bg.x removed, replaced with .tile-bg.blank */
+.tile-bg.blank {background-color:white;}
 .tile-bg.one {background-image: url('tiles/1.png');}
 .tile-bg.two {background-image: url('tiles/2.png');}
 .tile-bg.three {background-image: url('tiles/3.png');}
