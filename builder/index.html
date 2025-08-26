@@ -85,7 +85,21 @@
 				<button type="submit">Generate</button>  
                 <button type="button" id="clearAllButton">Clear All</button> 
 			</div>
-		</form><br><br><br><br>
+		</form>
+
+        <!-- NEW: Board Code I/O -->
+        <div id="codeIOContainer">
+            <h2>Board Code</h2>
+            <p>Save this code to reload the configuration later, or paste a code to load an existing board.</p>
+            <textarea id="boardCodeArea" rows="10" placeholder="Generated code will appear here after clicking Generate."></textarea>
+            <div class="button-container">
+                <button type="button" id="loadBoardButton">Load Board from Code</button>
+                <button type="button" id="copyCodeButton">Copy Code</button>
+            </div>
+        </div>
+        <!-- END NEW -->
+
+        <br><br><br><br>
 		<div id="printable">
 			<div id="chestheader">
 				<div class="copies-container" id="copy">

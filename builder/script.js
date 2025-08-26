@@ -36,6 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const boardForm = document.getElementById('boardForm');
     const chestForm = document.getElementById('chestForm');
     const gridContainer = document.querySelector('.grid');
+    // NEW: DOM Elements for Code I/O
+    const boardCodeArea = document.getElementById('boardCodeArea');
+
     
     // State for border selection removed.
 
@@ -76,6 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // 2. Visual representation
             const visualTile = document.createElement('div');
             const initialValue = CONFIG.TILE_OPTIONS[0].value.toLowerCase();
+            // NEW: Assign an ID for easy access during loading
+            visualTile.id = `visualTile${i}`; 
             visualTile.className = `tile-visual tile-bg ${initialValue}`;
             // dataset.row/col removed.
 
@@ -148,6 +153,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Use a specific class for positioning and active state management
         label.className = 'icon-select-label';
 
+        // NEW: Assign ID for easy access during loading/clearing
+        // Extract the index from the name (e.g., 'border5' -> '5')
+        const indexMatch = name.match(/\d+/); 
+        if (indexMatch) {
+            label.id = `borderLabel${indexMatch[0]}`;
+        }
+
         const icon = document.createElement('img');
         icon.src = 'border.png';
         icon.alt = 'Select Border';
@@ -208,12 +220,22 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('clearAllButton').addEventListener('click', handleClearAll);
         
         // Border controls listeners and global selection listeners removed.
+
+        // NEW: Event listeners for Code I/O
+        const loadBtn = document.getElementById('loadBoardButton');
+        if (loadBtn) loadBtn.addEventListener('click', handleLoadBoard);
+        
+        const copyBtn = document.getElementById('copyCodeButton');
+        if (copyBtn) copyBtn.addEventListener('click', handleCopyCode);
     }
 
     // --- Event Handlers ---
 
     function handleGenerate(event) {
-        event.preventDefault(); 
+        // Prevent default form submission if it's a real event
+        if (event && typeof event.preventDefault === 'function') {
+            event.preventDefault();
+        }
 
         // 1. Get Data (tiles)
         const boardState = getBoardData();
@@ -231,6 +253,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		
         // 4. Display Header/Footer
 		updateHeaderAndFooter();
+
+        // 5. NEW: Generate and display the board code
+        generateAndDisplayBoardCode();
     }
 
     // Client-side clear without page reload
@@ -242,77 +267,139 @@ document.addEventListener('DOMContentLoaded', () => {
         // Clear outputs
         ['boardTL', 'boardTR', 'boardBR', 'boardBL'].forEach(id => {
             const element = document.getElementById(id);
-            element.innerHTML = '';
-            element.className = '';
+            if (element) {
+                element.innerHTML = '';
+                element.className = '';
+            }
         });
-        document.getElementById('chestheader').style.display = 'none';
-        document.getElementById('chestfooter').style.display = 'none';
 
-        // Clear border selection logic removed.
+        const chestHeader = document.getElementById('chestheader');
+        if (chestHeader) chestHeader.style.display = 'none';
+        const chestFooter = document.getElementById('chestfooter');
+        if (chestFooter) chestFooter.style.display = 'none';
+
 
         // Reset visual tiles to default state ('blank') and clear overlays
         const visualTiles = gridContainer.querySelectorAll('.tile-visual');
         const defaultValue = CONFIG.TILE_OPTIONS[0].value;
-        const defaultBorder = CONFIG.BORDER_OPTIONS[0].value; // New Feature
+        const defaultBorder = CONFIG.BORDER_OPTIONS[0].value;
 
         visualTiles.forEach(tile => {
             updateVisualTileBackground(tile, defaultValue);
-            // Manually clear visualization classes
+            // Manually clear visualization classes (since form.reset() doesn't trigger 'change' events)
             tile.classList.remove('vis-treasure');
             tile.classList.remove('vis-star');
-            tile.classList.remove('vis-bulb'); // Added bulb
+            tile.classList.remove('vis-bulb'); 
             
-            // New Feature: Clear custom borders
+            // Clear custom borders
             updateVisualTileBorder(tile, defaultBorder);
         });
 
-        // New Feature: Reset border icon appearance
+        // Reset border icon appearance
         const borderIcons = gridContainer.querySelectorAll('.icon-select-label');
         borderIcons.forEach(icon => {
             icon.classList.remove('is-active');
         });
 
         // Ensure default radio buttons are checked after reset
-        document.getElementById('exactCopy').checked = true;
-        // Border color visualization update removed.
+        const exactCopyRadio = document.getElementById('exactCopy');
+        if (exactCopyRadio) exactCopyRadio.checked = true;
+        
+        // NEW: Clear the code area
+        if (boardCodeArea) boardCodeArea.value = '';
     }
 
-    // --- Interactive Selection Feature Logic Removed ---
-    // (All functions like getCoordsFromElement, handleSelectionStart, etc., removed)
+
+    // NEW: Handler for loading the board from code
+    function handleLoadBoard() {
+        if (!boardCodeArea) return;
+        const code = boardCodeArea.value.trim();
+
+        if (!code) {
+            alert("Please paste a board code into the text area.");
+            return;
+        }
+
+        try {
+            const boardData = JSON.parse(code);
+            loadBoardFromData(boardData);
+            // Optional: Provide user feedback
+            console.log("Board loaded successfully.");
+        } catch (error) {
+            console.error("Error loading board code:", error);
+            alert("Invalid board code format. Please ensure the code is valid JSON and try again. Error: " + error.message);
+        }
+    }
+
+    // NEW: Handler for copying the code to clipboard
+    function handleCopyCode() {
+        if (!boardCodeArea || !boardCodeArea.value) {
+            alert("No code to copy. Please generate a board first.");
+            return;
+        }
+
+        // Modern approach using Clipboard API
+        navigator.clipboard.writeText(boardCodeArea.value).then(() => {
+            // Provide feedback (e.g., change button text temporarily)
+            const copyBtn = document.getElementById('copyCodeButton');
+            if (copyBtn) {
+                const originalText = copyBtn.textContent;
+                copyBtn.textContent = 'Copied!';
+                setTimeout(() => {
+                    copyBtn.textContent = originalText;
+                }, 1500);
+            }
+        }).catch(err => {
+            console.error('Could not copy text: ', err);
+            alert("Failed to copy code. Please copy it manually.");
+        });
+    }
 
 
     // --- Data Processing Functions ---
 
-    // Extract data from the input grid
+    // Extract data from the input grid (for internal rotation/display use)
     function getBoardData() {
+        const tilesData = getFlatTileData(); // Use the helper
+        
+        // Return the complete state
+        return {
+            tiles: convertTo2DArray(tilesData),
+        };
+    }
+
+    // NEW: Helper to get flat tile data (used by getBoardData and generateBoardCode)
+    // Uses direct element access for efficiency and reliability
+    function getFlatTileData() {
         const tilesData = [];
-        // We use FormData to get the tile states.
-        const formData = new FormData(boardForm);
+        const elements = boardForm.elements;
 
         for (let i = 1; i <= CONFIG.GRID_SIZE * CONFIG.GRID_SIZE; i++) {
-            const state = formData.get(`tileState${i}`);
-            const treasure = formData.get(`treasure${i}`) === 'on';
-            const star = formData.get(`star${i}`) === 'on';
-            const bulb = formData.get(`bulb${i}`) === 'on'; // Added bulb
-            const border = formData.get(`border${i}`); // New Feature: Capture border data
+            // Safely access elements
+            const stateEl = elements[`tileState${i}`];
+            const treasureEl = elements[`treasure${i}`];
+            const starEl = elements[`star${i}`];
+            const bulbEl = elements[`bulb${i}`];
+            const borderEl = elements[`border${i}`];
 
+            const state = stateEl ? stateEl.value : CONFIG.TILE_OPTIONS[0].value;
+            const treasure = treasureEl ? treasureEl.checked : false;
+            const star = starEl ? starEl.checked : false;
+            const bulb = bulbEl ? bulbEl.checked : false;
+            const border = borderEl ? borderEl.value : CONFIG.BORDER_OPTIONS[0].value;
+
+            // Note: We keep the internal representation (lowercase values) here
             tilesData.push({
                 state: state,
                 treasure: treasure,
                 star: star,
-                bulb: bulb, // Added bulb
-                border: border // New Feature: Add border to tile data
+                bulb: bulb,
+                border: border
             });
         }
-        
-        // Process border data removed.
-
-        // Return the complete state
-        return {
-            tiles: convertTo2DArray(tilesData),
-            // border removed
-        };
+        return tilesData;
     }
+
 
     // Convert flat array data into a 5x5 grid structure
     function convertTo2DArray(data) {
@@ -326,33 +413,201 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Rotate the board state 90 degrees clockwise (Handles tiles)
-    // Logic remains the same as it rotates the entire tile object (including the new border property)
     function rotateBoardState(boardState) {
         const size = CONFIG.GRID_SIZE;
         const N = size; // Alias for clarity in coordinate formulas
 
         // 1. Rotate Tiles (Standard matrix rotation)
         const oldTiles = boardState.tiles;
-        let newTiles = Array.from({ length: size }, () => []);
+        // Initialize newTiles with the correct structure
+        let newTiles = Array.from({ length: size }, () => Array(size).fill(null));
+
         for (let i = 0; i < size; i++) {
             for (let j = 0; j < size; j++) {
                 // Rotation logic: newTiles[i][j] = oldTiles[N - 1 - j][i]
-                newTiles[i][j] = oldTiles[N - 1 - j][i];
+                // Important: Clone the object to ensure rotations don't affect the original state by reference
+                newTiles[i][j] = { ...oldTiles[N - 1 - j][i] };
             }
         }
 
-        // 2. Rotate Border Coordinates removed.
-
         return {
             tiles: newTiles,
-            // border removed
         };
     }
+
+    // --- NEW: Board Code Generation Functions ---
+
+    // NEW: Generate the board code based on the current state and display it
+    function generateAndDisplayBoardCode() {
+        // Get data from chestForm elements directly
+        const chestElements = chestForm.elements;
+        const flatTileData = getFlatTileData();
+
+        // Determine if it's an almost copy
+        const isAlmostCopy = document.getElementById('almostCopy')?.checked || false;
+
+        // Helper to format border names according to requirements (e.g., 'Silver' or 'NONE')
+        const formatBorderOutput = (s) => {
+            if (typeof s !== 'string' || s.length === 0 || s.toLowerCase() === 'none') {
+                return 'NONE';
+            }
+            // Capitalize first letter (e.g. 'silver' -> 'Silver')
+            return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+        };
+
+        // Format the tiles according to the requested JSON structure
+        const formattedTiles = flatTileData.map(tile => ({
+            hasTreasure: tile.treasure,
+            hasStar: tile.star,
+            hasBulb: tile.bulb,
+            border: formatBorderOutput(tile.border),
+            // 'type' corresponds to the internal 'state' (e.g., "yahtzee", "threex")
+            // We use the internal representation for consistency.
+            type: tile.state 
+        }));
+
+        // Helper to safely parse chest values
+        const getChestValue = (name) => parseInt(chestElements[name]?.value, 10) || 0;
+
+        // Construct the final object
+        const boardCodeObject = {
+            isAlmostCopy: isAlmostCopy,
+            numberOf: getChestValue('copies'),
+            outOf: getChestValue('copies2'),
+            sm: getChestValue('smallChests'),
+            md: getChestValue('mediumChests'),
+            lg: getChestValue('largeChests'),
+            xl: getChestValue('extraLargeChests'),
+            tiles: formattedTiles
+        };
+
+        // Convert to a nicely formatted JSON string (using 4 spaces for indentation)
+        const boardCodeString = JSON.stringify(boardCodeObject, null, 4);
+
+        // Display the code
+        if (boardCodeArea) {
+            boardCodeArea.value = boardCodeString;
+        }
+    }
+
+    // --- NEW: Board Code Loading Functions ---
+
+    // NEW: Load the board state from the parsed JSON data
+    function loadBoardFromData(data) {
+        // Basic Validation
+        if (!data || !Array.isArray(data.tiles) || data.tiles.length !== CONFIG.GRID_SIZE * CONFIG.GRID_SIZE) {
+            throw new Error("Invalid board data structure or tile count (must be 25).");
+        }
+
+        // 1. Clear current state before loading new data
+        handleClearAll();
+
+        // 2. Load Chest Form Data
+        const chestElements = chestForm.elements;
+        // Helper to safely set values, ensuring they exist in the options
+        const setSelectValue = (name, value) => {
+            const element = chestElements[name];
+            if (element) {
+                const strValue = String(value ?? 0);
+                if ([...element.options].some(opt => opt.value === strValue)) {
+                    element.value = strValue;
+                }
+            }
+        };
+
+        setSelectValue('copies', data.numberOf);
+        setSelectValue('copies2', data.outOf);
+        setSelectValue('smallChests', data.sm);
+        setSelectValue('mediumChests', data.md);
+        setSelectValue('largeChests', data.lg);
+        setSelectValue('extraLargeChests', data.xl);
+
+        const almostCopyRadio = document.getElementById('almostCopy');
+        const exactCopyRadio = document.getElementById('exactCopy');
+
+        if (data.isAlmostCopy) {
+            if (almostCopyRadio) almostCopyRadio.checked = true;
+        } else {
+            if (exactCopyRadio) exactCopyRadio.checked = true;
+        }
+
+        // 3. Load Tile Data
+        const boardElements = boardForm.elements;
+
+        // Helper to map the JSON format back to internal format (e.g., 'NONE' or 'Silver' -> 'none' or 'silver')
+        const normalizeBorderInput = (border) => {
+            if (!border || border.toUpperCase() === 'NONE') return 'none';
+            return border.toLowerCase();
+        };
+
+        for (let i = 0; i < data.tiles.length; i++) {
+            const tileData = data.tiles[i];
+            const index = i + 1; // IDs and names are 1-based
+            
+            // We assume the type matches the internal representation (e.g., "threex")
+            const tileType = tileData.type; 
+            const borderValue = normalizeBorderInput(tileData.border);
+
+            // Update Form Inputs (Check existence before access)
+            const stateEl = boardElements[`tileState${index}`];
+            if (stateEl) {
+                 // Validate type before setting
+                 if (CONFIG.TILE_OPTIONS.some(opt => opt.value === tileType)) {
+                     stateEl.value = tileType;
+                 } else {
+                     console.warn(`Invalid tile type loaded: ${tileType}. Defaulting to blank.`);
+                     stateEl.value = 'blank';
+                 }
+            }
+
+            if (boardElements[`treasure${index}`]) boardElements[`treasure${index}`].checked = !!tileData.hasTreasure;
+            if (boardElements[`star${index}`]) boardElements[`star${index}`].checked = !!tileData.hasStar;
+            if (boardElements[`bulb${index}`]) boardElements[`bulb${index}`].checked = !!tileData.hasBulb;
+            
+            const borderEl = boardElements[`border${index}`];
+            if (borderEl) {
+                // Validate border before setting
+                if (CONFIG.BORDER_OPTIONS.some(opt => opt.value === borderValue)) {
+                    borderEl.value = borderValue;
+                } else {
+                    console.warn(`Invalid border value loaded: ${tileData.border}. Defaulting to none.`);
+                    borderEl.value = 'none';
+                }
+            }
+
+            // Update Visual Tile (Relies on IDs assigned during initialization)
+            const visualTile = document.getElementById(`visualTile${index}`);
+            if (visualTile) {
+                // Update background (use the validated value from the element)
+                updateVisualTileBackground(visualTile, stateEl.value);
+                
+                // Update overlays (Treasure/Star/Bulb)
+                visualTile.classList.toggle('vis-treasure', !!tileData.hasTreasure);
+                visualTile.classList.toggle('vis-star', !!tileData.hasStar);
+                visualTile.classList.toggle('vis-bulb', !!tileData.hasBulb);
+
+                // Update border (use the validated value)
+                updateVisualTileBorder(visualTile, borderEl.value);
+
+                // Update border icon appearance
+                const borderLabel = document.getElementById(`borderLabel${index}`);
+                if (borderLabel) {
+                    borderLabel.classList.toggle('is-active', borderEl.value !== 'none');
+                }
+            }
+        }
+        
+        // Automatically generate the rotations after loading for immediate feedback
+        handleGenerate(); 
+    }
+
 
     // --- Rendering Functions ---
 
     function displayBoard(boardState, containerId) {
         const boardContainer = document.getElementById(containerId);
+        if (!boardContainer) return;
+
         boardContainer.innerHTML = ''; 
         boardContainer.className = 'generatedBoard';
 
@@ -363,7 +618,8 @@ document.addEventListener('DOMContentLoaded', () => {
             row.forEach((tile) => {
                 const tileDiv = document.createElement('div');
                 // Use tile-bg class here as well
-                tileDiv.className = `generatedTile tile-bg ${tile.state.toLowerCase()}`;
+                const tileStateClass = tile.state ? tile.state.toLowerCase() : 'blank';
+                tileDiv.className = `generatedTile tile-bg ${tileStateClass}`;
 
                 if (tile.treasure) {
                     tileDiv.classList.add('treasureGenerated'); 
@@ -371,11 +627,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (tile.star) {
                     tileDiv.classList.add('starGenerated');
                 }
-                if (tile.bulb) { // Added bulb
+                if (tile.bulb) {
                     tileDiv.classList.add('bulbGenerated');
                 }
 
-                // New Feature: Apply custom border
+                // Apply custom border
                 if (tile.border && tile.border !== 'none') {
                     tileDiv.classList.add(`border-${tile.border.toLowerCase()}`);
                 }
@@ -384,45 +640,59 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // 2. Render Border Overlay removed.
-
         boardContainer.appendChild(fragment);
     }
 
-    // (updateHeaderAndFooter remains the same)
+    // (updateHeaderAndFooter refactored for robustness)
     function updateHeaderAndFooter() {
-        // Use FormData to easily extract chest form values
-        const formData = new FormData(chestForm);
+        // Use direct element access for better performance and reliability
+        const elements = chestForm.elements;
+
+        // Helper to safely parse values
+        const getValue = (name) => parseInt(elements[name]?.value, 10) || 0;
         
-        // Parse values, default to 0 if not present or invalid
-        const copies = parseInt(formData.get('copies'), 10) || 0;
-		const copies2 = parseInt(formData.get('copies2'), 10) || 0;
-		const smValue = parseInt(formData.get('smallChests'), 10) || 0;
-		const mdValue = parseInt(formData.get('mediumChests'), 10) || 0;
-		const lgValue = parseInt(formData.get('largeChests'), 10) || 0;
-		const xlValue = parseInt(formData.get('extraLargeChests'), 10) || 0;
-		const selectedCopyIcon = formData.get('copyType');
+        // Parse values
+        const copies = getValue('copies');
+		const copies2 = getValue('copies2');
+		const smValue = getValue('smallChests');
+		const mdValue = getValue('mediumChests');
+		const lgValue = getValue('largeChests');
+		const xlValue = getValue('extraLargeChests');
+		
+        // Determine the selected copy icon based on radio button state
+        const isAlmostCopy = document.getElementById('almostCopy')?.checked;
+        const selectedCopyIcon = isAlmostCopy ? 'copy2.png' : 'copy.png';
+
 		
         // Helper function to manage display and text content
         const updateDisplay = (value, txtId, containerId) => {
             const container = document.getElementById(containerId);
-            if (value > 0) {
-                document.getElementById(txtId).textContent = value;
-                container.style.display = 'flex';
-            } else {
-                container.style.display = 'none';
+            if (container) {
+                if (value > 0) {
+                    const txtElement = document.getElementById(txtId);
+                    if (txtElement) txtElement.textContent = value;
+                    container.style.display = 'flex';
+                } else {
+                    container.style.display = 'none';
+                }
             }
         };
 
         // Copies Logic
         const copyContainer = document.getElementById('copy');
-		if (copies > 0 && copies2 > 0 && copies <= copies2 && selectedCopyIcon){
-			document.getElementById('copytxt').textContent = copies;
-			document.getElementById('copy2txt').textContent = copies2;
-			document.getElementById('copyIcon').src = selectedCopyIcon;
-			copyContainer.style.display = 'flex';
-		} else {
-            copyContainer.style.display = 'none';
+        // Check validity (copies must be <= copies2 if both > 0)
+		if (copyContainer) {
+            if (copies > 0 && copies2 > 0 && copies <= copies2){
+                const copyTxt = document.getElementById('copytxt');
+                if (copyTxt) copyTxt.textContent = copies;
+                const copy2Txt = document.getElementById('copy2txt');
+			    if (copy2Txt) copy2Txt.textContent = copies2;
+                const copyIcon = document.getElementById('copyIcon');
+			    if (copyIcon) copyIcon.src = selectedCopyIcon;
+			    copyContainer.style.display = 'flex';
+		    } else {
+                copyContainer.style.display = 'none';
+            }
         }
 
         // Chests Logic
@@ -432,9 +702,15 @@ document.addEventListener('DOMContentLoaded', () => {
         updateDisplay(xlValue, 'xltxt', 'xl');
 		
         // Set overall visibility
-		document.getElementById('chestheader').style.display = 'flex';
-		document.getElementById('chestheader').style.justifyContent = 'center';
-		document.getElementById('chestfooter').style.display = 'block';
-		document.getElementById('chestfooter').style.justifyContent = 'center';
+        const chestHeader = document.getElementById('chestheader');
+        if (chestHeader) {
+		    chestHeader.style.display = 'flex';
+		    chestHeader.style.justifyContent = 'center';
+        }
+        const chestFooter = document.getElementById('chestfooter');
+        if (chestFooter) {
+		    chestFooter.style.display = 'block';
+		    // chestFooter.style.justifyContent = 'center'; (Removed as it doesn't apply well to block elements)
+        }
     }
 });

@@ -14,6 +14,14 @@
     --custom-border-width: 3px;
 }
 
+/* Added default font and padding management */
+body {
+    font-family: sans-serif; 
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+
 .grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr); 
@@ -146,9 +154,44 @@
 /* Removed: #border-controls, .color-picker, .color-swatch, .tile-visual.selected, .generated-border-overlay */
 
 
+/* --- NEW: Board Code I/O Styling --- */
+#codeIOContainer {
+    max-width: var(--max-width);
+    margin: 30px auto;
+    padding: 15px;
+    border: 1px solid #eee;
+    background-color: #f9f9f9;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+#codeIOContainer h2 {
+    margin-top: 0;
+}
+
+#codeIOContainer p {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+#boardCodeArea {
+    width: 100%;
+    max-width: 600px; /* Constrain width slightly for better readability */
+    margin: 0 auto 10px; /* Center and add bottom margin */
+    padding: 10px;
+    font-family: monospace; /* Better for code display */
+    box-sizing: border-box;
+    resize: vertical; /* Allow vertical resizing */
+    display: block; /* Ensure block display for centering */
+}
+/* --- END NEW --- */
+
+
 #instructions {
     margin: auto;
     max-width: var(--max-width); 
+    padding: 0 10px;
 }
 
 button {
@@ -163,6 +206,7 @@ button {
     justify-content: center; 
     gap: 10px; 
     margin-top: 20px;
+    flex-wrap: wrap;
 }
 
 
@@ -206,10 +250,11 @@ button {
     position: absolute;
     
     /* This is the change! We inset the overlay on all 4 sides. */
-    top: var(--custom-border-width);
-    left: var(--custom-border-width);
-    right: var(--custom-border-width);
-    bottom: var(--custom-border-width);
+    /* Use max to ensure it doesn't break if border width is 0 */
+    top: max(0px, var(--custom-border-width));
+    left: max(0px, var(--custom-border-width));
+    right: max(0px, var(--custom-border-width));
+    bottom: max(0px, var(--custom-border-width));
 
     /* The background color remains the same */
     background-color: rgba(88, 164, 52, 0.5);
@@ -297,6 +342,7 @@ button {
 
 /* Tile Backgrounds - Applied to a common class for use in input and output */
 /* .tile-bg.x removed, replaced with .tile-bg.blank */
+.tile-bg.blank { background-color: #ffffff; } /* Ensure blank is white */
 .tile-bg.one {background-image: url('tiles/1.png');}
 .tile-bg.two {background-image: url('tiles/2.png');}
 .tile-bg.three {background-image: url('tiles/3.png');}
@@ -321,6 +367,7 @@ button {
     gap: 20px; 
     margin: auto;
     max-width: 525px; 
+    flex-wrap: wrap; /* Allow wrapping on small screens */
 }
 
 .column {
@@ -424,13 +471,15 @@ footer {
     justify-content: center; 
     gap: 10px; 
     display:none;
+    flex-wrap: wrap;
 }
 
 #chestfooter {
-    display: flex;
-    justify-content: center; 
+    /* display: flex; - JS sets this to block */
+    /* justify-content: center; - Does not apply well to block elements for text centering */
     gap: 10px; 
     display:none;
+    margin-top: 15px;
 }
 .chest-container {
     position: relative;
@@ -456,5 +505,4 @@ footer {
 #line2 {
     color: #9f6706; /* Brown text color for line 2 */
     text-align: center; /* Center-align the text */
-
 }
