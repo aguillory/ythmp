@@ -7,7 +7,7 @@
 
     /* New Feature: Border configuration */
     --border-black: #000000;
-    --border-brown: #371a00;
+    --border-brown: #B47800;
     --border-silver: #C0C0C0;
     --border-purple: #800080;
     --border-gold: #DAA520;
@@ -507,3 +507,4 @@ footer {
     text-align: center; /* Center-align the text */
 
 }
+
