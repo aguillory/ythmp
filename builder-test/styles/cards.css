@@ -1,0 +1,61 @@
+/* Map cards in search results */
+.map-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    justify-self: center;
+    width: 100%;
+    max-width: 550px;
+}
+
+.map-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.map-card-header h3 {
+    margin: 0;
+}
+
+.map-card-content {
+    display: flex;
+    justify-content: center;
+}
+
+.window-clone {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.map-card-notes {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.map-card-notes .ql-editor {
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    min-height: 50px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #mapListContainer {
+        grid-template-columns: repeat(1, 1fr) !important;
+    }
+    .search-controls-wrapper {
+        flex-direction: column;
+        gap: 15px;
+    }
+}

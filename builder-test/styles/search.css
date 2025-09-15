@@ -1,0 +1,77 @@
+/* Search and edit tab */
+#searchContainer {
+    margin-bottom: 30px;
+    max-width: var(--max-width);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#searchChestForm {
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    gap: 20px;
+}
+
+.search-inputs-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.search-controls-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.chest-input-search {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px;
+}
+
+.chest-input-search img {
+    width: 50px;
+    height: auto;
+    margin-bottom: 5px;
+}
+
+.view-options {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 10px;
+}
+
+/* Search results */
+#searchResultsContainer {
+    margin-top: 30px;
+}
+
+#mapListContainer {
+    display: grid;
+    gap: 25px;
+    transition: grid-template-columns 0.3s ease;
+    max-width: 1400px; 
+    margin: 0 auto;
+}
+
+#mapListContainer[data-columns="1"] {
+    grid-template-columns: repeat(1, 1fr);
+}
+#mapListContainer[data-columns="2"] {
+    grid-template-columns: repeat(2, 1fr);
+}
+#mapListContainer[data-columns="3"] {
+    grid-template-columns: repeat(3, 1fr);
+}
+#mapListContainer[data-columns="4"] {
+    grid-template-columns: repeat(4, 1fr);
+}
