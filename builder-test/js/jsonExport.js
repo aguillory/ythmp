@@ -58,7 +58,6 @@ function showJsonTextContainer(title, content, mode) {
         }
     }
 }
-
 export function setupJsonTextListeners() {
     const copyBtn = document.getElementById('copyJsonTextButton');
     const loadBtn = document.getElementById('loadJsonTextButton');
@@ -150,5 +149,4 @@ export async function loadBoardFromClipboard() {
         console.error('Read clipboard failed:', error);
         showStatus('Could not read clipboard', 'error');
     }
-
 }

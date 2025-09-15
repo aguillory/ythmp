@@ -456,14 +456,33 @@ function createMapCard(mapId, mapData) {
     content.appendChild(windowClone);
     card.appendChild(content);
 
+    // --- Notes Section (Custom + Default) ---
+    const notesSection = document.createElement('div');
+    notesSection.className = 'map-card-notes';
+
+    // Add custom notes if they exist
     if (mapData.notesHtml && mapData.notesHtml.trim() !== '') {
-        const notesSection = document.createElement('div');
-        notesSection.className = 'map-card-notes';
-        notesSection.innerHTML = `<h4>Notes:</h4><div class="ql-snow"><div class="ql-editor">${mapData.notesHtml}</div></div>`;
-        card.appendChild(notesSection);
+        const customNotesContainer = document.createElement('div');
+        customNotesContainer.className = 'ql-snow';
+        customNotesContainer.innerHTML = `<div class="ql-editor">${mapData.notesHtml}</div>`;
+        notesSection.appendChild(customNotesContainer);
     }
 
-    return card;
+    // Add default notes (styled via CSS)
+    const defaultNote1 = document.createElement('div');
+    defaultNote1.className = 'map-card-default-note-1';
+    defaultNote1.textContent = 'Green spots have treasure chests.';
+    
+    const defaultNote2 = document.createElement('div');
+    defaultNote2.className = 'map-card-default-note-2';
+    defaultNote2.textContent = 'Brown spots don\'t have treasure chests.';
+    
+    notesSection.appendChild(defaultNote1);
+    notesSection.appendChild(defaultNote2);
+    
+    card.appendChild(notesSection);
+ 
+     return card;
 }
 
 // Import showStatus from utils

@@ -42,13 +42,33 @@
 }
 
 .map-card-notes .ql-editor {
-    padding: 12px 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: white;
-    min-height: 50px;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    min-height: 0;
+    text-align:center;
+}
+/* Ensure content within notes is centered */
+.map-card-notes .ql-editor p {
+    text-align: center;
+}
+.map-card-notes .ql-editor ol,
+.map-card-notes .ql-editor ul {
+    text-align: left; /* Keep lists left-aligned for readability */
+    display: inline-block;
+    margin: 0 auto;
 }
 
+/* Styles for the default notes, matching the preview tab */
+.map-card-default-note-1 {
+    color: #58a434;
+    text-align: center;
+    margin-top: 5px; /* Add some space if there are custom notes */
+}
+.map-card-default-note-2 {
+    color: #9f6706;
+    text-align: center;
+}
 /* Responsive adjustments */
 @media (max-width: 768px) {
     #mapListContainer {

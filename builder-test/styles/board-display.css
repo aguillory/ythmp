@@ -64,6 +64,29 @@
     flex-wrap: wrap;
 }
 
+/* Style for the custom notes preview on the New Map tab */
+#customNotesPreviewContainer {
+    max-width: 525px; /* Match board window */
+    margin: 0 auto;
+    text-align: center;
+}
+#customNotesPreview.ql-editor {
+    border: none;
+    padding: 0;
+    min-height: 0; /* Override Quill default */
+    text-align: center; /* Center align all content */
+}
+/* Ensure content within notes is centered if not specified */
+#customNotesPreview.ql-editor p {
+    text-align: center;
+}
+#customNotesPreview.ql-editor ol,
+#customNotesPreview.ql-editor ul {
+    text-align: left; /* Keep lists left-aligned for readability */
+    display: inline-block;
+    margin: 0 auto;
+}
+
 #chestfooter {
     gap: 10px; 
     display: none;

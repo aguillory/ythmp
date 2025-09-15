@@ -95,7 +95,14 @@ export function updateHeaderAndFooter() {
     updateDisplay(mdValue, 'mdtxt', 'md');
     updateDisplay(lgValue, 'lgtxt', 'lg');
     updateDisplay(xlValue, 'xltxt', 'xl');
-    
+    const notesPreview = document.getElementById('customNotesPreview');
+    if (notesPreview) {
+        if (state.quillEditor && state.quillEditor.getLength() > 1) {
+            notesPreview.innerHTML = state.quillEditor.root.innerHTML;
+        } else {
+            notesPreview.innerHTML = ''; // Clear it if no notes
+        }
+    }
     // Show header and footer
     const chestHeader = document.getElementById('chestheader');
     if (chestHeader) {
