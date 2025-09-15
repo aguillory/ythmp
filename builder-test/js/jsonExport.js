@@ -84,18 +84,33 @@ export function setupJsonTextListeners() {
                 try {
                     const importData = JSON.parse(textArea.value);
                     
-                    if (!importData.version || !importData.boardData) {
-                        throw new Error('Invalid board data format');
+                    let boardDataToLoad = null;
+                    let notesHtmlToLoad = "";
+
+                    // Check for new "export" format (with metadata)
+                    if (importData.version && importData.boardData) {
+                        boardDataToLoad = importData.boardData;
+                        notesHtmlToLoad = importData.notesHtml || "";
+                    
+                    // Check for old "raw" format (the one you provided)
+                    } else if (importData.tiles && importData.tiles.length > 0) {
+                        boardDataToLoad = importData;
+                        // No notes in this format, so notesHtmlToLoad remains ""
+                    } else {
+                        // If neither format matches, it's invalid
+                        throw new Error('Invalid board data format. Not a recognized export or raw board object.');
                     }
                     
-                    loadBoardFromData(importData.boardData);
+                    // Now, load the data we found
+                    loadBoardFromData(boardDataToLoad);
                     
-                    if (importData.notesHtml && state.quillEditor) {
-                        state.quillEditor.root.innerHTML = importData.notesHtml;
+                    if (notesHtmlToLoad && state.quillEditor) {
+                        state.quillEditor.root.innerHTML = notesHtmlToLoad;
                     }
                     
                     closeJsonTextContainer();
                     showStatus('Board loaded successfully!', 'success');
+                    
                 } catch (error) {
                     console.error('Load failed:', error);
                     showStatus('Load failed: ' + error.message, 'error');
@@ -135,4 +150,5 @@ export async function loadBoardFromClipboard() {
         console.error('Read clipboard failed:', error);
         showStatus('Could not read clipboard', 'error');
     }
+
 }
