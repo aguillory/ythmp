@@ -47,9 +47,32 @@
             </header>
 
             <div class="tabs">
-                <button class="tablink active" data-tab="newMapTab">New Map</button>
-                <button class="tablink" data-tab="editMapTab">Edit/View Maps</button>
-            </div>
+    <button class="tablink active" data-tab="newMapTab">New Map</button>
+    <button class="tablink" data-tab="editMapTab">Edit/View Maps</button>
+    <button class="tablink" data-tab="allMapsTab">View All Maps</button>
+</div>
+
+<div id="editMapTab" class="tabcontent" style="display:none;">
+    </div>
+<div id="allMapsTab" class="tabcontent" style="display:none;">
+        <h2>All Maps</h2>
+        <p>A complete view of all maps currently in the database, sorted by chest type.</p>
+        
+        <div id="allMapsControlsContainer">
+            <label for="allMapsColumnSelector">Columns:</label>
+            <select id="allMapsColumnSelector">
+                <option value="1">1</option>
+                <option value="2" selected>2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+            <button type="button" id="loadAllMapsButton">Load All Maps</button>
+        </div>
+        
+        <div id="allMapsListContainer" data-columns="2">
+            <p>Click the "Load All Maps" button to view.</p>
+        </div>
+    </div>
 
             <div id="newMapTab" class="tabcontent">
 

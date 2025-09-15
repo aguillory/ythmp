@@ -434,3 +434,40 @@ export async function reorderMap(mapId, direction) {
         throw error;
     }
 }
+
+
+/**
+ * NEW: Fetches ALL maps from Firestore, sorted by signature and then sortOrder.
+ * Exported for use in the "All Maps" tab.
+ */
+export async function fetchAllMaps() {
+    if (!auth.currentUser) {
+        throw new Error("User not authenticated.");
+    }
+
+    const mapsRef = collection(db, MAPS_COLLECTION);
+    
+    // Query: Find all maps, not archived, ordered by signature, then by sortOrder
+    const q = query(
+        mapsRef, 
+        where("isArchived", "==", false),
+        orderBy("chestSignature", "asc"),
+        orderBy("sortOrder", "asc")
+    );
+
+    try {
+        const querySnapshot = await getDocs(q);
+        const maps = [];
+        querySnapshot.forEach((doc) => {
+            maps.push({
+                id: doc.id,
+                data: doc.data()
+            });
+        });
+        return maps;
+    } catch (error) {
+        console.error("Error fetching all maps:", error);
+        throw error;
+    }
+}
+

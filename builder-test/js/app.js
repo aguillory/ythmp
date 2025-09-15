@@ -4,6 +4,7 @@ import { setupEventListeners } from './eventHandlers.js';
 import { initializeRTE } from './rte.js';
 import { setupTabNavigation } from './tabs.js';
 import { initializeSearchInterface } from './searchTab.js';
+import { initializeAllMapsTab } from './allMapsTab.js';
 
 window.initializeBoardBuilder = function() {
     if (state.isInitialized) return;
@@ -18,6 +19,7 @@ window.initializeBoardBuilder = function() {
     initializeRTE();
     setupTabNavigation();
     initializeSearchInterface();
+    initializeAllMapsTab();
 
     state.isInitialized = true;
 }

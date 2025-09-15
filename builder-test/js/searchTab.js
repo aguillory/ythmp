@@ -226,12 +226,13 @@ function renderMapList(maps) {
     const fragment = document.createDocumentFragment();
 
     maps.forEach(map => {
-        const mapCard = createMapCard(map.id, map.data);
+        const mapCard = createMapCard(map.id, map.data, { showReorder: true });
         fragment.appendChild(mapCard);
     });
 
     state.elements.mapListContainer.appendChild(fragment);
 }
+
 
 async function handleDeleteMap(mapId) {
     if (!confirm(`Are you sure you want to delete map ${mapId}? This action cannot be undone.`)) {
@@ -269,8 +270,11 @@ async function handleReorderMap(mapId, direction) {
         console.error('Error reordering map:', error);
         showStatus(`Error reordering map: ${error.message}`, 'error');
     }
-}
-function createMapCard(mapId, mapData) {
+}// REPLACE the entire function in searchTab.js with this:
+
+export function createMapCard(mapId, mapData, options = {}) {
+    const { showReorder = true } = options; // Correctly get the option
+
     const card = document.createElement('div');
     card.className = 'map-card';
 
@@ -306,25 +310,30 @@ function createMapCard(mapId, mapData) {
     deleteButton.style.color = 'white';
     deleteButton.addEventListener('click', () => handleDeleteMap(mapId));
     
-    const moveUpButton = document.createElement('button');
-    moveUpButton.textContent = '↑';
-    moveUpButton.className = 'reorder-button';
-    moveUpButton.title = 'Move Up';
-    moveUpButton.addEventListener('click', () => handleReorderMap(mapId, 'up'));
-    
-    const moveDownButton = document.createElement('button');
-    moveDownButton.textContent = '↓';
-    moveDownButton.className = 'reorder-button';
-    moveDownButton.title = 'Move Down';
-    moveDownButton.addEventListener('click', () => handleReorderMap(mapId, 'down'));
-    
     actionsContainer.appendChild(loadButton);
     actionsContainer.appendChild(deleteButton);
-    actionsContainer.appendChild(moveUpButton);
-    actionsContainer.appendChild(moveDownButton);
+
+    // This block now correctly adds re-order buttons only if showReorder is true
+    if (showReorder) {
+        const moveUpButton = document.createElement('button');
+        moveUpButton.textContent = '↑';
+        moveUpButton.className = 'reorder-button';
+        moveUpButton.title = 'Move Up';
+        moveUpButton.addEventListener('click', () => handleReorderMap(mapId, 'up'));
+        
+        const moveDownButton = document.createElement('button');
+        moveDownButton.textContent = '↓';
+        moveDownButton.className = 'reorder-button';
+        moveDownButton.title = 'Move Down';
+        moveDownButton.addEventListener('click', () => handleReorderMap(mapId, 'down'));
+        
+        actionsContainer.appendChild(moveUpButton);
+        actionsContainer.appendChild(moveDownButton);
+    }
     
     header.appendChild(actionsContainer);
     card.appendChild(header);
+
 
     // --- START: ADDED CHEST/COPY HEADER ---
     
@@ -484,6 +493,5 @@ function createMapCard(mapId, mapData) {
  
      return card;
 }
-
 // Import showStatus from utils
 import { showStatus } from './utils.js';

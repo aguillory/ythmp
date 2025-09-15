@@ -8,7 +8,8 @@ export const state = {
         gridContainer: null,
         boardCodeArea: null,
         searchChestForm: null,
-        mapListContainer: null
+        mapListContainer: null,
+        allMapsListContainer: null
     }
 };
 
@@ -19,6 +20,7 @@ export function initializeElements() {
     state.elements.boardCodeArea = document.getElementById('boardCodeArea');
     state.elements.searchChestForm = document.getElementById('searchChestForm');
     state.elements.mapListContainer = document.getElementById('mapListContainer');
+    state.elements.allMapsListContainer = document.getElementById('allMapsListContainer'); 
     
     return Object.values(state.elements).every(el => el !== null);
 }
