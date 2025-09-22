@@ -1,0 +1,62 @@
+/* Rich text editor and notes */
+#notesContainer {
+    max-width: var(--max-width);
+    margin: 30px auto;
+}
+
+#editor {
+    height: 200px;
+    background-color: white;
+}
+
+/* Save controls */
+#saveControls {
+    max-width: var(--max-width);
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #e9f5e9;
+    border: 1px solid #a5d6a7;
+    border-radius: 8px;
+    text-align: center;
+}
+
+#saveControls h2 {
+    margin-top: 0;
+}
+
+#saveStatus {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Code I/O (debug panel) */
+#codeIOContainer {
+    max-width: var(--max-width);
+    margin: 30px auto;
+    padding: 15px;
+    border: 1px solid #eee;
+    background-color: #f9f9f9;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+#codeIOContainer h2 {
+    margin-top: 0;
+}
+
+#codeIOContainer p {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+#boardCodeArea {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto 10px;
+    padding: 10px;
+    font-family: monospace;
+    box-sizing: border-box;
+    resize: vertical;
+    display: block;
+}

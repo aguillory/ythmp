@@ -53,7 +53,71 @@
 </div>
 
 <div id="editMapTab" class="tabcontent" style="display:none;">
+    <h2>Edit or View Maps</h2>
+    
+    <div id="searchContainer">
+        <h3>Search by Chest Combination</h3>
+        <form id="searchChestForm">
+            <div class="search-inputs-wrapper">
+                <div class="chest-input-search">
+                    <img src="chests1.png" alt="Small Chest">
+                    <select id="searchSmallChests" name="smallChests">
+                        </select>
+                </div>
+                
+                <div class="chest-input-search">
+                    <img src="chests2.png" alt="Medium Chest">
+                    <select id="searchMediumChests" name="mediumChests">
+                    </select>
+                </div>
+                
+                <div class="chest-input-search">
+                    <img src="chests3.png" alt="Large Chest">
+                    <select id="searchLargeChests" name="largeChests">
+                    </select>
+                </div>
+                
+                <div class="chest-input-search">
+                    <img src="chests4.png" alt="Extra Large Chest">
+                    <select id="searchExtraLargeChests" name="extraLargeChests">
+                    </select>
+                </div>
+            </div>
+
+            <div class="search-controls-wrapper">
+                <div class="button-container">
+                    <button type="submit" id="showMapsButton">Show Maps</button>
+                    <button type="button" id="clearSearchButton">Clear Search</button>
+                </div>
+
+                <div class="view-options">
+                    <label for="columnSelector">Columns:</label>
+                    <select id="columnSelector">
+                        <option value="1">1</option>
+                        <option value="2" selected>2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+
+        <h3 class="search-divider">Or Search by Map ID</h3>
+        <form id="idSearchForm">
+            <input type="text" id="mapIdSearchInput" placeholder="4-character map ID" maxlength="4">
+            <div class="button-container">
+                <button type="submit" id="idSearchButton">Search by ID</button>
+            </div>
+        </form>
     </div>
+    <div id="searchResultsContainer">
+        <h3>Results</h3>
+        <div id="mapListContainer" data-columns="2">
+            <p>Select a chest combination and click 'Show Maps' or search by ID.</p>
+        </div>
+    </div>
+</div>
+
 <div id="allMapsTab" class="tabcontent" style="display:none;">
         <h2>All Maps</h2>
         <p>A complete view of all maps currently in the database, sorted by chest type.</p>
@@ -143,11 +207,10 @@
                     <button type="button" id="clearAllButton">Clear All</button> 
                 </div>
 <div class="button-container">
-    <button type="button" id="exportJsonButton">📥 Export to Text</button>
-    <button type="button" id="importJsonButton">📤 Import from Text</button>
+    <button type="button" id="exportJsonButton">Export to Text</button>
+    <button type="button" id="importJsonButton">Import from Text</button>
 </div>
 
-<!-- Text areas for JSON import/export -->
 <div id="jsonTextContainer" style="display: none;">
     <h3 id="jsonTextTitle">JSON Data</h3>
     <textarea id="jsonTextArea" rows="10" placeholder="Paste or copy JSON data here..."></textarea>
@@ -225,66 +288,7 @@
 
             </div> 
             
-            <div id="editMapTab" class="tabcontent" style="display:none;">
-                <h2>Edit or View Maps</h2>
-                
-                <div id="searchContainer">
-                    <h3>Search by Chest Combination</h3>
-                    <form id="searchChestForm">
-                        <div class="search-inputs-wrapper">
-                            <div class="chest-input-search">
-                                <img src="chests1.png" alt="Small Chest">
-                                <select id="searchSmallChests" name="smallChests">
-                                    </select>
-                            </div>
-                            
-                            <div class="chest-input-search">
-                                <img src="chests2.png" alt="Medium Chest">
-                                <select id="searchMediumChests" name="mediumChests">
-                                </select>
-                            </div>
-                            
-                            <div class="chest-input-search">
-                                <img src="chests3.png" alt="Large Chest">
-                                <select id="searchLargeChests" name="largeChests">
-                                </select>
-                            </div>
-                            
-                            <div class="chest-input-search">
-                                <img src="chests4.png" alt="Extra Large Chest">
-                                <select id="searchExtraLargeChests" name="extraLargeChests">
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="search-controls-wrapper">
-                            <div class="button-container">
-                                <button type="submit" id="showMapsButton">Show Maps</button>
-                                <button type="button" id="clearSearchButton">Clear Search</button>
-                            </div>
-
-                            <div class="view-options">
-                                <label for="columnSelector">Columns:</label>
-                                <select id="columnSelector">
-                                    <option value="1">1</option>
-                                    <option value="2" selected>2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                </select>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div id="searchResultsContainer">
-                    <h3>Results</h3>
-                    <div id="mapListContainer" data-columns="2">
-                        <p>Select a chest combination and click 'Show Maps'.</p>
-                    </div>
-                </div>
-
-            </div>
-        
-        </div> <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+            </div> <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 <script type="module" src="js/app.js"></script>
 <script type="module" src="js/database.js"></script>
 
