@@ -18,23 +18,24 @@ function getTileInvalidState(index) {
         return { isInvalid: false, message: null };
     }
 
-    const hasExtras = starEl.checked || bulbEl.checked || (borderEl.value !== 'none');
+    const hasBulbOrBorder = bulbEl.checked || (borderEl.value !== 'none');
+    const hasStar = starEl.checked;
     const hasTreasure = treasureEl.checked;
     const isBlank = stateEl.value === 'blank';
 
     // Rule 1: No extras on 'blank' tiles.
-    if (isBlank && hasExtras) {
-        return { 
-            isInvalid: true, 
-            message: `Tile ${index}: Cannot have stars, bulbs, or borders on a 'blank' tile.` 
+    if (isBlank && (hasBulbOrBorder || hasStar)) {
+        return {
+            isInvalid: true,
+            message: `Tile ${index}: Cannot have stars, bulbs, or borders on a 'blank' tile.`
         };
     }
-    
-    // Rule 2: Extras are only allowed on tiles with treasure.
-    if (hasExtras && !hasTreasure) {
-        return { 
-            isInvalid: true, 
-            message: `Tile ${index}: Stars, bulbs, or borders are only allowed on tiles with treasure.` 
+
+    // Rule 2: Bulbs or borders are only allowed on tiles with treasure.
+    if (hasBulbOrBorder && !hasTreasure) {
+        return {
+            isInvalid: true,
+            message: `Tile ${index}: Bulbs or borders are only allowed on tiles with treasure.`
         };
     }
 
