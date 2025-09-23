@@ -11,13 +11,10 @@ let currentEditingMapId = null;
 let currentEditingMapData = null;
 
 export function initializeSearchInterface() {
-    const populateDropdown = (selectElement, config) => {
+const populateDropdown = (selectElement, config) => {
         if (!selectElement) return;
-        // Add a blank option first
-        const blankOption = document.createElement('option');
-        blankOption.value = "";
-        blankOption.textContent = "-";
-        selectElement.appendChild(blankOption);
+        
+        // --- We removed the blank option ---
         
         for (let i = config.min; i <= config.max; i++) {
             const option = document.createElement('option');
@@ -25,7 +22,7 @@ export function initializeSearchInterface() {
             option.textContent = i;
             selectElement.appendChild(option);
         }
-        selectElement.value = ""; // Default to blank
+        selectElement.value = "0"; // Default to "0"
     };
 
     populateDropdown(document.getElementById('searchSmallChests'), CONFIG.CHEST_COUNTS.small);
@@ -35,7 +32,6 @@ export function initializeSearchInterface() {
 
     handleColumnChange();
 }
-
 export function setupSearchListeners() {
     if (state.elements.searchChestForm) {
         state.elements.searchChestForm.addEventListener('submit', handleShowMaps);
@@ -55,8 +51,9 @@ export function setupSearchListeners() {
     if (columnSelector) {
         columnSelector.addEventListener('change', handleColumnChange);
     }
-}
 
+    setupIncrementDecrement(); // <-- ADD THIS LINE
+}
 // Export these functions so eventHandlers.js can use them
 export function getCurrentEditingMapId() {
     return currentEditingMapId;
@@ -297,6 +294,41 @@ function handleColumnChange() {
         const columns = columnSelector.value;
         state.elements.mapListContainer.setAttribute('data-columns', columns);
     }
+}
+
+// NEW function to handle +/- buttons
+function setupIncrementDecrement() {
+    const searchForm = document.getElementById('searchChestForm');
+    if (!searchForm) return;
+
+    const handleIncrement = (e) => {
+        // The <select> is the element *before* the increment button
+        const select = e.target.previousElementSibling;
+        if (select && select.tagName === 'SELECT') {
+            if (select.selectedIndex < select.options.length - 1) {
+                select.selectedIndex += 1;
+            }
+        }
+    };
+
+    const handleDecrement = (e) => {
+        // The <select> is the element *after* the decrement button
+        const select = e.target.nextElementSibling;
+        if (select && select.tagName === 'SELECT') {
+            if (select.selectedIndex > 0) {
+                select.selectedIndex -= 1;
+            }
+        }
+    };
+
+    // Use event delegation on the form
+    searchForm.addEventListener('click', (e) => {
+        if (e.target.classList.contains('increment')) {
+            handleIncrement(e);
+        } else if (e.target.classList.contains('decrement')) {
+            handleDecrement(e);
+        }
+    });
 }
 
 function renderMapList(maps) {

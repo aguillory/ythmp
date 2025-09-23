@@ -41,6 +41,8 @@ export function setupEventListeners() {
 
     // Search tab listeners (moved to searchTab.js)
     setupSearchListeners();
+    
+    setupBuilderIncrementDecrement();
 }
 
 export function handleGenerate(event) {
@@ -213,7 +215,7 @@ function handleCopyCode() {
         }
     }).catch(err => {
         alert("Failed to copy code.");
-    });
+        });
 }
 
 export function loadBoardFromData(data) {
@@ -300,6 +302,41 @@ export function loadBoardFromData(data) {
     }
     
     handleGenerate(); 
+}
+
+function setupBuilderIncrementDecrement() {
+    // Find the builder form
+    const builderForm = document.getElementById('chestForm');
+    if (!builderForm) return;
+
+    const handleIncrement = (e) => {
+        // The <select> is the element *before* the increment button
+        const select = e.target.previousElementSibling;
+        if (select && select.tagName === 'SELECT') {
+            if (select.selectedIndex < select.options.length - 1) {
+                select.selectedIndex += 1;
+            }
+        }
+    };
+
+    const handleDecrement = (e) => {
+        // The <select> is the element *after* the decrement button
+        const select = e.target.nextElementSibling;
+        if (select && select.tagName === 'SELECT') {
+            if (select.selectedIndex > 0) {
+                select.selectedIndex -= 1;
+            }
+        }
+    };
+
+    // Use event delegation on the form
+    builderForm.addEventListener('click', (e) => {
+        if (e.target.classList.contains('increment')) {
+            handleIncrement(e);
+        } else if (e.target.classList.contains('decrement')) {
+            handleDecrement(e);
+        }
+    });
 }
 
 // Import search listeners from searchTab.js
