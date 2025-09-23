@@ -1,0 +1,377 @@
+/* style.css (Revised for Dynamic Viewer) */
+
+/* --- Original Base Styles --- */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f0f0f0;
+    /* Added padding-bottom so the fixed footer doesn't obscure content */
+    padding-bottom: 60px; 
+}
+
+h1, h2 {
+    color: #333;
+}
+
+.chest-input {
+    margin-bottom: 20px;
+}
+
+.chest-input img {
+    height: 50px;
+    margin-right: 10px;
+}
+
+select {
+    padding: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+footer {
+    /* Keeping the original fixed footer style */
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    font-size: 12px;
+    color: #6c757d;
+    text-align: center;
+    padding: 10px 0;
+    background-color: #f0f0f0; /* Added background so content doesn't scroll under it */
+}
+
+
+/* --- Original Grid Layout --- */
+#map-container {
+     justify-content: space-around;
+}
+
+#mapsDisplay {
+    display: grid;
+    gap: 30px; /* Increased gap slightly for separation between maps */
+}
+
+/* These selectors rely on the parent (#map-container) having the column class */
+.columns-1 #mapsDisplay {
+    grid-template-columns: 1fr;
+}
+
+.columns-2 #mapsDisplay {
+    grid-template-columns: 1fr 1fr;
+}
+
+.columns-3 #mapsDisplay {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.columns-4 #mapsDisplay {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+/* --- Adapting Width Rules for Dynamic Content --- */
+/* The .map-wrapper replaces the old <img> tag */
+
+.columns-1 .map-wrapper {
+    width: 50%;
+    margin: 0 auto; /* Center it since it's 50% width */
+}
+
+.columns-2 .map-wrapper,
+.columns-3 .map-wrapper,
+.columns-4 .map-wrapper {
+    width: 100%;
+}
+
+/* Added Responsive adjustments (Good practice) */
+@media (max-width: 1200px) {
+    .columns-4 #mapsDisplay {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+@media (max-width: 900px) {
+    .columns-3 #mapsDisplay, .columns-4 #mapsDisplay {
+        grid-template-columns: 1fr 1fr;
+    }
+    .columns-1 .map-wrapper {
+        width: 75%;
+    }
+}
+@media (max-width: 600px) {
+    #mapsDisplay {
+        grid-template-columns: 1fr !important;
+    }
+    .map-wrapper {
+        width: 95% !important;
+    }
+}
+
+
+/* --- Dynamic Map Rendering Styles --- */
+
+.map-wrapper {
+    /* Removed the 'card' look (no border, shadow, or white background) */
+    
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    max-width: 550px; /* <-- ADDED max-width here (to match builder's card) */
+    justify-self: center; /* <-- ADDED this to center the wrapper in the grid */
+    width: 100%; /* <-- ADDED this to ensure it respects parent width */
+}
+/* --- Chest Header Display --- */
+.chest-header-display {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+/* FIX: Reworking layout using CSS Grid to prevent overlap while maintaining overlay look */
+
+.chest-container, .copies-container {
+    /* Removed previous styles (position: relative, display: inline-block) */
+
+    /* NEW: Use inline-grid for overlay layout */
+    display: inline-grid;
+    align-items: center; /* Center children vertically */
+    justify-items: center; /* Center children horizontally */
+}
+
+/* Place children (image and text) in the same grid cell so they stack */
+.chest-container > *, .copies-container > * {
+    grid-area: 1 / 1;
+}
+
+/* Chest Image */
+.chestsimg {
+    height: 40px;
+    /* Removed display: block; as grid handles layout */
+}
+
+/* Consolidated text styles for Chests and Copies */
+.chests, .copies-text { 
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+    font-size: 30px;
+    -webkit-text-stroke-color: #000;
+    -webkit-text-stroke-width: 0.06em;
+    -webkit-text-fill-color: white;
+    text-shadow: 2px 2px 4px #000000;
+    
+    /* REMOVED Absolute Positioning (position: absolute, top, left, transform) */
+
+    /* NEW: Adjust vertical position within the grid cell */
+    /* A slight translateY mimics the previous 'top: 70%' look */
+    transform: translateY(30%); 
+    z-index: 10; /* Ensure text is above the image */
+    white-space: nowrap; /* Ensure text stays on one line */
+    margin: 0;
+}
+
+
+/* Specific styles for the Copies container (border/spacing) */
+.copies-container {
+    margin-bottom: 10px;
+    padding-right: 10px;
+    border-right: 2px solid #000;
+}
+
+
+/* --- Unrelated/Legacy Styles (Kept as is) --- */
+.copies-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    margin: 10px; 
+}
+
+.copy-type-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+
+.copy-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.copy-option img {
+    width: 50px;
+    height: auto;
+    margin-bottom: 5px;
+}
+
+
+/* --- Board Rendering (The 4 boards) --- */
+
+/* The 2x2 container */
+.window-clone {
+    display: flex;
+    gap: 20px; /* <-- CHANGED to 20px (to match builder's card display) */
+    /* max-width: 500px; */
+    width: 100%;
+    /* aspect-ratio: 1/1; */ /* FIX: Removed to eliminate excessive vertical space */
+}
+
+/* The two columns (left and right) */
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+    align-items: center; /* FIX: Center the inline-grid boards horizontally */
+}
+/* --- Root variable for tile size --- */
+:root {
+    --generated-tile-size: 42px;
+}
+
+/* A single 5x5 board (Corrected) */
+.generatedBoard {
+    display: inline-grid; /* FIX: Changed from grid to inline-grid so border touches tiles */
+    /* Use the fixed tile size variable */
+    grid-template-columns: repeat(5, var(--generated-tile-size));
+    /* justify-content: center; */ /* FIX: Removed, now centered by parent .column */
+    position: relative;
+    /* Corrected appearance */
+    background-color: AliceBlue;
+    border: 1px solid gray;
+}
+
+/* A single tile  */
+.generatedTile {
+    /* Use the fixed tile size variable */
+    width: var(--generated-tile-size);
+    height: var(--generated-tile-size);
+    background-position: center;
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+    /* Adds the rounded corners from the builder */
+    border-radius: 5px;
+}
+
+/* --- Tile Backgrounds  --- */
+
+
+.tile-bg.one { background-image: url('tiles/1.png'); }
+.tile-bg.two { background-image: url('tiles/2.png'); }
+.tile-bg.three { background-image: url('tiles/3.png'); }
+.tile-bg.four { background-image: url('tiles/4.png'); }
+.tile-bg.five { background-image: url('tiles/5.png'); }
+.tile-bg.six { background-image: url('tiles/6.png'); }
+.tile-bg.threex { background-image: url('tiles/3x.png'); }
+.tile-bg.fourx { background-image: url('tiles/4x.png'); }
+.tile-bg.yahtzee { background-image: url('tiles/yahtzee.png'); }
+.tile-bg.chance { background-image: url('tiles/chance.png'); }
+.tile-bg.pair { background-image: url('tiles/pr.png'); }
+.tile-bg.odds { background-image: url('tiles/odd.png'); }
+.tile-bg.evens { background-image: url('tiles/even.png'); }
+.tile-bg.full { background-image: url('tiles/full.png'); }
+.tile-bg.sm { background-image: url('tiles/sm.png'); }
+.tile-bg.lg { background-image: url('tiles/lg.png'); }
+
+/* --- Tile Modifiers  --- */
+
+/* Treasure overlay (uses ::after) */
+.generatedTile.treasureGenerated::after {
+    content: ''; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(88, 164, 52, 0.5); 
+    pointer-events: none; 
+    z-index: 5; 
+}
+
+/* Generated tile icons (uses ::before) */
+.generatedTile.starGenerated::before,
+.generatedTile.bulbGenerated::before {
+    content: '';
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 20px;
+    z-index: 10;
+    background-repeat: no-repeat;
+}
+
+.generatedTile.starGenerated::before {
+    background-image: url('star.png'); /* Correct path */
+    background-position: top right;
+    background-size: 20px 20px;
+}
+
+.generatedTile.bulbGenerated::before {
+    background-image: url('bulb.png'); /* Correct path */
+    background-position: top left;
+    background-size: 20px 20px;
+}
+
+/* This is the missing rule that allows both icons at once */
+.generatedTile.starGenerated.bulbGenerated::before {
+    background-image: url('star.png'), url('bulb.png');
+    background-position: top right, top left;
+    background-size: 20px 20px, 20px 20px;
+}
+/* Borders */
+.border-black { border: 3px solid black; }
+.border-brown { border: 3px solid brown; }
+.border-silver { border: 3px solid silver; }
+.border-purple { border: 3px solid purple; }
+.border-gold { border: 3px solid gold; }
+
+
+/* --- Notes Footer --- */
+.map-notes {
+    margin-top: 15px;
+    width: 100%;
+    max-width: 500px; /* Align width with the map visualization */
+    text-align: center;
+    font-size: 0.9em;
+}
+
+/* Styling for Quill editor content (if notes exist) */
+.map-notes .ql-editor {
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    min-height: 0;
+    text-align:center;
+}
+
+.map-default-note-1 {
+    color: #58a434;
+    text-align: center;
+    margin-top: 5px; /* Add some space if there are custom notes */
+}
+
+.map-default-note-2 {
+    color: #9f6706;
+    text-align: center;
+}
+
+/* --- Status Messages --- */
+.status-message {
+    text-align: center;
+    font-weight: bold;
+    grid-column: 1 / -1; /* Span across all columns */
+}
+
+.status-message.error {
+    color: red;
+}

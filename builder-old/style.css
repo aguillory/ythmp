@@ -1,0 +1,510 @@
+:root {
+    /* Centralized configuration using CSS variables */
+    --generated-tile-size: 42px;
+    --input-visual-size: 55px;
+    --max-width: 800px;
+    /* Border configuration removed */
+
+    /* New Feature: Border configuration */
+    --border-black: #000000;
+    --border-brown: #B47800;
+    --border-silver: #C0C0C0;
+    --border-purple: #800080;
+    --border-gold: #DAA520;
+    --custom-border-width: 3px;
+}
+
+/* Added default font and padding management */
+body {
+    font-family: sans-serif; 
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); 
+    max-width: var(--max-width); 
+    margin: 20px auto;
+    gap: 10px;
+    /* touch-action removed */
+}
+
+.tile-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around; 
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    background-color: #f9f9f9; 
+    gap: 8px;
+}
+
+/* Visual representation in the input grid */
+.tile-visual {
+    width: var(--input-visual-size);
+    height: var(--input-visual-size);
+    background-color: #eee;
+    border: 1px solid #aaa;
+    box-sizing: border-box;
+    background-size: cover;
+    background-position: center;
+    transition: box-shadow 0.2s ease;
+    /* Crucial for positioning overlays (Treasure/Star/Bulb) */
+    position: relative;
+    /* Interaction styles (cursor, user-select, etc.) removed */
+}
+
+/* --- NEW: Icon Checkbox and Selector Styling (Updated) --- */
+
+.input-checkbox-container {
+    display: flex;
+    justify-content: center;
+    /* Adjusted gap and added wrapping for the new icon */
+    gap: 6px;
+    margin-top: 5px;
+    flex-wrap: wrap;
+}
+
+.icon-checkbox input[type="checkbox"] {
+    /* Hide the actual checkbox visually but keep it accessible */
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Common styling for all icons (checkboxes and selectors) */
+.icon-checkbox img, .icon-select-label img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    opacity: 0.4; /* Default state (unchecked/inactive) */
+    transition: opacity 0.2s, transform 0.2s;
+    filter: grayscale(100%);
+    display: block; /* Prevent extra space below image */
+}
+
+.icon-checkbox:hover img, .icon-select-label:hover img {
+    transform: scale(1.1);
+    opacity: 0.7;
+}
+
+/* Checked state for checkboxes */
+.icon-checkbox input[type="checkbox"]:checked + img {
+    opacity: 1;
+    filter: grayscale(0%);
+}
+
+/* New Feature: Active state for selectors (managed by JS) */
+.icon-select-label.is-active img {
+    opacity: 1;
+    filter: grayscale(0%);
+}
+
+
+/* --- NEW: Border Selection Specific Styling (New Feature) --- */
+
+.icon-select-label {
+    /* Needed to position the invisible select overlay */
+    position: relative;
+    display: inline-block;
+}
+
+.border-select {
+    /* Hide the default appearance and position it over the icon */
+    /* When the user clicks the icon, they are actually clicking this invisible select element */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0; /* Make it invisible */
+    cursor: pointer;
+}
+
+
+/* --- NEW: Custom Border Styles (Visualization and Generated) (New Feature) --- */
+/* Use box-shadow inset for robust inner borders that don't affect layout */
+
+.tile-visual.border-black, .generatedTile.border-black {
+    box-shadow: inset 0 0 0 var(--custom-border-width) var(--border-black);
+}
+.tile-visual.border-brown, .generatedTile.border-brown {
+    box-shadow: inset 0 0 0 var(--custom-border-width) var(--border-brown);
+}
+.tile-visual.border-silver, .generatedTile.border-silver {
+    box-shadow: inset 0 0 0 var(--custom-border-width) var(--border-silver);
+}
+.tile-visual.border-purple, .generatedTile.border-purple {
+    box-shadow: inset 0 0 0 var(--custom-border-width) var(--border-purple);
+}
+.tile-visual.border-gold, .generatedTile.border-gold {
+    box-shadow: inset 0 0 0 var(--custom-border-width) var(--border-gold);
+}
+
+
+/* --- Selection/Border Styles Removed --- */
+/* Removed: #border-controls, .color-picker, .color-swatch, .tile-visual.selected, .generated-border-overlay */
+
+
+/* --- NEW: Board Code I/O Styling --- */
+#codeIOContainer {
+    max-width: var(--max-width);
+    margin: 30px auto;
+    padding: 15px;
+    border: 1px solid #eee;
+    background-color: #f9f9f9;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+#codeIOContainer h2 {
+    margin-top: 0;
+}
+
+#codeIOContainer p {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+#boardCodeArea {
+    width: 100%;
+    max-width: 600px; /* Constrain width slightly for better readability */
+    margin: 0 auto 10px; /* Center and add bottom margin */
+    padding: 10px;
+    font-family: monospace; /* Better for code display */
+    box-sizing: border-box;
+    resize: vertical; /* Allow vertical resizing */
+    display: block; /* Ensure block display for centering */
+}
+/* --- END NEW --- */
+
+
+#instructions {
+    margin: auto;
+    max-width: var(--max-width); 
+    padding: 0 10px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center; 
+    gap: 10px; 
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+
+.generatedTile {
+	position:relative;
+    width: var(--generated-tile-size);
+    height: var(--generated-tile-size);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    margin:0;
+    border:none;
+    box-sizing: border-box;
+}
+
+.generatedBoard {
+    display: grid;
+    grid-template-columns: repeat(5, var(--generated-tile-size));
+    justify-content: center;
+    margin-bottom:20px;
+    background-color:AliceBlue;
+    border:1px solid gray;
+    /* Must be relative for overlays to position correctly */
+    position: relative;
+}
+
+/* --- Overlay Styles (Treasure/Star/Bulb) --- */
+
+/* Parent tile preparation remains the same */
+.generatedTile, .tile-visual {
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px; 
+}
+
+/* UPDATED Treasure Overlay Style */
+.generatedTile.treasureGenerated::after,
+.tile-visual.vis-treasure::after {
+    content: ''; 
+    position: absolute;
+    
+    /* This is the change! We inset the overlay on all 4 sides. */
+    /* Use max to ensure it doesn't break if border width is 0 */
+    top: max(0px, var(--custom-border-width));
+    left: max(0px, var(--custom-border-width));
+    right: max(0px, var(--custom-border-width));
+    bottom: max(0px, var(--custom-border-width));
+
+    /* The background color remains the same */
+    background-color: rgba(88, 164, 52, 0.5);
+
+    pointer-events: none; 
+    z-index: 5; 
+}
+
+/* Icons (Star/Bulb) - Uses ::before with multiple background images to allow coexistence */
+
+/* Base style for icons pseudo-element (Input Visualization) */
+.tile-visual.vis-star::before,
+.tile-visual.vis-bulb::before {
+    content: '';
+    position: absolute;
+    /* Define the area covering both top corners */
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 24px; /* Height of the icons */
+    z-index: 10;
+    background-repeat: no-repeat;
+}
+
+/* Star (Top Right) (Input Visualization) */
+.tile-visual.vis-star::before {
+    background-image: url('star.png');
+    background-position: top right;
+    background-size: 22px 22px;
+}
+
+/* Bulb (Top Left) (Input Visualization) */
+.tile-visual.vis-bulb::before {
+    background-image: url('bulb.png');
+    background-position: top left;
+    background-size: 22px 22px;
+}
+
+/* Both Star and Bulb (Input Visualization) */
+/* This selector overrides the background-image property of the individual ones above */
+.tile-visual.vis-star.vis-bulb::before {
+    /* Stack the images */
+    background-image: url('star.png'), url('bulb.png');
+    background-position: top right, top left;
+    background-size: 22px 22px, 22px 22px;
+}
+
+
+/* Base style for icons pseudo-element (Generated Output) */
+.generatedTile.starGenerated::before,
+.generatedTile.bulbGenerated::before {
+    content: '';
+    position: absolute;
+    /* Define the area covering both top corners (adjusted for output size) */
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 20px; /* Height of the icons */
+    z-index: 10;
+    background-repeat: no-repeat;
+}
+
+/* Star (Top Right) (Generated Output) */
+.generatedTile.starGenerated::before {
+    background-image: url('star.png');
+    background-position: top right;
+    background-size: 20px 20px;
+}
+
+/* Bulb (Top Left) (Generated Output) */
+.generatedTile.bulbGenerated::before {
+    background-image: url('bulb.png');
+    background-position: top left;
+    background-size: 20px 20px;
+}
+
+/* Both Star and Bulb (Generated Output) */
+.generatedTile.starGenerated.bulbGenerated::before {
+    /* Stack the images */
+    background-image: url('star.png'), url('bulb.png');
+    background-position: top right, top left;
+    background-size: 20px 20px, 20px 20px;
+}
+
+
+/* Tile Backgrounds - Applied to a common class for use in input and output */
+/* .tile-bg.x removed, replaced with .tile-bg.blank */
+.tile-bg.blank { background-color: #ffffff; } /* Ensure blank is white */
+.tile-bg.one {background-image: url('tiles/1.png');}
+.tile-bg.two {background-image: url('tiles/2.png');}
+.tile-bg.three {background-image: url('tiles/3.png');}
+.tile-bg.four {background-image: url('tiles/4.png');}
+.tile-bg.five {background-image: url('tiles/5.png');}
+.tile-bg.six {background-image: url('tiles/6.png');}
+.tile-bg.threex {background-image: url('tiles/3x.png');}
+.tile-bg.fourx {background-image: url('tiles/4x.png');}
+.tile-bg.yahtzee {background-image: url('tiles/yahtzee.png');}
+.tile-bg.chance {background-image: url('tiles/chance.png');}
+.tile-bg.pair {background-image: url('tiles/pr.png');}
+.tile-bg.odds {background-image: url('tiles/odd.png');}
+.tile-bg.evens {background-image: url('tiles/even.png');}
+.tile-bg.full {background-image: url('tiles/full.png');}
+.tile-bg.sm {background-image: url('tiles/sm.png');}
+.tile-bg.lg {background-image: url('tiles/lg.png');}
+
+
+#window {
+    display: flex;
+    justify-content: center;
+    gap: 20px; 
+    margin: auto;
+    max-width: 525px; 
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+footer {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    font-size: 12px;
+    color: #6c757d;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 50px;
+}
+
+/* (Chest Form Styles remain unchanged) */
+#chestForm {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: space-around; 
+    align-items: center; 
+}
+.chest-input {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    margin: 10px; 
+
+}
+.copies-input {
+    display: flex;
+	flex-direction: column;
+    align-items: center; 
+    margin: 10px; 
+
+}
+
+.copy-type-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+
+.copy-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.copy-option img {
+    width: 50px;
+    height: auto;
+    margin-bottom: 5px;
+}
+
+.copies-container {
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    margin-bottom: 10px;
+    padding-right:10px;
+    border-right:2px solid #000;
+}
+
+.copies-text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+    font-size: 30px;
+    -webkit-text-stroke-color: #000;
+    -webkit-text-stroke-width: 0.06em;
+    -webkit-text-fill-color: white;
+    text-shadow: 2px 2px 4px #000000;
+    position: relative;
+    margin: 0 2px; 
+}
+
+
+.chests { 
+  font-family: 'Roboto', sans-serif;
+  font-weight: 900;
+  font-size: 30px;
+  -webkit-text-stroke-color: #000;
+  -webkit-text-stroke-width: 0.06em;
+  -webkit-text-fill-color: white;
+   position: absolute;
+    top: 70%;
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    text-shadow: 2px 2px 4px #000000;
+}
+
+
+#chestheader {
+    display: flex;
+    justify-content: center; 
+    gap: 10px; 
+    display:none;
+    flex-wrap: wrap;
+}
+
+#chestfooter {
+    /* display: flex; - JS sets this to block */
+    /* justify-content: center; - Does not apply well to block elements for text centering */
+    gap: 10px; 
+    display:none;
+    margin-top: 15px;
+}
+.chest-container {
+    position: relative;
+    display: inline-block; 
+    margin-bottom:10px;
+}
+
+.chestsimg {
+    display: block; 
+    width: auto; 
+    height: auto; 
+}
+#sm, #md, #lg, #xl, #copy {
+    display:none;
+}
+
+
+#line1 {
+    color: #58a434; /* Green text color for line 1 */
+    text-align: center; /* Center-align the text */
+}
+
+#line2 {
+    color: #9f6706; /* Brown text color for line 2 */
+    text-align: center; /* Center-align the text */
+
+}
+
