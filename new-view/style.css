@@ -1,4 +1,7 @@
-/* style.css (Revised for Dynamic Viewer) */
+/* --- Root variable for tile size --- */
+:root {
+    --generated-tile-size: 42px;
+}
 
 /* --- Original Base Styles --- */
 body {
@@ -6,7 +9,6 @@ body {
     margin: 0;
     padding: 20px;
     background-color: #f0f0f0;
-    /* Added padding-bottom so the fixed footer doesn't obscure content */
     padding-bottom: 60px; 
 }
 
@@ -33,7 +35,6 @@ button {
 }
 
 footer {
-    /* Keeping the original fixed footer style */
     position: fixed;
     left: 0;
     bottom: 0;
@@ -42,21 +43,18 @@ footer {
     color: #6c757d;
     text-align: center;
     padding: 10px 0;
-    background-color: #f0f0f0; /* Added background so content doesn't scroll under it */
+    background-color: #f0f0f0;
 }
 
-
-/* --- Original Grid Layout --- */
 #map-container {
-     justify-content: space-around;
+     padding:10px;
 }
 
 #mapsDisplay {
     display: grid;
-    gap: 30px; /* Increased gap slightly for separation between maps */
+    gap: 30px;
 }
 
-/* These selectors rely on the parent (#map-container) having the column class */
 .columns-1 #mapsDisplay {
     grid-template-columns: 1fr;
 }
@@ -66,19 +64,16 @@ footer {
 }
 
 .columns-3 #mapsDisplay {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
 }
 
 .columns-4 #mapsDisplay {
     grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
-/* --- Adapting Width Rules for Dynamic Content --- */
-/* The .map-wrapper replaces the old <img> tag */
-
 .columns-1 .map-wrapper {
     width: 50%;
-    margin: 0 auto; /* Center it since it's 50% width */
+    margin: 0 auto;
 }
 
 .columns-2 .map-wrapper,
@@ -87,7 +82,6 @@ footer {
     width: 100%;
 }
 
-/* Added Responsive adjustments (Good practice) */
 @media (max-width: 1200px) {
     .columns-4 #mapsDisplay {
         grid-template-columns: 1fr 1fr 1fr;
@@ -110,20 +104,16 @@ footer {
     }
 }
 
-
-/* --- Dynamic Map Rendering Styles --- */
-
 .map-wrapper {
-    /* Removed the 'card' look (no border, shadow, or white background) */
-    
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
-    max-width: 550px; /* <-- ADDED max-width here (to match builder's card) */
-    justify-self: center; /* <-- ADDED this to center the wrapper in the grid */
-    width: 100%; /* <-- ADDED this to ensure it respects parent width */
+    max-width: 550px;
+    justify-self: center;
+    width: 100%;
+    border:1px solid;
+    padding:5px;
 }
-/* --- Chest Header Display --- */
+
 .chest-header-display {
     display: flex;
     justify-content: center;
@@ -133,29 +123,20 @@ footer {
     align-items: center;
 }
 
-/* FIX: Reworking layout using CSS Grid to prevent overlap while maintaining overlay look */
-
 .chest-container, .copies-container {
-    /* Removed previous styles (position: relative, display: inline-block) */
-
-    /* NEW: Use inline-grid for overlay layout */
     display: inline-grid;
-    align-items: center; /* Center children vertically */
-    justify-items: center; /* Center children horizontally */
+    align-items: center;
+    justify-items: center;
 }
 
-/* Place children (image and text) in the same grid cell so they stack */
 .chest-container > *, .copies-container > * {
     grid-area: 1 / 1;
 }
 
-/* Chest Image */
 .chestsimg {
     height: 40px;
-    /* Removed display: block; as grid handles layout */
 }
 
-/* Consolidated text styles for Chests and Copies */
 .chests, .copies-text { 
     font-family: 'Roboto', sans-serif;
     font-weight: 900;
@@ -164,27 +145,18 @@ footer {
     -webkit-text-stroke-width: 0.06em;
     -webkit-text-fill-color: white;
     text-shadow: 2px 2px 4px #000000;
-    
-    /* REMOVED Absolute Positioning (position: absolute, top, left, transform) */
-
-    /* NEW: Adjust vertical position within the grid cell */
-    /* A slight translateY mimics the previous 'top: 70%' look */
     transform: translateY(30%); 
-    z-index: 10; /* Ensure text is above the image */
-    white-space: nowrap; /* Ensure text stays on one line */
+    z-index: 10;
+    white-space: nowrap;
     margin: 0;
 }
 
-
-/* Specific styles for the Copies container (border/spacing) */
 .copies-container {
-    margin-bottom: 10px;
     padding-right: 10px;
+    margin-top:5px;
     border-right: 2px solid #000;
 }
 
-
-/* --- Unrelated/Legacy Styles (Kept as is) --- */
 .copies-input {
     display: flex;
     flex-direction: column;
@@ -212,59 +184,39 @@ footer {
     margin-bottom: 5px;
 }
 
-
-/* --- Board Rendering (The 4 boards) --- */
-
-/* The 2x2 container */
 .window-clone {
     display: flex;
-    gap: 20px; /* <-- CHANGED to 20px (to match builder's card display) */
-    /* max-width: 500px; */
+    gap: 20px;
     width: 100%;
-    /* aspect-ratio: 1/1; */ /* FIX: Removed to eliminate excessive vertical space */
 }
 
-/* The two columns (left and right) */
 .column {
     display: flex;
     flex-direction: column;
     gap: 5px;
     flex: 1;
-    align-items: center; /* FIX: Center the inline-grid boards horizontally */
-}
-/* --- Root variable for tile size --- */
-:root {
-    --generated-tile-size: 42px;
+    align-items: center;
 }
 
-/* A single 5x5 board (Corrected) */
 .generatedBoard {
-    display: inline-grid; /* FIX: Changed from grid to inline-grid so border touches tiles */
-    /* Use the fixed tile size variable */
+    display: inline-grid;
     grid-template-columns: repeat(5, var(--generated-tile-size));
-    /* justify-content: center; */ /* FIX: Removed, now centered by parent .column */
     position: relative;
-    /* Corrected appearance */
     background-color: AliceBlue;
     border: 1px solid gray;
 }
 
-/* A single tile  */
 .generatedTile {
-    /* Use the fixed tile size variable */
     width: var(--generated-tile-size);
     height: var(--generated-tile-size);
     background-position: center;
     position: relative;
     box-sizing: border-box;
     overflow: hidden;
-    /* Adds the rounded corners from the builder */
     border-radius: 5px;
 }
 
-/* --- Tile Backgrounds  --- */
-
-
+/* --- Tile Backgrounds --- */
 .tile-bg.one { background-image: url('tiles/1.png'); }
 .tile-bg.two { background-image: url('tiles/2.png'); }
 .tile-bg.three { background-image: url('tiles/3.png'); }
@@ -282,9 +234,7 @@ footer {
 .tile-bg.sm { background-image: url('tiles/sm.png'); }
 .tile-bg.lg { background-image: url('tiles/lg.png'); }
 
-/* --- Tile Modifiers  --- */
-
-/* Treasure overlay (uses ::after) */
+/* --- Tile Modifiers --- */
 .generatedTile.treasureGenerated::after {
     content: ''; 
     position: absolute;
@@ -297,7 +247,6 @@ footer {
     z-index: 5; 
 }
 
-/* Generated tile icons (uses ::before) */
 .generatedTile.starGenerated::before,
 .generatedTile.bulbGenerated::before {
     content: '';
@@ -311,41 +260,37 @@ footer {
 }
 
 .generatedTile.starGenerated::before {
-    background-image: url('star.png'); /* Correct path */
+    background-image: url('star.png');
     background-position: top right;
     background-size: 20px 20px;
 }
 
 .generatedTile.bulbGenerated::before {
-    background-image: url('bulb.png'); /* Correct path */
+    background-image: url('bulb.png');
     background-position: top left;
     background-size: 20px 20px;
 }
 
-/* This is the missing rule that allows both icons at once */
 .generatedTile.starGenerated.bulbGenerated::before {
     background-image: url('star.png'), url('bulb.png');
     background-position: top right, top left;
     background-size: 20px 20px, 20px 20px;
 }
-/* Borders */
+
 .border-black { border: 3px solid black; }
 .border-brown { border: 3px solid brown; }
 .border-silver { border: 3px solid silver; }
 .border-purple { border: 3px solid purple; }
 .border-gold { border: 3px solid gold; }
 
-
-/* --- Notes Footer --- */
 .map-notes {
     margin-top: 15px;
     width: 100%;
-    max-width: 500px; /* Align width with the map visualization */
+    max-width: 500px;
     text-align: center;
     font-size: 0.9em;
 }
 
-/* Styling for Quill editor content (if notes exist) */
 .map-notes .ql-editor {
     padding: 0;
     border: none;
@@ -357,7 +302,7 @@ footer {
 .map-default-note-1 {
     color: #58a434;
     text-align: center;
-    margin-top: 5px; /* Add some space if there are custom notes */
+    margin-top: 5px;
 }
 
 .map-default-note-2 {
@@ -365,11 +310,10 @@ footer {
     text-align: center;
 }
 
-/* --- Status Messages --- */
 .status-message {
     text-align: center;
     font-weight: bold;
-    grid-column: 1 / -1; /* Span across all columns */
+    grid-column: 1 / -1;
 }
 
 .status-message.error {

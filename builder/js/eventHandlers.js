@@ -4,7 +4,6 @@ import { getBoardData, generateBoardCodeObject, rotateBoardState } from './dataP
 import { displayBoard, updateHeaderAndFooter } from './boardDisplay.js';
 import { updateVisualTileBackground, updateVisualTileBorder } from './tileVisuals.js';
 import { showStatus, normalizeBorderInput } from './utils.js';
-import { exportBoardAsText, showImportTextContainer, setupJsonTextListeners } from './jsonExport.js';
 import { clearCurrentEditingMap } from './searchTab.js';
 import { checkMapForDuplicates } from './duplicateCheck.js'; 
 import { validateAllTilesForGeneration } from './validation.js'; 
@@ -28,16 +27,6 @@ export function setupEventListeners() {
     
     const copyBtn = document.getElementById('copyCodeButton');
     if (copyBtn) copyBtn.addEventListener('click', handleCopyCode);
-
-        // JSON Import/Export (now using text containers)
-    const exportBtn = document.getElementById('exportJsonButton');
-    if (exportBtn) exportBtn.addEventListener('click', exportBoardAsText);
-    
-    const importBtn = document.getElementById('importJsonButton');
-    if (importBtn) importBtn.addEventListener('click', showImportTextContainer);
-
-    // Setup JSON text container listeners
-    setupJsonTextListeners();
 
     // Search tab listeners (moved to searchTab.js)
     setupSearchListeners();

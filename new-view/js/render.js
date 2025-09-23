@@ -17,22 +17,18 @@ function convertFlatTo2D(flatArray) {
 }
 
 function rotateBoardState(boardState) {
-    if (!boardState || !boardState.tiles || boardState.tiles.length === 0) return boardState;
+    const size = 5; // Or GRID_SIZE if you have it defined
+    const N = size;
+    const oldTiles = boardState.tiles;
+    let newTiles = Array.from({ length: size }, () => Array(size).fill(null));
 
-    const originalTiles = boardState.tiles;
-    const newTiles = Array.from({ length: GRID_SIZE }, () => Array(GRID_SIZE).fill(null));
-
-    for (let r = 0; r < GRID_SIZE; r++) {
-        for (let c = 0; c < GRID_SIZE; c++) {
-            // 90 deg Clockwise rotation: (r, c) -> (c, N-1-r)
-            newTiles[c][(GRID_SIZE - 1) - r] = { ...originalTiles[r][c] };
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < size; j++) {
+            newTiles[i][j] = { ...oldTiles[N - 1 - j][i] };
         }
     }
 
-    return {
-        ...boardState,
-        tiles: newTiles
-    };
+    return { ...boardState, tiles: newTiles };
 }
 
 // --- Rendering Functions ---
