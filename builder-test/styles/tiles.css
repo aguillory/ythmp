@@ -92,7 +92,7 @@
 }
 
 /* Tile backgrounds */
-.tile-bg.blank { background-color: #ffffff; }
+.tile-bg.blank { }
 .tile-bg.one { background-image: url('../tiles/1.png'); }
 .tile-bg.two { background-image: url('../tiles/2.png'); }
 .tile-bg.three { background-image: url('../tiles/3.png'); }

@@ -18,7 +18,6 @@
     display: grid;
     grid-template-columns: repeat(5, var(--generated-tile-size));
     justify-content: center;
-    margin-bottom: 20px;
     background-color: AliceBlue;
     border: 1px solid gray;
     position: relative;

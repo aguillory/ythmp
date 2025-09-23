@@ -13,14 +13,12 @@
     padding: 15px;
     border-radius: 8px;
     border: 1px solid #eee;
-    gap: 20px;
 }
 
 .search-inputs-wrapper {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 15px;
 }
 
 .search-controls-wrapper {
@@ -31,18 +29,41 @@
 }
 
 .chest-input-search {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto auto;
+    grid-template-areas: 
+        "image image image"
+        "minus select plus";
+    gap: 5px;
+    justify-items: center;
     align-items: center;
     margin: 5px;
+   
+    min-width: 130px; 
 }
 
+
 .chest-input-search img {
+    grid-area: image;
     width: 50px;
     height: auto;
     margin-bottom: 5px;
 }
 
+
+.chest-input-search .decrement {
+    grid-area: minus;
+}
+
+.chest-input-search select {
+    grid-area: select;
+    width: 100%; 
+}
+
+.chest-input-search .increment {
+    grid-area: plus;
+}
 .view-options {
     display: flex;
     align-items: center;
@@ -50,7 +71,7 @@
     padding: 10px;
 }
 
-/* NEW: ID Search */
+
 .search-divider {
     text-align: center;
     margin-top: 30px;
