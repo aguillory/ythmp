@@ -59,31 +59,39 @@
         <h3>Search by Chest Combination</h3>
         <form id="searchChestForm">
             <div class="search-inputs-wrapper">
-                <div class="chest-input-search">
-                    <img src="chests1.png" alt="Small Chest">
-                    <select id="searchSmallChests" name="smallChests">
-                        </select>
-                </div>
-                
-                <div class="chest-input-search">
-                    <img src="chests2.png" alt="Medium Chest">
-                    <select id="searchMediumChests" name="mediumChests">
-                    </select>
-                </div>
-                
-                <div class="chest-input-search">
-                    <img src="chests3.png" alt="Large Chest">
-                    <select id="searchLargeChests" name="largeChests">
-                    </select>
-                </div>
-                
-                <div class="chest-input-search">
-                    <img src="chests4.png" alt="Extra Large Chest">
-                    <select id="searchExtraLargeChests" name="extraLargeChests">
-                    </select>
-                </div>
-            </div>
-
+                            <div class="chest-input-search">
+                                <img src="chests1.png" alt="Small Chest">
+                                <button type="button" class="decrement">-</button>
+                                <select id="searchSmallChests" name="smallChests">
+                                    </select>
+                                <button type="button" class="increment">+</button>
+                            </div>
+                            
+                            <div class="chest-input-search">
+                                <img src="chests2.png" alt="Medium Chest">
+                                <button type="button" class="decrement">-</button>
+                                <select id="searchMediumChests" name="mediumChests">
+                                </select>
+                                <button type="button" class="increment">+</button>
+                            </div>
+                            
+                            <div class="chest-input-search">
+                                <img src="chests3.png" alt="Large Chest">
+                                <button type="button" class="decrement">-</button>
+                                <select id="searchLargeChests" name="largeChests">
+                                </select>
+                                <button type="button" class="increment">+</button>
+                            </div>
+                            
+                            <div class="chest-input-search">
+                                <img src="chests4.png" alt="Extra Large Chest">
+                                <button type="button" class="decrement">-</button>
+                                <select id="searchExtraLargeChests" name="extraLargeChests">
+                                </select>
+                                <button type="button" class="increment">+</button>
+                            </div>
+                        </div>
+                        
             <div class="search-controls-wrapper">
                 <div class="button-container">
                     <button type="submit" id="showMapsButton">Show Maps</button>
@@ -155,40 +163,58 @@
                                     <input type="radio" name="copyType" value="copy2.png" id="almostCopy">
                                 </div>
                             </div>
+                            <div class="copies-select-wrapper">
                             <select id="copies" name="copies">
                                 <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
                             </select> of
                             <select id="copies2" name="copies2">
                                 <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
                             </select>
+                            </div>
                         </div>
                     
                         <div class="chest-input">
                             <img src="chests1.png" alt="Small Chest">
+                             <div class="chest-controls-wrapper">
+        <button type="button" class="decrement">-</button>
                             <select id="smallChests" name="smallChests">
                                 <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option>
                             </select>
+                            <button type="button" class="increment">+</button>
+                             </div>
                         </div>
                         
                         <div class="chest-input">
                             <img src="chests2.png" alt="Medium Chest">
+                             <div class="chest-controls-wrapper">
+        <button type="button" class="decrement">-</button>
                             <select id="mediumChests" name="mediumChests">
                                 <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
                             </select>
+                            <button type="button" class="increment">+</button>
+                             </div>
                         </div>
                         
                         <div class="chest-input">
                             <img src="chests3.png" alt="Large Chest">
+                             <div class="chest-controls-wrapper">
+        <button type="button" class="decrement">-</button>
                             <select id="largeChests" name="largeChests">
                                 <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
                             </select>
+                            <button type="button" class="increment">+</button>
+                             </div>
                         </div>
                         
                         <div class="chest-input">
                             <img src="chests4.png" alt="Extra Large Chest">
+                             <div class="chest-controls-wrapper">
+        <button type="button" class="decrement">-</button>
                             <select id="extraLargeChests" name="extraLargeChests">
                                 <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
                             </select>
+                            <button type="button" class="increment">+</button>
+                             </div>
                         </div>
                     </form>
                 </div>
@@ -294,5 +320,4 @@
 
 		<footer>This website is a fan-made creation designed to provide an easy map builder tool for game maps. All artwork is the property of Scopely and is used under fair use for non-commercial, educational purposes. The map guides were sourced from TH Tips on Facebook. This site was independently created by a fan for the purpose of assisting the gaming community. It is not affiliated with, endorsed by, or sponsored by Scopely or any other official entity.</footer>
 	</body>
-
 </html>
