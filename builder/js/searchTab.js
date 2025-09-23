@@ -11,7 +11,7 @@ let currentEditingMapId = null;
 let currentEditingMapData = null;
 
 export function initializeSearchInterface() {
-const populateDropdown = (selectElement, config) => {
+    const populateDropdown = (selectElement, config) => {
         if (!selectElement) return;
         
         // --- We removed the blank option ---
@@ -24,12 +24,12 @@ const populateDropdown = (selectElement, config) => {
         }
         selectElement.value = "0"; // Default to "0"
     };
-
+    
     populateDropdown(document.getElementById('searchSmallChests'), CONFIG.CHEST_COUNTS.small);
     populateDropdown(document.getElementById('searchMediumChests'), CONFIG.CHEST_COUNTS.medium);
     populateDropdown(document.getElementById('searchLargeChests'), CONFIG.CHEST_COUNTS.large);
     populateDropdown(document.getElementById('searchExtraLargeChests'), CONFIG.CHEST_COUNTS.extraLarge);
-
+    
     handleColumnChange();
 }
 export function setupSearchListeners() {
@@ -51,7 +51,7 @@ export function setupSearchListeners() {
     if (columnSelector) {
         columnSelector.addEventListener('change', handleColumnChange);
     }
-
+    
     setupIncrementDecrement(); // <-- ADD THIS LINE
 }
 // Export these functions so eventHandlers.js can use them
@@ -104,10 +104,9 @@ function updateSaveButton() {
         }
         
         updateBtn.style.display = 'inline-block';
-        updateBtn.disabled = false; // Re-enable on load
         saveAsNewBtn.style.display = 'inline-block';
         saveBtn.style.display = 'none';
-    } else {
+        } else {
         // Show original save button, hide update buttons
         const updateBtn = document.getElementById('updateMapButton');
         const saveAsNewBtn = document.getElementById('saveAsNewButton');
@@ -125,7 +124,7 @@ async function handleUpdateMap() {
     if (updateBtn) updateBtn.disabled = true;
     
     showStatus('Updating map...', 'info');
-
+    
     try {
         const mapData = generateBoardCodeObject();
         
@@ -143,7 +142,7 @@ async function handleUpdateMap() {
         if (state.quillEditor && state.quillEditor.getLength() > 1) {
             notesHtml = state.quillEditor.root.innerHTML;
         }
-
+        
         const firebaseModule = await import('./database.js');
         await firebaseModule.updateMapInDatabase(currentEditingMapId, mapData, notesHtml);
         
@@ -155,7 +154,7 @@ async function handleUpdateMap() {
             refreshMapSearch(currentSignature);
         }
         
-    } catch (error) {
+        } catch (error) {
         console.error('Error updating map:', error);
         showStatus(`Error updating map: ${error.message}`, 'error');
         if (updateBtn) updateBtn.disabled = false;
@@ -185,7 +184,7 @@ async function refreshMapSearch(signature) {
         const firebaseModule = await import('./database.js');
         const maps = await firebaseModule.fetchMapsBySignature(signature);
         renderMapList(maps);
-    } catch (error) {
+        } catch (error) {
         console.error('Error refreshing search:', error);
     }
 }
@@ -194,42 +193,42 @@ async function handleShowMaps(event) {
     event.preventDefault();
     
     if (!state.elements.mapListContainer) return;
-
+    
     const sm = document.getElementById('searchSmallChests').value;
     const md = document.getElementById('searchMediumChests').value;
     const lg = document.getElementById('searchLargeChests').value;
     const xl = document.getElementById('searchExtraLargeChests').value;
-
+    
     // Check if all are empty
     if (!sm && !md && !lg && !xl) {
         state.elements.mapListContainer.innerHTML = '<p>Please select at least one chest count.</p>';
         return;
     }
-
+    
     const chestSignature = `${sm || 0}.${md || 0}.${lg || 0}.${xl || 0}`;
-
+    
     state.elements.mapListContainer.innerHTML = '<p>Loading maps...</p>';
     
     // Clear ID search input
     const idInput = document.getElementById('mapIdSearchInput');
     if (idInput) idInput.value = '';
-
+    
     try {
         const firebaseModule = await import('./database.js');
         
         if (!firebaseModule.fetchMapsBySignature) {
             throw new Error("Database fetch function not available.");
         }
-
+        
         const maps = await firebaseModule.fetchMapsBySignature(chestSignature);
-
+        
         if (maps.length === 0) {
             state.elements.mapListContainer.innerHTML = '<p>No maps found for this chest combination.</p>';
-        } else {
+            } else {
             renderMapList(maps);
         }
-
-    } catch (error) {
+        
+        } catch (error) {
         console.error("Error fetching maps:", error);
         state.elements.mapListContainer.innerHTML = `<p style="color: red;">Error loading maps: ${error.message}</p>`;
     }
@@ -254,18 +253,18 @@ async function handleSearchById(event) {
     if (state.elements.searchChestForm) {
         state.elements.searchChestForm.reset();
     }
-
+    
     try {
         const firebaseModule = await import('./database.js');
         const map = await firebaseModule.fetchMapById(mapId);
         
         if (map) {
             renderMapList([map]); // Render as an array with one item
-        } else {
+            } else {
             state.elements.mapListContainer.innerHTML = `<p>No map found with ID: ${mapId}</p>`;
         }
         
-    } catch (error) {
+        } catch (error) {
         console.error("Error fetching map by ID:", error);
         state.elements.mapListContainer.innerHTML = `<p style="color: red;">Error loading map: ${error.message}</p>`;
     }
@@ -300,7 +299,7 @@ function handleColumnChange() {
 function setupIncrementDecrement() {
     const searchForm = document.getElementById('searchChestForm');
     if (!searchForm) return;
-
+    
     const handleIncrement = (e) => {
         // The <select> is the element *before* the increment button
         const select = e.target.previousElementSibling;
@@ -310,7 +309,7 @@ function setupIncrementDecrement() {
             }
         }
     };
-
+    
     const handleDecrement = (e) => {
         // The <select> is the element *after* the decrement button
         const select = e.target.nextElementSibling;
@@ -320,12 +319,12 @@ function setupIncrementDecrement() {
             }
         }
     };
-
+    
     // Use event delegation on the form
     searchForm.addEventListener('click', (e) => {
         if (e.target.classList.contains('increment')) {
             handleIncrement(e);
-        } else if (e.target.classList.contains('decrement')) {
+            } else if (e.target.classList.contains('decrement')) {
             handleDecrement(e);
         }
     });
@@ -334,12 +333,12 @@ function setupIncrementDecrement() {
 function renderMapList(maps) {
     state.elements.mapListContainer.innerHTML = '';
     const fragment = document.createDocumentFragment();
-
+    
     maps.forEach(map => {
         const mapCard = createMapCard(map.id, map.data, { showReorder: true });
         fragment.appendChild(mapCard);
     });
-
+    
     state.elements.mapListContainer.appendChild(fragment);
 }
 
@@ -359,11 +358,11 @@ async function handleDeleteMap(mapId) {
         const currentSignature = getCurrentSearchSignature();
         if (currentSignature) {
             refreshMapSearch(currentSignature);
-        } else {
+            } else {
             // If we weren't in a signature search (e.g., ID search), just clear the results
             handleClearSearch();
         }
-    } catch (error) {
+        } catch (error) {
         console.error('Error deleting map:', error);
         showStatus(`Error deleting map: ${error.message}`, 'error');
     }
@@ -379,7 +378,7 @@ async function handleReorderMap(mapId, direction) {
         if (currentSignature) {
             refreshMapSearch(currentSignature);
         }
-    } catch (error) {
+        } catch (error) {
         console.error('Error reordering map:', error);
         showStatus(`Error reordering map: ${error.message}`, 'error');
     }
@@ -387,10 +386,10 @@ async function handleReorderMap(mapId, direction) {
 
 export function createMapCard(mapId, mapData, options = {}) {
     const { showReorder = true } = options; // Correctly get the option
-
+    
     const card = document.createElement('div');
     card.className = 'map-card';
-
+    
     const header = document.createElement('div');
     header.className = 'map-card-header';
     header.innerHTML = `<h3>Map ID: ${mapId}</h3>`;
@@ -414,6 +413,11 @@ export function createMapCard(mapId, mapData, options = {}) {
         
         // Set this as the currently editing map
         setCurrentEditingMap(mapId, mapData);
+        
+        const updateBtn = document.getElementById('updateMapButton');
+        if (updateBtn) {
+            updateBtn.disabled = true;
+        }
     });
     
     const deleteButton = document.createElement('button');
@@ -425,7 +429,7 @@ export function createMapCard(mapId, mapData, options = {}) {
     
     actionsContainer.appendChild(loadButton);
     actionsContainer.appendChild(deleteButton);
-
+    
     // This block now correctly adds re-order buttons only if showReorder is true
     if (showReorder) {
         const moveUpButton = document.createElement('button');
@@ -446,8 +450,8 @@ export function createMapCard(mapId, mapData, options = {}) {
     
     header.appendChild(actionsContainer);
     card.appendChild(header);
-
-
+    
+    
     // --- START: ADDED CHEST/COPY HEADER ---
     
     const d = mapData.mapData; // Shortcut for board data
@@ -459,7 +463,7 @@ export function createMapCard(mapId, mapData, options = {}) {
     const xlValue = d.xl || 0;
     const isAlmostCopy = d.isAlmostCopy || false;
     const selectedCopyIcon = isAlmostCopy ? 'copy2.png' : 'copy.png';
-
+    
     // Create a container for the header icons
     const chestHeaderClone = document.createElement('div');
     chestHeaderClone.style.display = 'flex';
@@ -467,7 +471,7 @@ export function createMapCard(mapId, mapData, options = {}) {
     chestHeaderClone.style.gap = '10px';
     chestHeaderClone.style.flexWrap = 'wrap';
     chestHeaderClone.style.marginBottom = '15px'; // Add some spacing
-
+    
     // Create "Copy" element
     if (copies > 0 && copies2 > 0 && copies <= copies2) {
         const copyContainer = document.createElement('div');
@@ -500,7 +504,7 @@ export function createMapCard(mapId, mapData, options = {}) {
         copyContainer.appendChild(copy2Txt);
         chestHeaderClone.appendChild(copyContainer);
     }
-
+    
     // Helper to create chest elements
     const createChestElement = (value, imgSrc, altText) => {
         if (value <= 0) return null;
@@ -522,7 +526,7 @@ export function createMapCard(mapId, mapData, options = {}) {
         container.appendChild(text);
         return container;
     };
-
+    
     // Create chest elements
     const smEl = createChestElement(smValue, 'chests1.png', 'Small Chest');
     const mdEl = createChestElement(mdValue, 'chests2.png', 'Medium Chest');
@@ -533,15 +537,15 @@ export function createMapCard(mapId, mapData, options = {}) {
     if (mdEl) chestHeaderClone.appendChild(mdEl);
     if (lgEl) chestHeaderClone.appendChild(lgEl);
     if (xlEl) chestHeaderClone.appendChild(xlEl);
-
+    
     // Add the new header to the card
     card.appendChild(chestHeaderClone);
     
     // --- END: ADDED CHEST/COPY HEADER ---
-
+    
     const content = document.createElement('div');
     content.className = 'map-card-content';
-
+    
     const boardState = {
         tiles: convertFlatTo2D(mapData.mapData.tiles)
     };
@@ -549,7 +553,7 @@ export function createMapCard(mapId, mapData, options = {}) {
     const rotate90 = rotateBoardState(boardState);
     const rotate180 = rotateBoardState(rotate90);
     const rotate270 = rotateBoardState(rotate180);
-
+    
     const windowClone = document.createElement('div');
     windowClone.className = 'window-clone';
     
@@ -559,29 +563,29 @@ export function createMapCard(mapId, mapData, options = {}) {
     const boardBL = document.createElement('div');
     column1.appendChild(boardTL);
     column1.appendChild(boardBL);
-
+    
     const column2 = document.createElement('div');
     column2.className = 'column';
     const boardTR = document.createElement('div');
     const boardBR = document.createElement('div');
     column2.appendChild(boardTR);
     column2.appendChild(boardBR);
-
+    
     windowClone.appendChild(column1);
     windowClone.appendChild(column2);
-
+    
     displayBoard(boardState, boardTL);
     displayBoard(rotate270, boardTR);
     displayBoard(rotate180, boardBR);
     displayBoard(rotate90, boardBL);
-
+    
     content.appendChild(windowClone);
     card.appendChild(content);
-
+    
     // --- Notes Section (Custom + Default) ---
     const notesSection = document.createElement('div');
     notesSection.className = 'map-card-notes';
-
+    
     // Add custom notes if they exist
     if (mapData.notesHtml && mapData.notesHtml.trim() !== '') {
         const customNotesContainer = document.createElement('div');
@@ -589,7 +593,7 @@ export function createMapCard(mapId, mapData, options = {}) {
         customNotesContainer.innerHTML = `<div class="ql-editor">${mapData.notesHtml}</div>`;
         notesSection.appendChild(customNotesContainer);
     }
-
+    
     // Add default notes (styled via CSS)
     const defaultNote1 = document.createElement('div');
     defaultNote1.className = 'map-card-default-note-1';
@@ -603,6 +607,6 @@ export function createMapCard(mapId, mapData, options = {}) {
     notesSection.appendChild(defaultNote2);
     
     card.appendChild(notesSection);
- 
-     return card;
+    
+    return card;
 }

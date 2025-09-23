@@ -32,6 +32,15 @@ export function setupEventListeners() {
     setupSearchListeners();
     
     setupBuilderIncrementDecrement();
+    const dirtyListener = () => {
+    const updateBtn = document.getElementById('updateMapButton');
+    if (updateBtn && updateBtn.style.display !== 'none') {
+        updateBtn.disabled = false;
+    }
+};
+
+state.elements.boardForm.addEventListener('input', dirtyListener);
+state.elements.chestForm.addEventListener('input', dirtyListener);
 }
 
 export function handleGenerate(event) {
