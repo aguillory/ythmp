@@ -1,16 +1,42 @@
 /* --- Root variable for tile size --- */
 :root {
     --generated-tile-size: 42px;
+    /* --- NEW: Color variables --- */
+    --page-background: #f0f0f0;
+    --map-wrapper-background: #ffffff;
+    --generated-board-background: #F0F8FF;
 }
 
 /* --- Original Base Styles --- */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 20px;
-    background-color: #f0f0f0;
+    background-color: var(--page-background); /* USE VARIABLE */
     padding-bottom: 60px; 
 }
+
+/* --- NEW: Page Layout --- */
+.page-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.setup-section {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.main-content {
+    /* This will take up the available space */
+}
+
+.sidebar-content {
+    width: 220px; /* Adjust width as needed */
+}
+
 
 h1, h2 {
     color: #333;
@@ -43,7 +69,7 @@ footer {
     color: #6c757d;
     text-align: center;
     padding: 10px 0;
-    background-color: #f0f0f0;
+    background-color: var(--page-background); /* USE VARIABLE */
 }
 
 #map-container {
@@ -73,14 +99,17 @@ footer {
     grid-template-columns: auto auto auto auto;
 }
 
-@media (max-width: 1200px) {
-    .columns-4 #mapsDisplay {
-        grid-template-columns: auto auto auto;
-    }
-}
+
 @media (max-width: 900px) {
     .columns-3 #mapsDisplay, .columns-4 #mapsDisplay {
         grid-template-columns: auto auto;
+    }
+    .setup-section {
+        grid-template-columns: 1fr; /* Stack on smaller screens */
+    }
+    .sidebar-content {
+        width: 100%;
+        margin-top: 30px;
     }
 }
 @media (max-width: 600px) {
@@ -97,6 +126,7 @@ footer {
     width: 100%;
     border:1px solid;
     padding:5px;
+    background-color: var(--map-wrapper-background); /* USE VARIABLE */
 }
 
 .chest-header-display {
@@ -109,8 +139,14 @@ footer {
 }
 
 .map-id-display {
-    text-align:center;
-    font-style:italic;
+    font-weight: bold;
+    font-size: 1.1em;
+    padding: 5px 10px;
+    background-color: #eee;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin: 15px auto 5px auto; /* Top, horizontal, bottom margin */
+    display: inline-block; /* Allows for auto horizontal margins to work */
 }
 
 
@@ -193,7 +229,7 @@ footer {
     display: inline-grid;
     grid-template-columns: repeat(5, var(--generated-tile-size));
     position: relative;
-    background-color: AliceBlue;
+    background-color: var(--generated-board-background); /* USE VARIABLE */
     border: 1px solid gray;
 }
 
@@ -205,6 +241,49 @@ footer {
     box-sizing: border-box;
     overflow: hidden;
     border-radius: 5px;
+}
+
+/* --- NEW: Color Picker Styles --- */
+#color-picker-panel {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+#color-picker-panel h3 {
+    margin-top: 0;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.color-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.color-option label {
+    font-weight: bold;
+    color: #333;
+}
+
+#reset-colors-btn {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Coloris-specific adjustments */
+.clr-field {
+    width: 30px;
+    height: 30px;
+}
+.clr-field input[type="text"] {
+    opacity: 0;
+    cursor: pointer;
 }
 
 /* --- Tile Backgrounds --- */

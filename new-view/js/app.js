@@ -2,8 +2,12 @@
 
 import { fetchMapsBySignaturePublic } from './database_public.js';
 import { createMapWrapper } from './render.js';
+import { initializeColorPicker } from './color-picker.js'; // IMPORT
 
 document.addEventListener('DOMContentLoaded', function() {
+    // --- Initialize Color Picker ---
+    initializeColorPicker(); // INITIALIZE
+
     // Configuration ranges matching the original script.js
     const chestConfigs = {
         smallChests: { min: 0, max: 11 },
