@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RZFM0HF9CZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RZFM0HF9CZ');
+</script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treasure Hunt Maps</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Treasure Hunt Map Solutions</h1>
+    <h2>Select the number of each type of chest:</h2>
+ <form id="chestForm">
+        <div class="chest-input">
+            <img src="chests1.png" alt="Small Chest">
+            <label for="smallChests">Small Chests:</label>
+            <button type="button" class="decrement">-</button>
+            <select id="smallChests" name="smallChests"></select>
+            <button type="button" class="increment">+</button>
+        </div>
+
+        <div class="chest-input">
+            <img src="chests2.png" alt="Medium Chest">
+            <label for="mediumChests">Medium Chests:</label>
+            <button type="button" class="decrement">-</button>
+            <select id="mediumChests" name="mediumChests"></select>
+            <button type="button" class="increment">+</button>
+        </div>
+
+        <div class="chest-input">
+            <img src="chests3.png" alt="Large Chest">
+            <label for="largeChests">Large Chests:</label>
+            <button type="button" class="decrement">-</button>
+            <select id="largeChests" name="largeChests"></select>
+            <button type="button" class="increment">+</button>
+        </div>
+
+        <div class="chest-input">
+            <img src="chests4.png" alt="Extra Large Chest">
+            <label for="extraLargeChests">Extra Large Chests:</label>
+            <button type="button" class="decrement">-</button>
+            <select id="extraLargeChests" name="extraLargeChests"></select>
+            <button type="button" class="increment">+</button>
+        </div>
+
+        <button type="submit">Show Maps</button> <button id="clearAllButton">Clear All</button>
+        <br><br>
+        <label for="columnSelector">Select number of columns:</label>
+        <button type="button" class="decrement">-</button>
+        <select id="columnSelector">
+            <option value="1">1 Column</option>
+            <option value="2">2 Columns</option>
+            <option value="3">3 Columns</option>
+            <option value="4">4 Columns</option>
+        </select>
+        <button type="button" class="increment">+</button>
+
+
+    </form>
+
+
+
+<div id="map-container"><div id="mapsDisplay"></div></div>
+
+    <script src="script.js"></script>
+    </body>
+</html>
