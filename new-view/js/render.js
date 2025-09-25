@@ -78,41 +78,54 @@ function createTileElement(tile) {
 // --- Map Wrapper Creation ---
 
 export function createMapWrapper(mapId, mapData) {
-    const wrapper = document.createElement('div');
-    // Use 'map-wrapper' for the original, non-card look
-    wrapper.className = 'map-wrapper';
+    const card = document.createElement('div');
+    card.className = 'map-card';
 
     // --- Chest/Copy Header ---
     const d = mapData.mapData;
     if (!d) {
-        wrapper.appendChild(document.createTextNode('Error loading map data structure.'));
-        return wrapper;
+        card.appendChild(document.createTextNode('Error loading map data structure.'));
+        return card;
     }
-
-    const chestHeader = document.createElement('div');
-    chestHeader.className = 'chest-header-display';
-
-    // "Copy" element
+    const chestHeaderClone = document.createElement('div');
+    chestHeaderClone.style.display = 'flex';
+    chestHeaderClone.style.justifyContent = 'center';
+    chestHeaderClone.style.gap = '10px';
+    chestHeaderClone.style.flexWrap = 'wrap';
+    chestHeaderClone.style.marginBottom = '15px'; // Add some spacing
     const copies = d.numberOf || 0;
     const copies2 = d.outOf || 0;
     if (copies > 0 && copies2 > 0 && copies <= copies2) {
         const copyContainer = document.createElement('div');
         copyContainer.className = 'copies-container';
-        const isAlmostCopy = d.isAlmostCopy || false;
-        const selectedCopyIcon = isAlmostCopy ? 'copy2.png' : 'copy.png';
-        
+        copyContainer.style.display = 'flex';
+        copyContainer.style.alignItems = 'center';
+        copyContainer.style.borderRight = '2px solid #000';
+        copyContainer.style.paddingRight = '10px';
+
         const copyIcon = document.createElement('img');
-        copyIcon.src = selectedCopyIcon;
+        const isAlmostCopy = d.isAlmostCopy || false;
+        copyIcon.src = isAlmostCopy ? 'copy2.png' : 'copy.png';
         copyIcon.alt = 'Copies';
         copyIcon.className = 'chestsimg';
-        
+
         const copyTxt = document.createElement('span');
         copyTxt.className = 'copies-text';
-        copyTxt.textContent = `${copies} of ${copies2}`;
-        
+        copyTxt.textContent = copies;
+
+        const ofTxt = document.createElement('span');
+        ofTxt.className = 'copies-text';
+        ofTxt.textContent = ' of ';
+
+        const copy2Txt = document.createElement('span');
+        copy2Txt.className = 'copies-text';
+        copy2Txt.textContent = copies2;
+
         copyContainer.appendChild(copyIcon);
         copyContainer.appendChild(copyTxt);
-        chestHeader.appendChild(copyContainer);
+        copyContainer.appendChild(ofTxt);
+        copyContainer.appendChild(copy2Txt);
+        chestHeaderClone.appendChild(copyContainer);
     }
 
     // Helper to create chest elements
@@ -120,50 +133,51 @@ export function createMapWrapper(mapId, mapData) {
         if (value <= 0) return null;
         const container = document.createElement('div');
         container.className = 'chest-container';
+        container.style.display = 'flex';
+
         const img = document.createElement('img');
         img.src = imgSrc;
         img.alt = altText;
         img.className = 'chestsimg';
+
         const text = document.createElement('span');
+        text.className = 'chests';
         text.textContent = value;
-        text.className = 'chests'; // FIX: Apply the required styling class
+
         container.appendChild(img);
         container.appendChild(text);
         return container;
     };
 
-    // Add chest elements
-    const chests = [
-        createChestElement(d.sm || 0, 'chests1.png', 'Small Chest'),
-        createChestElement(d.md || 0, 'chests2.png', 'Medium Chest'),
-        createChestElement(d.lg || 0, 'chests3.png', 'Large Chest'),
-        createChestElement(d.xl || 0, 'chests4.png', 'Extra Large Chest')
-    ];
-    
-    chests.forEach(el => {
-        if (el) chestHeader.appendChild(el);
-    });
+    const smEl = createChestElement(d.sm, 'chests1.png', 'Small Chest');
+    const mdEl = createChestElement(d.md, 'chests2.png', 'Medium Chest');
+    const lgEl = createChestElement(d.lg, 'chests3.png', 'Large Chest');
+    const xlEl = createChestElement(d.xl, 'chests4.png', 'Extra Large Chest');
 
-    wrapper.appendChild(chestHeader);
+    if (smEl) chestHeaderClone.appendChild(smEl);
+    if (mdEl) chestHeaderClone.appendChild(mdEl);
+    if (lgEl) chestHeaderClone.appendChild(lgEl);
+    if (xlEl) chestHeaderClone.appendChild(xlEl);
+    card.appendChild(chestHeaderClone);
+
 
     // --- Map Content (The 4 boards) ---
+    const content = document.createElement('div');
+    content.className = 'map-card-content';
     
-    // Prepare the 4 rotations
     const boardState = {
         tiles: convertFlatTo2D(d.tiles)
     };
 
     if (boardState.tiles.length === 0) {
-        wrapper.appendChild(document.createTextNode('Error rendering map tiles.'));
-        return wrapper;
+        card.appendChild(document.createTextNode('Error rendering map tiles.'));
+        return card;
     }
 
-    // Calculate rotations sequentially (Clockwise)
     const rotate90 = rotateBoardState(boardState);
     const rotate180 = rotateBoardState(rotate90);
     const rotate270 = rotateBoardState(rotate180);
 
-    // Create the 'window' structure
     const windowClone = document.createElement('div');
     windowClone.className = 'window-clone';
 
@@ -184,19 +198,18 @@ export function createMapWrapper(mapId, mapData) {
     windowClone.appendChild(column1);
     windowClone.appendChild(column2);
 
-    // Display the boards (Order matches the builder tool)
-    displayBoard(boardState, boardTL); // 0 degrees
-    displayBoard(rotate270, boardTR);  // 270 degrees clockwise
-    displayBoard(rotate180, boardBR);  // 180 degrees
-    displayBoard(rotate90, boardBL);   // 90 degrees clockwise
+    displayBoard(boardState, boardTL);
+    displayBoard(rotate270, boardTR);
+    displayBoard(rotate180, boardBR);
+    displayBoard(rotate90, boardBL);
 
-    wrapper.appendChild(windowClone);
+    content.appendChild(windowClone);
+    card.appendChild(content);
 
     // --- Notes Section (Custom + Default) ---
     const notesSection = document.createElement('div');
-    notesSection.className = 'map-notes';
+    notesSection.className = 'map-card-notes';
 
-    // Add custom notes if they exist (Requires Quill CSS)
     if (mapData.notesHtml && mapData.notesHtml.trim() !== '') {
         const customNotesContainer = document.createElement('div');
         customNotesContainer.className = 'ql-snow';
@@ -204,26 +217,28 @@ export function createMapWrapper(mapId, mapData) {
         notesSection.appendChild(customNotesContainer);
     }
 
-    // Add default notes
     const defaultNote1 = document.createElement('div');
-    defaultNote1.className = 'map-default-note-1';
+    defaultNote1.className = 'map-card-default-note-1';
     defaultNote1.textContent = 'Green spots have treasure chests.';
 
     const defaultNote2 = document.createElement('div');
-    defaultNote2.className = 'map-default-note-2';
+    defaultNote2.className = 'map-card-default-note-2';
     defaultNote2.textContent = 'Brown spots don\'t have treasure chests.';
 
     notesSection.appendChild(defaultNote1);
     notesSection.appendChild(defaultNote2);
 
-    wrapper.appendChild(notesSection);
-    
-    // --- Map ID Display (at the bottom) ---
-    const mapIdDisplay = document.createElement('div');
-    mapIdDisplay.className = 'map-id-display';
-    mapIdDisplay.textContent = `Map ID: ${mapId}`;
-    wrapper.appendChild(mapIdDisplay);
+    card.appendChild(notesSection);
 
+    // --- Map ID Footer ---
+    const footer = document.createElement('div');
+    footer.className = 'map-card-footer';
+    footer.style.textAlign = 'center';
+    footer.style.paddingTop = '10px';
+    footer.style.marginTop = '10px';
+    footer.style.borderTop = '1px solid #ccc';
+    footer.textContent = `Map ID: ${mapId}`;
+    card.appendChild(footer);
 
-     return wrapper;
+    return card;
 }
