@@ -217,6 +217,13 @@ export function createMapWrapper(mapId, mapData) {
     notesSection.appendChild(defaultNote2);
 
     wrapper.appendChild(notesSection);
+    
+    // --- Map ID Display (at the bottom) ---
+    const mapIdDisplay = document.createElement('div');
+    mapIdDisplay.className = 'map-id-display';
+    mapIdDisplay.textContent = `Map ID: ${mapId}`;
+    wrapper.appendChild(mapIdDisplay);
+
 
      return wrapper;
 }
