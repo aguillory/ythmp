@@ -103,26 +103,6 @@
     margin-top: 30px;
 }
 
-#mapListContainer {
-    display: grid;
-    gap: 25px;
-    transition: grid-template-columns 0.3s ease;
-    max-width: 1400px; 
-    margin: 0 auto;
-}
-
-#mapListContainer[data-columns="1"] {
-    grid-template-columns: repeat(1, 1fr);
-}
-#mapListContainer[data-columns="2"] {
-    grid-template-columns: repeat(2, 1fr);
-}
-#mapListContainer[data-columns="3"] {
-    grid-template-columns: repeat(3, 1fr);
-}
-#mapListContainer[data-columns="4"] {
-    grid-template-columns: repeat(4, 1fr);
-}
 
 
 #allMapsControlsContainer {
@@ -143,7 +123,6 @@
     display: grid;
     gap: 25px;
     transition: grid-template-columns 0.3s ease;
-    max-width: 1400px; 
     margin: 0 auto;
 }
 
@@ -175,7 +154,6 @@
     max-width: var(--max-width);
     margin-left: auto;
     margin-right: auto;
-    /* ADDED to align items */
     display: flex;
     justify-content: center;
     align-items: center;

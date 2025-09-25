@@ -64,7 +64,7 @@ footer {
 }
 
 .columns-3 #mapsDisplay {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
 }
 
 .columns-4 #mapsDisplay {
