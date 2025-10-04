@@ -117,8 +117,8 @@ export function getNormalizedMapString(tiles) {
             // Use tile.state (from getBoardData) or tile.type (from mapData)
             const type = tile.state || tile.type || 'blank'; 
             
-            // Return only the type and treasure status
-            return `${type},${t}`;
+            const border = tile.border || 'none';
+            return `${type},${t},${border}`;
         }).join(';')
     ).join(';');
 }
