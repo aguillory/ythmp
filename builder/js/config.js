@@ -17,7 +17,8 @@ export const CONFIG = {
         { value: "evens", text: "Evens" }, 
         { value: "full", text: "Full House" },
         { value: "sm", text: "Sm Straight" }, 
-        { value: "lg", text: "Lg Straight" }
+        { value: "lg", text: "Lg Straight" },
+        { value: "unknown", text: "Unknown" }
     ],
     BORDER_OPTIONS: [
         { value: "none", text: "None" },

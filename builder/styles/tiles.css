@@ -109,3 +109,4 @@
 .tile-bg.full { background-image: url('../tiles/full.png'); }
 .tile-bg.sm { background-image: url('../tiles/sm.png'); }
 .tile-bg.lg { background-image: url('../tiles/lg.png'); }
+.tile-bg.unknown { background-image: url('../tiles/unknown.png'); }
